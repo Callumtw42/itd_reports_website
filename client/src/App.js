@@ -6,40 +6,39 @@ import './App.scss';
 import * as $ from 'jquery';
 
 
-class TodaysSales extends Component {
+class SalesReport extends Component {
   constructor() {
     super();
     this.state = {
-      todaysSales: [],
+      salesData: [],
       chartData: {},
       totalSales: 0,
-      date: this.retrieveDate()
+      date: { startDate: this.todaysDate(), endDate: this.todaysDate(), }
     };
   }
 
-  retrieveDate() {
+  todaysDate() {
     var today = new Date();
     var date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate();
     return date;
   }
 
   componentDidMount() {
-    // console.log("mount" + this.state.date);
-    fetch(`/api/todaysSales/${this.state.date}`)
+    console.log("mount" + this.state.date.startDate + ' - ' + this.state.date.endDate);
+    fetch(`/api/salesData/${this.state.date.startDate}/${this.state.date.startDate}`)
       .then(res => res.json())
-      .then(todaysSales => this.setState({ todaysSales }, () => console.log('todaysSales fetched...', todaysSales)))
+      .then(salesData => this.setState({ salesData }, () => console.log('salesData fetched...', salesData)))
       .then(this.formatChartData)
       .catch((error) => {
         console.log(error)
       })
   }
 
-  reRender(newDate) {
-    // console.log("re-render" + newDate);
-    this.setState({ date: newDate });
-    fetch(`/api/toDaysSales/${newDate}`)
+  reRender(start, end) {
+    this.setState({ date: { startDate: start, endDate: end } });
+    fetch(`/api/salesData/${start}/${end}`)
       .then(res => res.json())
-      .then(todaysSales => this.setState({ todaysSales }, () => console.log('todaysSales fetched...', todaysSales)))
+      .then(salesData => this.setState({ salesData }, () => console.log('salesData fetched...', salesData)))
       .then(this.formatChartData)
       .catch((error) => {
         console.log(error)
@@ -51,9 +50,9 @@ class TodaysSales extends Component {
   }
 
   formatChartData = () => {
-    let colors = this.state.todaysSales.map(saleCat => 'rgba(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + 0.6 + ')');
-    let _totalSales = (this.state.todaysSales.length > 0) ? this.state.todaysSales.map(saleCat => saleCat.Sales).reduce(this.sum) : 0;
-    let _data = (this.state.todaysSales.length > 0) ? this.state.todaysSales.map(saleCat => saleCat.Sales) : [0];
+    let colors = this.state.salesData.map(saleCat => 'rgba(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + 0.6 + ')');
+    let _totalSales = (this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => saleCat.Sales).reduce(this.sum) - this.state.salesData.map(saleCat => saleCat.Refund).reduce(this.sum)  : 0;
+    let _data = (this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => saleCat.Sales) : [0];
 
     this.setState({
 
@@ -61,7 +60,7 @@ class TodaysSales extends Component {
 
       chartData: {
 
-        labels: this.state.todaysSales.map(saleCat => saleCat.Department),
+        labels: this.state.salesData.map(saleCat => saleCat.Department),
         datasets: [
           {
             label: 'Net Sales £',
@@ -75,23 +74,33 @@ class TodaysSales extends Component {
 
   dateChange(event) {
     console.log(event.target.value);
-    let newDate = event.target.value;
-    this.reRender(newDate);
+    let caller = event.target;
+    let newDate = caller.value;
+    if (caller.id === 'startDate') {
+      // console.log("re-render" + newDate);
+      // this.setState({ date: { startDate: caller.value } });
+      this.reRender(newDate, this.state.date.endDate);
+    }
+    else if (caller.id === 'endDate') {
+      // this.setState({date:{ endDate: caller.value }});
+      this.reRender(this.state.date.startDate, newDate);
+    }
   };
 
   render() {
     return (
       <div>
-        { /*   <h2>todaysSales</h2>
+        { /*   <h2>salesData</h2>
      <ul>
-          {this.state.todaysSales.map(todaysSales =>
-            <li key={todaysSales.Department}>{todaysSales.Department} {todaysSales.Sales}</li>
+          {this.state.salesData.map(salesData =>
+            <li key={salesData.Department}>{salesData.Department} {salesData.Sales}</li>
           )}
         </ul>
        */ }
         <Chart chartData={this.state.chartData} totalSales={this.state.totalSales} date={this.state.date} />
-        <input type="date" onChange={event => this.dateChange(event)}></input>
-        <Table sales={this.state.todaysSales} />
+        <input id='startDate' type="date" onChange={event => this.dateChange(event)}></input>
+        <input id='endDate' type="date" onChange={event => this.dateChange(event)}></input>
+        <Table sales={this.state.salesData} />
       </div>
     );
   }
@@ -124,11 +133,11 @@ class Chart extends Component {
               labels: { display: false },
               title: {
                 display: this.props.displayTitle,
-                text: this.props.date + ' - Session Sales Report',
+                text: this.props.date.startDate + " - " + this.props.date.endDate + " Session Sales Report",
                 fontSize: 25
               },
               legend: {
-                display: true,
+                display: false,
                 position: 'top',
                 align: 'center',
                 labels: {
@@ -257,51 +266,34 @@ class Table extends Component {
   }
 
   render() {
+    let key = 0;
     return (
       <div className="container">
-
         <div className="table">
           <div className="table-header">
             {
-            (this.state.headers).map(obj=> {
-                return (obj !=null) ? <div key={obj} className="header__item"><a id={obj} className="filter__link filter__link--number" href="App.scss">{obj}</a></div> : null;
-              })}
-
+              (this.state.headers).map(obj => {
+                return (obj != null) ? <div key={obj} className="header__item"><a id={obj} className="filter__link filter__link--number" href="App.scss">{obj}</a></div> : null;
+              })
+            }
           </div>
           <div className="table-content">
-            <div className="table-row">
-              <div className="table-data">Tom</div>
-              <div className="table-data">2</div>
-              <div className="table-data">0</div>
-              <div className="table-data">1</div>
-              <div className="table-data">5</div>
-            </div>
-            <div className="table-row">
-              <div className="table-data">Dick</div>
-              <div className="table-data">1</div>
-              <div className="table-data">1</div>
-              <div className="table-data">2</div>
-              <div className="table-data">3</div>
-            </div>
-            <div className="table-row">
-              <div className="table-data">Harry</div>
-              <div className="table-data">0</div>
-              <div className="table-data">2</div>
-              <div className="table-data">2</div>
-              <div className="table-data">2</div>
-            </div>
+            {
+              (this.state.sales).map(saleCat => {
+                return (saleCat != null) ? <div key={key++} className="table-row"> {Object.values(saleCat).map(obj2 => { return <div key={key++} className="table-data">{obj2}</div> })} </div> : null
+              })
+            }
           </div>
         </div>
       </div>
     )
   }
-
 }
 
 function App() {
   return (
     <div className="App">
-      <TodaysSales />
+      <SalesReport />
     </div>
   );
 }
