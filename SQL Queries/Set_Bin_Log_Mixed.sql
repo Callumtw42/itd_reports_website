@@ -1,0 +1,8 @@
+use itdepos;
+
+FLUSH TABLES WITH READ LOCK;
+FLUSH LOGS;
+SET GLOBAL binlog_format = 'MIXED';
+FLUSH LOGS;
+UNLOCK TABLES;
+
