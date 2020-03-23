@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import 'chartjs-plugin-labels';
 
-class Chart extends Component {
+class BarChart extends Component {
 
     static defaultProps = {
       displayTitle: true,
@@ -15,7 +15,7 @@ class Chart extends Component {
     render() {
       return (
         <div className="chart">
-          <Pie
+          <Bar
             data={this.props.chartData}
             options={
               {
@@ -27,11 +27,6 @@ class Chart extends Component {
                   }
                 },
                 labels: { display: false },
-                title: {
-                  display: this.props.displayTitle,
-                  text: this.props.date.startDate + " - " + this.props.date.endDate + " Session Sales Report",
-                  fontSize: 25
-                },
                 legend: {
                   display: false,
                   position: 'top',
@@ -69,5 +64,5 @@ class Chart extends Component {
     }
   }
 
-  export default Chart;
+  export default BarChart;
   

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from './chart.js';
+import PieChart from './pie_chart.js';
 import Table from './table.js';
 
 class SalesReport extends Component {
@@ -21,7 +21,7 @@ class SalesReport extends Component {
   
     componentDidMount() {
       console.log("mount" + this.state.date.startDate + ' - ' + this.state.date.endDate);
-      fetch(`/api/salesData/${this.state.date.startDate}/${this.state.date.startDate}`)
+      fetch(`/api/salesData/${this.state.date.startDate}/${this.state.date.endDate}`)
         .then(res => res.json())
         .then(salesData => this.setState({ salesData }, () => console.log('salesData fetched...', salesData)))
         .then(this.formatChartData)
@@ -44,11 +44,42 @@ class SalesReport extends Component {
     sum = (total, n) => {
       return total + n
     }
+
+    colors(){
+      let colors =  [
+        'rgba(0,0,0, 0.6)',
+        'rgba(0,0,128, 0.6)',
+        'rgba(0,0,255, 0.6)',
+        'rgba0,128,0, 0.6)',
+        'rgba(0,128,128, 0.6)',
+        'rgba(0,255,0, 0.6)',
+        'rgba(0,255,255, 0.6)',
+        'rgba(128,0,0, 0.6)',
+        'rgba(128,0,128, 0.6)',
+        'rgba(128,128,0, 0.6)',
+        'rgba(128,128,128, 0.6)',
+        'rgba(192,192,192, 0.6)',
+        'rgba(255,0,0, 0.6)',
+        'rgba(255,0,255, 0.6)',
+        'rgba(255,255,0, 0.6)',
+        'rgba(255,0,127, 0.6)',
+        'rgba(127,0,255, 0.6)',
+        'rgba(0,128,255, 0.6)',
+        'rgba(0,255,128, 0.6)',
+        'rgba(128,255,0, 0.6)',
+        'rgba(255,128,0, 0.6)',
+        'rgba(102,51,0, 0.6)',
+        'rgba(255,229,204, 0.6)',
+        'rgba(255,153,153, 0.6)',
+      ];
+      return(this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => colors[saleCat.Cat%colors.length]) : [0];
+    }
   
     formatChartData = () => {
-      let colors = this.state.salesData.map(saleCat => 'rgba(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + 0.6 + ')');
+      
       let _totalSales = (this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => saleCat.Sales).reduce(this.sum) - this.state.salesData.map(saleCat => saleCat.Refund).reduce(this.sum)  : 0;
       let _data = (this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => saleCat.Sales) : [0];
+      
   
       this.setState({
   
@@ -61,7 +92,7 @@ class SalesReport extends Component {
             {
               label: 'Net Sales £',
               data: _data,
-              backgroundColor: colors
+              backgroundColor: this.colors()
             }
           ]
         }
@@ -86,16 +117,10 @@ class SalesReport extends Component {
     render() {
       return (
         <div>
-          { /*   <h2>salesData</h2>
-       <ul>
-            {this.state.salesData.map(salesData =>
-              <li key={salesData.Department}>{salesData.Department} {salesData.Sales}</li>
-            )}
-          </ul>
-         */ }
-          <Chart chartData={this.state.chartData} totalSales={this.state.totalSales} date={this.state.date} />
-          <input id='startDate' type="date" onChange={event => this.dateChange(event)}></input>
-          <input id='endDate' type="date" onChange={event => this.dateChange(event)}></input>
+          <h1>{this.state.date.startDate + " - " + this.state.date.endDate + " Session Sales Report"}</h1>
+          <PieChart chartData={this.state.chartData} totalSales={this.state.totalSales} date={this.state.date} />
+          <input id='startDate' type="date" title = 'start' max = {this.todaysDate()} onChange={event => this.dateChange(event)}></input>
+          <input id='endDate' type="date" title = 'end' max = {this.todaysDate()} onChange={event => this.dateChange(event)}></input>
           <Table sales={this.state.salesData} />
         </div>
       );
