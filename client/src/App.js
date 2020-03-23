@@ -10,7 +10,6 @@ class HourlySalesReport extends SalesReport {
   }
 
   componentDidMount() {
-    console.log("mount" + this.state.date.startDate + ' - ' + this.state.date.endDate);
     fetch(`/api/hourlySalesData/${this.state.date.startDate}/${this.state.date.startDate}`)
       .then(res => res.json())
       .then(salesData => this.setState({ salesData }, () => console.log('salesData fetched...', salesData)))
@@ -32,41 +31,53 @@ class HourlySalesReport extends SalesReport {
       });
   }
 
-  getElementsWithSharedValue(objArr, key, value) {
+  getElementsWithValue(objArr, key, value) {
     let elements = [];
-    console.log(value);
-   objArr.map(obj => {
+    objArr.map(obj => {
       let currVal = Object.values(obj)[Object.keys(obj).indexOf(key)];
-      console.log(currVal);
       if (currVal == value)
         elements.push(obj);
     });
-    console.log(elements);
     return elements;
   }
 
+
+
   formatChartData = () => {
+    let key = 0;
+    let _labels = Array.from(Array(24).keys()).map(obj => { return ('0' + obj + ':00').slice(-5) });
+    let departments = this.getUniqueValues(this.state.salesData, 'Department');
+    let categories = this.getUniqueValues(this.state.salesData, 'Cat');
     
-    let colors = this.state.salesData.map(saleCat => 'rgba(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + 0.6 + ')');
-    let _totalSales = (this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => saleCat.Sales).reduce(this.sum) - this.state.salesData.map(saleCat => saleCat.Refund).reduce(this.sum) : 0;
-    let _labels = Array.from(Array(24).keys()).map(obj => { return ('0'+obj + ':00').slice(-5) });
-    let _data = (this.state.salesData.length > 0) ? _labels.map(obj => { return (this.getElementsWithSharedValue(this.state.salesData, 'TillHour', obj).length >0) ? this.getElementsWithSharedValue(this.state.salesData, 'TillHour', obj).map(obj =>{return obj.Sales}).reduce(this.sum) : 0}): [0];
-    console.log("_labels");
+    console.log(departments);
+
+    let _datasets =
+      departments.map(o => {
+        let colors = [];
+        return {
+          label: o,
+          //for each category
+          data: _labels.map(i => {
+            colors.push([categories[departments.indexOf(o)]])
+            let salesAtTime = this.getElementsWithValue(this.getElementsWithValue(this.state.salesData, 'Department', o), 'TillHour', i).map(j => { return j.Sales });
+            // console.log(salesAtTime);
+            return (salesAtTime.length > 0) ? salesAtTime.reduce(this.sum) : 0;
+          }),
+          backgroundColor: this.colors(colors),
+          datasetKeyProvider: key++
+        }
+      });
+
+    console.log(_datasets);
 
     this.setState({
 
-      totalSales: _totalSales,
+      totalSales: this.totalSales(),
 
       chartData: {
 
         labels: _labels,
-        datasets: [
-          {
-            label: 'Net Sales £',
-            data: _data,
-            backgroundColor: colors
-          }
-        ]
+        datasets: _datasets
       }
     });
   }

@@ -91,7 +91,6 @@ class Table extends Component {
           headers: ((this.props.sales).length > 0) ? Object.keys((this.props.sales[0])) : []
         });
       }
-      console.log(this.state.headers);
     }
   
     render() {

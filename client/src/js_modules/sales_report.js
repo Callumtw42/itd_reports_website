@@ -20,7 +20,6 @@ class SalesReport extends Component {
     }
   
     componentDidMount() {
-      console.log("mount" + this.state.date.startDate + ' - ' + this.state.date.endDate);
       fetch(`/api/salesData/${this.state.date.startDate}/${this.state.date.endDate}`)
         .then(res => res.json())
         .then(salesData => this.setState({ salesData }, () => console.log('salesData fetched...', salesData)))
@@ -45,54 +44,111 @@ class SalesReport extends Component {
       return total + n
     }
 
-    colors(){
+    colors(subArr){
       let colors =  [
         'rgba(0,0,0, 0.6)',
-        'rgba(0,0,128, 0.6)',
-        'rgba(0,0,255, 0.6)',
-        'rgba0,128,0, 0.6)',
-        'rgba(0,128,128, 0.6)',
-        'rgba(0,255,0, 0.6)',
-        'rgba(0,255,255, 0.6)',
-        'rgba(128,0,0, 0.6)',
-        'rgba(128,0,128, 0.6)',
-        'rgba(128,128,0, 0.6)',
         'rgba(128,128,128, 0.6)',
-        'rgba(192,192,192, 0.6)',
-        'rgba(255,0,0, 0.6)',
-        'rgba(255,0,255, 0.6)',
+        'rgba(128,128,0, 0.6)',
+        'rgba(128,0,128, 0.6)',
+        'rgba(128,0,0, 0.6)',
+        'rgba(0,128,128, 0.6)',
+        'rgba(0,128,0, 0.6)',
+        'rgba(0,0,128, 0.6)',
+
+        'rgba(255,255,255, 0.6)',
         'rgba(255,255,0, 0.6)',
-        'rgba(255,0,127, 0.6)',
-        'rgba(127,0,255, 0.6)',
+        'rgba(255,0,255, 0.6)',
+        'rgba(255,0,0, 0.6)',
+        'rgba(0,255,255, 0.6)',
+        'rgba(0,255,0, 0.6)',
+        'rgba(0,0,255, 0.6)',
+
+        'rgba(255,255,128, 0.6)',
+        'rgba(255,128,255, 0.6)',
+        'rgba(255,128,128, 0.6)',
+        'rgba(128,255,255, 0.6)',
+        'rgba(128,255,128, 0.6)',
+        'rgba(128,128,255, 0.6)',
+
+        'rgba(128,0,255, 0.6)',
         'rgba(0,128,255, 0.6)',
-        'rgba(0,255,128, 0.6)',
-        'rgba(128,255,0, 0.6)',
         'rgba(255,128,0, 0.6)',
+
+        
+        'rgba(64,64,64, 0.6)',
+        'rgba(192,192,192, 0.6)',
+        'rgba(192,192,64, 0.6)',
+        'rgba(192,64,192, 0.6)',
+        'rgba(192,64,64, 0.6)',
+        'rgba(64,192,192, 0.6)',
+        'rgba(64,192,64, 0.6)',
+        'rgba(64,64,192, 0.6)',
+
+        'rgba(255,255,64, 0.6)',
+        'rgba(255,64,255, 0.6)',
+        'rgba(255,64,64, 0.6)',
+        'rgba(64,255,255, 0.6)',
+        'rgba(64,255,64, 0.6)',
+        'rgba(64,64,255, 0.6)',
+
+        'rgba(255,255,192, 0.6)',
+        'rgba(255,192,255, 0.6)',
+        'rgba(255,192,192, 0.6)',
+        'rgba(192,255,255, 0.6)',
+        'rgba(192,255,192, 0.6)',
+        'rgba(192,192,255, 0.6)',
+
+        'rgba(192,64,255, 0.6)',
+        'rgba(64,192,255, 0.6)',
+        'rgba(255,192,64, 0.6)',
+
+
+        'rgba(64,64,0, 0.6)',
+        'rgba(64,0,64, 0.6)',
+        'rgba(64,0,0, 0.6)',
+        'rgba(0,64,64, 0.6)',
+        'rgba(0,64,0, 0.6)',
+        'rgba(0,0,64, 0.6)',
+
+        'rgba(192,192,0, 0.6)',
+        'rgba(192,0,192, 0.6)',
+        'rgba(192,0,0, 0.6)',
+        'rgba(0,192,192, 0.6)',
+        'rgba(0,192,0, 0.6)',
+        'rgba(0,0,192, 0.6)',
+
+
+        'rgba(64,0,192, 0.6)',
+        'rgba(0,64,192, 0.6)',
+        'rgba(192,64,0, 0.6)',
+
+
         'rgba(102,51,0, 0.6)',
         'rgba(255,229,204, 0.6)',
         'rgba(255,153,153, 0.6)',
       ];
-      return(this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => colors[saleCat.Cat%colors.length]) : [0];
+      return subArr.map(i => {return colors[colors.length - (i%colors.length)-1]});
     }
-  
+
+    totalSales(){
+      return (this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => saleCat.Sales).reduce(this.sum) - this.state.salesData.map(saleCat => saleCat.Refund).reduce(this.sum)  : 0;
+    }
+    getUniqueValues(objArr, key) {
+      return [...new Set(objArr.map(i => {
+        return Object.values(i)[Object.keys(i).indexOf(key)]
+      }))];
+    }
     formatChartData = () => {
-      
-      let _totalSales = (this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => saleCat.Sales).reduce(this.sum) - this.state.salesData.map(saleCat => saleCat.Refund).reduce(this.sum)  : 0;
       let _data = (this.state.salesData.length > 0) ? this.state.salesData.map(saleCat => saleCat.Sales) : [0];
-      
-  
       this.setState({
-  
-        totalSales: _totalSales,
-  
+        totalSales: this.totalSales(),
         chartData: {
-  
           labels: this.state.salesData.map(saleCat => saleCat.Department),
           datasets: [
             {
               label: 'Net Sales £',
               data: _data,
-              backgroundColor: this.colors()
+              backgroundColor: this.colors(this.getUniqueValues(this.state.salesData, 'Cat'))
             }
           ]
         }
