@@ -6,7 +6,7 @@ const mysql = require('mysql');
 // Create connection
 const db = mysql.createConnection({
     host     : 'localhost',
-    user     : 'callum',
+    user     : 'root',
     password : '0089fxcy?',
     database : 'itdepos'
 });
@@ -71,5 +71,3 @@ app.get('/api/hourlySalesData/:startDate/:endDate', (req, res) => {
 app.listen('5000', () => {
     console.log('Server started on port 5000');
 });
-
-

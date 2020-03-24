@@ -37,11 +37,11 @@ class BarChart extends Component {
               labels: { display: false },
               legend: {
                 display: false,
-                position: 'top',
+                position: 'right',
                 align: 'center',
                 labels: {
                   usePointStyle: true,
-                  fontSize: 24
+                  // fontSize: 24
                 },
                 fullWidth: true
 
@@ -72,6 +72,7 @@ class BarChart extends Component {
             }
           }
         />
+        {/* <p>{new String(this.state.chartData.datasets.map(i => { return i.backgroundColor }))}</p> */}
         <h1>Total: £{this.props.totalSales.toFixed(2)}</h1>
       </div>
 

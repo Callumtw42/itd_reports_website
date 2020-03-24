@@ -9,6 +9,7 @@ class SalesReport extends Component {
         salesData: [],
         chartData: {},
         totalSales: 0,
+        dataFetched: false,
         date: { startDate: this.todaysDate(), endDate: this.todaysDate(), }
       };
     }

@@ -12,8 +12,14 @@ class HourlySalesReport extends SalesReport {
   componentDidMount() {
     fetch(`/api/hourlySalesData/${this.state.date.startDate}/${this.state.date.startDate}`)
       .then(res => res.json())
-      .then(salesData => this.setState({ salesData }, () => console.log('salesData fetched...', salesData)))
+      .then(salesData => this.setState({ salesData }, () => {
+        console.log('salesData fetched...', salesData);
+        if (salesData.length > 0)
+          this.setState({ dataFetched: true });
+        else this.setState({ dataFetched: false });
+      }))
       .then(this.formatChartData)
+      .then(salesData => () => { if (salesData.length > 0) this.setState({ dataFetched: true }) })
       .catch((error) => {
         console.log(error)
       })
@@ -24,8 +30,14 @@ class HourlySalesReport extends SalesReport {
     this.setState({ date: { startDate: start, endDate: start } });
     fetch(`/api/hourlySalesData/${start}/${start}`)
       .then(res => res.json())
-      .then(salesData => this.setState({ salesData }, () => console.log('salesData fetched...', salesData)))
+      .then(salesData => this.setState({ salesData }, () => {
+        console.log('salesData fetched...', salesData);
+        if (salesData.length > 0)
+          this.setState({ dataFetched: true });
+        else this.setState({ dataFetched: false });
+      }))
       .then(this.formatChartData)
+      .then(salesData => () => { })
       .catch((error) => {
         console.log(error)
       });
@@ -48,8 +60,6 @@ class HourlySalesReport extends SalesReport {
     let _labels = Array.from(Array(24).keys()).map(obj => { return ('0' + obj + ':00').slice(-5) });
     let departments = this.getUniqueValues(this.state.salesData, 'Department');
     let categories = this.getUniqueValues(this.state.salesData, 'Cat');
-    
-    console.log(departments);
 
     let _datasets =
       departments.map(o => {
@@ -68,8 +78,6 @@ class HourlySalesReport extends SalesReport {
         }
       });
 
-    console.log(_datasets);
-
     this.setState({
 
       totalSales: this.totalSales(),
@@ -82,11 +90,15 @@ class HourlySalesReport extends SalesReport {
     });
   }
 
+  bar() {
+    return (this.state.dataFetched) ? <BarChart chartData={this.state.chartData} totalSales={this.state.totalSales} date={this.state.date} /> : <div></div>
+  }
+
   render() {
     return (
       <div>
         <h1>{this.state.date.startDate + " - " + " Hourly Sales Breakdown"}</h1>
-        <BarChart chartData={this.state.chartData} totalSales={this.state.totalSales} date={this.state.date} />
+        {this.bar()}
         <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
         <Table sales={this.state.salesData} />
       </div>
