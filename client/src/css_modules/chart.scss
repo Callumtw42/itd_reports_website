@@ -1,0 +1,46 @@
+.legendItem {
+  display: inline-block;
+  float: left;
+  clear: left;
+}
+.legend > * {
+  position: relative;
+  align-content: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  float: left;
+  clear: left;
+}
+
+.list {
+
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.label {
+  // height: 25px;
+  // width: 25px;
+  // background-color: #bbb;
+  //  text-align: left;
+  // align: left;
+  // border-radius: 50%;
+  // display: inline-block;
+}
+.chart > *{
+  position: relative;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
+.wrapper > div {
+}

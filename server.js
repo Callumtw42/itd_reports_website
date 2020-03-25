@@ -50,7 +50,7 @@ app.get('/api/salesData/:startDate/:endDate', (req, res) => {
 });
 
 //getHourlySales
-app.get('/api/hourlySalesData/:startDate/:endDate', (req, res) => {
+app.get('/api/hourlySalesData/:startDate', (req, res) => {
     let sql = `SELECT Cat, Description as Department, Quantity as Qty, (PackCost / PackSize) as Cost, (Price * Quantity) as Sales, Amount as Refund, DATE_FORMAT(TillDate, '%y-%m-%d') as TillDate, TIME_FORMAT(TillTime, '%H:%m') as TillHour FROM(
         (SELECT Description, CategoryID as Cat FROM Category) as a
          JOIN
