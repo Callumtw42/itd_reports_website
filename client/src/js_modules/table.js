@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as $ from 'jquery';
+import '../css_modules/table.scss';
 
 
 class Table extends Component {

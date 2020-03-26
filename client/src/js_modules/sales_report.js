@@ -7,7 +7,6 @@ class SalesReport extends Block {
           tableData: [],
           chartData: {},
           totalSales: 0,
-          date: { startDate: this.todaysDate(), endDate: this.todaysDate(), }
         };
       }
 
@@ -24,10 +23,10 @@ class SalesReport extends Block {
       allocateData(data) {
         super.allocateData(data);
         this.formatChartData(data);
-        // this.formatTableData(data);
+        this.formatTableData(data);
         this.setState({
           totalSales: this.sum(this.getColumn(data, 'Sales')) - this.sum(this.getColumn(data, 'Refund')),
-          tableData: data
+          // tableData: data
         });
       }
 }

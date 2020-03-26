@@ -4,14 +4,14 @@ class Block extends Component {
 
     getUniqueValues(objArr, key) {
         return [...new Set(objArr.map(i => {
-          return this.getValue(i, key);
+            return this.getValue(i, key);
         }))];
-      }
+    }
 
     getElementsWithValue(objArr, key, value) {
-        return objArr.filter(e => 
-          this.getValue(e, key) === value)
-      }
+        return objArr.filter(e =>
+            this.getValue(e, key) === value)
+    }
 
     allocateData(data) {
         console.log('data fetched...', data);
@@ -124,12 +124,16 @@ class Block extends Component {
         return (this.notEmpty(data)) ? data.map(e => { return this.getValue(e, col) }) : []
     }
 
+    removeColumns(data, ...col) {
+        return (this.notEmpty(data)) ? data.map(e => { col.map(c => { return delete e[c] }); return e }) : []
+    }
+
     sum = (arr) => {
         return (this.notEmpty(arr)) ? arr.reduce(this.add) : 0;
     }
 
-    getValue(e, key){
-        return Object.values(e)[Object.keys(e).indexOf(key)];
+    getValue(e, key) {
+        return e[key];
     }
 
 

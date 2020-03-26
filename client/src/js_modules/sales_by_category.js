@@ -2,9 +2,15 @@ import React from 'react';
 import PieChart from './pie_chart.js';
 import Table from './table.js';
 import SalesReport from './sales_report.js';
+import '../css_modules/sales_report.scss';
 
 
 class SalesByCategory extends SalesReport {
+  constructor() {
+    super();
+    this.state.startDate = this.todaysDate();
+    this.state.endDate = this.todaysDate();
+  }
 
   getData(start, end) {
     super.getData(`/api/salesData/${start}/${end}`);
@@ -30,26 +36,32 @@ class SalesByCategory extends SalesReport {
     });
   }
 
+  formatTableData(data) {
+    this.setState({ tableData: this.removeColumns(data, 'Cat') })
+  }
+
   dateChange(event) {
     console.log(event.target.value);
     let caller = event.target;
     let newDate = caller.value;
     if (caller.id === 'startDate') {
-      this.getData(newDate, this.todaysDate());
+      this.getData(newDate, this.state.endDate);
+      this.setState({startDate:newDate});
     }
     else if (caller.id === 'endDate') {
-     this.getData(this.todaysDate(), newDate);
+      this.getData(this.state.startDate, newDate);
+      this.setState({endDate:newDate});
     }
   };
 
   render() {
     return (
-      <div>
-        <h1>{this.state.date.startDate + " - " + this.state.date.endDate + " Session Sales Report"}</h1>
-        <PieChart chartData={this.state.chartData} />
+      <div className = 'box'>
+        <p className = 'header'>{this.state.startDate + " - " + this.state.endDate + " Session Sales Report"}</p>
+          <PieChart chartData={this.state.chartData} totalSales={this.state.totalSales} />
+        <h1>Total: £{this.state.totalSales.toFixed(2)}</h1>
         <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
         <input id='endDate' type="date" title='end' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
-        <h1>Total: £{this.state.totalSales.toFixed(2)}</h1>
         <Table sales={this.state.tableData} />
       </div>
     );

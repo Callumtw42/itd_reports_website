@@ -21,7 +21,10 @@ class Chart extends Component {
       </div>
 
     }).reverse();
-    return <ul>{legendItems}</ul>;
+    return <div className="scroll-bar-wrap">
+      <ul>{legendItems}</ul>
+      <div className="cover-bar"></div>
+    </div>;
   }
 }
 

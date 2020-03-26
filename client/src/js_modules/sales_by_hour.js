@@ -5,13 +5,17 @@ import SalesReport from './sales_report.js';
 
 
 class SalesByHour extends SalesReport {
-
-  componentDidMount() {
-    this.getData(this.todaysDate(), this.todaysDate());
+  constructor(){
+    super();
+    this.state.date = this.todaysDate();
   }
 
-  getData(start) {
-    super.getData(`/api/hourlySalesData/${start}`);
+  componentDidMount() {
+    this.getData(this.todaysDate());
+  }
+
+  getData(date) {
+    super.getData(`/api/hourlySalesData/${date}`);
   }
 
 
@@ -23,6 +27,11 @@ class SalesByHour extends SalesReport {
       this.getData(newDate);
     }
   };
+
+  formatTableData(data){
+
+    this.setState({tableData: this.removeColumns(data, 'Cat', 'TillDate', 'TillHour')})
+  }
 
   formatChartData = (salesData) => {
     let _labels = Array.from(Array(24).keys()).map(obj => { return ('0' + obj + ':00').slice(-5) });
@@ -66,9 +75,9 @@ class SalesByHour extends SalesReport {
 
   render() {
     return (
-      <div>
-        <h1>{this.state.date.startDate + " - Hourly Sales Breakdown"}</h1>
-        <BarChart chartData={this.state.chartData} totalSales={this.state.totalSales} date={this.state.date} />
+      <div className ='box'>
+        <p className = 'header'>{this.state.date + " - Hourly Sales Breakdown"}</p>
+        <BarChart chartData={this.state.chartData} totalSales={this.state.totalSales} />
         <h1>Total: £{this.state.totalSales.toFixed(2)}</h1>
         <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
         <Table sales={this.state.tableData} />

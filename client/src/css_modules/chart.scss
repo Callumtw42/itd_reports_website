@@ -1,23 +1,85 @@
-.legendItem {
-  display: inline-block;
-  float: left;
-  clear: left;
-}
-.legend > * {
-  position: relative;
-  align-content: left;
-  float: left;
+@import "./global.scss"; 
+
+* {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+}
+
+.legendItem {
+  overflow-x: hidden;
+  display: flex;
   float: left;
   clear: left;
 }
+.legend {
+  display: block;
+  position: relative;
+  align-content: left;
+  // float: left;
+  margin: 0;
+  padding: 0;
+  // float: left;
+  // clear: left;
+  height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
-.list {
-
+  // overflow: hidden;
+  -webkit-scrollbar {
+    display: none;
+  }
 }
 
+.scroll-bar-wrap {
+  // width: 300px;
+  float: left;
+  clear: left;
+  position: relative;
+  margin: 4em auto;
+}
+
+.legend::-webkit-scrollbar {
+  float: left;
+  clear: left;
+  width: 0.4em;
+}
+.legend::-webkit-scrollbar,
+.legend::-webkit-scrollbar-thumb {
+  float: left;
+  clear: left;
+  overflow: visible;
+  border-radius: 4px;
+}
+.legend::-webkit-scrollbar-thumb {
+  float: left;
+  clear: left;
+  background: rgba(0, 0, 0, 0.2);
+}
+.cover-bar {
+  position: absolute;
+  background: rgb(255, 255, 255);
+  height: 100%;
+  top: 0;
+  right: 0;
+  width: 0.4em;
+  -webkit-transition: all 0.5s;
+  opacity: 0;
+}
+/* MAGIC HAPPENS HERE */
+.legend:hover .cover-bar {
+  opacity: 1;
+  -webkit-transition: all 0.5s;
+}
+
+// .legend {
+//   -ms-overflow-style: none;
+// }
+
 .dot {
+  overflow-x: hidden;
+  float: left;
+  clear: left;
   height: 15px;
   width: 15px;
   border-radius: 50%;
@@ -25,22 +87,44 @@
 }
 
 .label {
-  // height: 25px;
-  // width: 25px;
-  // background-color: #bbb;
-  //  text-align: left;
-  // align: left;
-  // border-radius: 50%;
-  // display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.chart > *{
+
+.chart > * {
   position: relative;
 }
 
 .wrapper {
+  padding: 5px;
+  position: relative;
+  // height: auto;
   display: grid;
   grid-template-columns: 80% 20%;
 }
 
-.wrapper > div {
+/* Media Queries */
+@media (max-width: 1200px) {
+  .wrapper {
+    position: relative;
+    // height: auto;
+    display: inline-block;
+  }
+
+  .legend {
+    display: none;
+  }
 }
+
+// /* Media Queries */
+// @media (max-width: 1200px) {
+//   .wrapper {
+//     position: relative;
+//     // height: auto;
+//     display: inline-block;
+//   }
+
+//   .legend {
+//     display: none;
+//   }
+// }

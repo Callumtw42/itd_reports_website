@@ -17,7 +17,10 @@ class PieChart extends Chart {
       </div>
 
     })
-    return <ul>{legendItems}</ul>;
+    return <div className="scroll-bar-wrap">
+      <ul>{legendItems}</ul>
+      <div className="cover-bar"></div>
+    </div>;
   }
 
   render() {
