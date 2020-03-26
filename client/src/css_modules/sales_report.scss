@@ -13,8 +13,21 @@
 }
 
 .box {
+  display: grid;
   background: var(--primary);
   text-align: center;
   // padding: 1.5rem 2rem;
   box-shadow: var(--shadow);
+}
+
+@media(max-width:1000px){
+
+  .box {
+    margin: auto;
+    background: var(--primary);
+    text-align: center;
+    // padding: 1.5rem 2rem;
+    box-shadow: var(--shadow);
+  }
+
 }

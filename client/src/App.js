@@ -9,12 +9,11 @@ import './App.scss';
 
 function App() {
   return (
-    <div>
-      <NavBar></NavBar>
-      <div className="App">
+    <div className = "App" >
+      <meta name="viewport" content="width=1000"></meta>
+      <NavBar className="navbar"></NavBar>
+      <div className="content">
         <section className='boxes'>
-          <div> <SalesByCategory /></div>
-          <div> <SalesByHour /></div>
           <div> <SalesByCategory /></div>
           <div> <SalesByHour /></div>
         </section>
