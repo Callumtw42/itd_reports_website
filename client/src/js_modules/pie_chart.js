@@ -2,7 +2,9 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import 'chartjs-plugin-labels';
 import Chart from './chart.js';
-import "../css_modules/chart.scss";
+import styled from 'styled-components';
+
+
 
 class PieChart extends Chart {
 
@@ -29,9 +31,16 @@ class PieChart extends Chart {
         <div className="wrapper">
           <div className="chart">
             <Pie
+              height='1' width='1'
               data={this.props.chartData}
               options={
                 {
+                  layout: {
+                    padding: {
+                      // left: -150,
+                      // right: -300
+                    }
+                  },
                   plugins: {
                     labels:
                     {
@@ -70,8 +79,8 @@ class PieChart extends Chart {
                 }
               }
             />
-
           </div>
+
           <div className='legend'>{this.legend()}</div>
         </div>
       )
@@ -84,5 +93,150 @@ class PieChart extends Chart {
     )
   }
 }
+
+const Div = styled.div`
+// @import "./global.scss"; 
+
+// * {
+//   margin: 0;
+//   padding: 0;
+//   overflow-x: hidden;
+// }
+
+.legendItem {
+  overflow-x: hidden;
+  display: flex;
+  float: left;
+  clear: left;
+}
+
+.scroll-bar-wrap {
+  // width: 300px;
+  float: left;
+  clear: left;
+  position: relative;
+  margin: 4em auto;
+}
+
+.legend::-webkit-scrollbar {
+  float: left;
+  clear: left;
+  width: 0.4em;
+}
+.legend::-webkit-scrollbar,
+.legend::-webkit-scrollbar-thumb {
+  float: left;
+  clear: left;
+  overflow: visible;
+  border-radius: 4px;
+}
+.legend::-webkit-scrollbar-thumb {
+  float: left;
+  clear: left;
+  background: rgba(0, 0, 0, 0.2);
+}
+.cover-bar {
+  position: absolute;
+  background: rgb(255, 255, 255);
+  height: 100%;
+  top: 0;
+  right: 0;
+  width: 0.4em;
+  -webkit-transition: all 0.5s;
+  opacity: 0;
+}
+/* MAGIC HAPPENS HERE */
+.legend:hover .cover-bar {
+  opacity: 1;
+  -webkit-transition: all 0.5s;
+}
+
+.wrapper {
+  padding: 10% 0 0 13%;
+  
+  position: relative;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  // grid-template-columns: 80% 20%;
+}
+
+.chart {
+  width: 500px;
+  height: 500px;
+}
+
+.legend {
+  margin: 0 0 0 0px;
+  // display: block;
+  position: relative;
+  align-content: left;
+  // float: left;
+  // margin: 0;
+  // padding: 0;
+  // float: left;
+  // clear: left;
+  height: 500;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  // overflow: hidden;
+  -webkit-scrollbar {
+    display: none;
+  }
+}
+
+.dot {
+  overflow-x: hidden;
+  float: left;
+  clear: left;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+
+ .chartjs-render-monitor{
+  // position: relative;
+  // padding: -950px -950px 0 -950px;
+  // margin: auto;
+  width: 100;
+}
+
+/* Media Queries */
+// @media (max-width: 1200px) {
+//   .wrapper {
+//     position: relative;
+//     // height: auto;
+//     display: inline-block;
+//   }
+
+//   .legend {
+//     display: none;
+//   }
+// }
+
+// /* Media Queries */
+// @media (max-width: 1200px) {
+//   .wrapper {
+//     position: relative;
+//     // height: auto;
+//     display: inline-block;
+//   }
+
+//   .legend {
+//     display: none;
+//   }
+// }
+
+`
 
 export default PieChart;

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import 'chartjs-plugin-labels';
-import "../css_modules/chart.scss";
 import Chart from './chart.js'
 
 class BarChart extends Chart {

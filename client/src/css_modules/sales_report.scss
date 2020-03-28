@@ -1,33 +1,40 @@
-// @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700");
 
-@import "./global.scss"; 
+// .header {
+//   display:inline-block;
+//   font-size: 3.5vw;
+//   background-color: rgba(0, 64, 101, 0.6);
+//   color: white;
+//   text-align: left;
+//   padding: 5px;
+//   box-shadow: 0 1px 1px rgba(104, 104, 104, 0.8);
+// }
 
-.header {
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 16px;
-  background-color: rgba(0, 64, 101, 0.6);
-  color: white;
-  text-align: left;
-  padding: 5px;
-  box-shadow: 0 1px 1px rgba(104, 104, 104, 0.8);
-}
+// .salesReport {
+//   height: 100vh;
+//   width: 100vw;
+//   display: flex;
+//   flex-direction: column;
+//   background: var(--primary);
+//   text-align: center;
+//   box-shadow: var(--shadow);
+// }
 
-.box {
-  display: grid;
-  background: var(--primary);
-  text-align: center;
-  // padding: 1.5rem 2rem;
-  box-shadow: var(--shadow);
-}
+// .header {
+//   // grid-area: header;
+// }
 
-@media(max-width:1000px){
+// .chart {
+//   // grid-area: chart;
+// }
 
-  .box {
-    margin: auto;
-    background: var(--primary);
-    text-align: center;
-    // padding: 1.5rem 2rem;
-    box-shadow: var(--shadow);
-  }
+// .date {
+//   // grid-area: dates;
+// }
 
-}
+// .table {
+//   // grid-area: table;
+// }
+
+// .totalSales {
+//   // grid-area: totalSales;
+// }

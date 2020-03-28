@@ -2,10 +2,9 @@ import React from 'react';
 import PieChart from './pie_chart.js';
 import Table from './table.js';
 import SalesReport from './sales_report.js';
-import '../css_modules/sales_report.scss';
+import styled from "styled-components";
 
-
-class SalesByCategory extends SalesReport {
+export default class SalesByCategory extends SalesReport {
   constructor() {
     super();
     this.state.startDate = this.todaysDate();
@@ -46,26 +45,73 @@ class SalesByCategory extends SalesReport {
     let newDate = caller.value;
     if (caller.id === 'startDate') {
       this.getData(newDate, this.state.endDate);
-      this.setState({startDate:newDate});
+      this.setState({ startDate: newDate });
     }
     else if (caller.id === 'endDate') {
       this.getData(this.state.startDate, newDate);
-      this.setState({endDate:newDate});
+      this.setState({ endDate: newDate });
     }
   };
 
   render() {
     return (
-      <div className = 'box'>
-        <p className = 'header'>{this.state.startDate + " - " + this.state.endDate + " Session Sales Report"}</p>
-          <PieChart chartData={this.state.chartData} totalSales={this.state.totalSales} />
-        <h1>Total: £{this.state.totalSales.toFixed(2)}</h1>
-        <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
-        <input id='endDate' type="date" title='end' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
-        <Table sales={this.state.tableData} />
-      </div>
+      <Div>
+        <div className='salesReport'>
+          <div className='header'><p>{this.state.startDate + " - " + this.state.endDate + " Session Sales Report"}</p></div>
+          <PieChart className='chart' chartData={this.state.chartData} totalSales={this.state.totalSales} />
+          <div className='totalSales'><h1>Total: £{this.state.totalSales.toFixed(2)}</h1></div>
+          <div className='date'>
+            <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
+            <input id='endDate' type="date" title='end' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
+          </div>
+          <Table sales={this.state.tableData} />
+        </div>
+      </Div>
     );
   }
+
 }
 
-export default SalesByCategory;
+const Div = styled.div`
+.header {
+  display:inline-block;
+  font-size: 3.5vw;
+  background-color: rgba(0, 64, 101, 0.6);
+  color: white;
+  text-align: left;
+  padding: 5px;
+  box-shadow: 0 1px 1px rgba(104, 104, 104, 0.8);
+}
+
+.salesReport {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background: var(--primary);
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.header {
+  // grid-area: header;
+}
+
+.chart {
+  // grid-area: chart;
+}
+
+.date {
+  // grid-area: dates;
+}
+
+.table {
+  // grid-area: table;
+}
+
+.totalSales {
+  // grid-area: totalSales;
+}
+
+`;
+

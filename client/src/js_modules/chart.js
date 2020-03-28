@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import "../css_modules/chart.scss";
 
 class Chart extends Component {
 
