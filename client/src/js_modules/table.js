@@ -1,7 +1,7 @@
 import React, { Component, useEffect } from 'react';
 import { useState } from 'react';
 import * as $ from 'jquery';
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 
 function Table(props) {
@@ -115,17 +115,16 @@ function Table(props) {
 
 
 const Div = styled.div`
-
-@import "./global.scss"; 
-* {
+/* * {
   font-size: 16;
+} */
+*{
+--base-spacing-unit: 48px;
+--half-spacing-unit: var(--base-spacing-unit) / 2;
+
+--color-alpha: #1772ff;
+--color-form-highlight: #eeeeee;
 }
-
-$base-spacing-unit: 24px;
-$half-spacing-unit: $base-spacing-unit / 2;
-
-$color-alpha: #1772ff;
-$color-form-highlight: #eeeeee;
 
 *,
 *:before,
@@ -134,7 +133,7 @@ $color-form-highlight: #eeeeee;
 }
 
 body {
-  padding: $base-spacing-unit;
+  padding: var(--base-spacing-unit);
 //   font-family: Verdana, Geneva, sans-serif;
   margin: 0;
 }
@@ -160,37 +159,48 @@ h6 {
 
 .table {
   width: 100%;
-  border: 1px solid $color-form-highlight;
+  border: 1px solid var(--color-form-highlight);
 }
 
 .table-header {
   display: flex;
   width: 100%;
   background: rgba(0, 64, 101, 0.6);
-  padding: ($half-spacing-unit * 1.5) 0;
+  padding: (var(--half-spacing-unit) * 1.5) 0;
 
 }
 
 .table-row {
   display: flex;
   width: 100%;
-  padding: ($half-spacing-unit * 1.5) 0;
+  padding: (var(--half-spacing-unit) * 1.5) 0;
 
   &:nth-of-type(odd) {
-    background: $color-form-highlight;
+    background: var(--color-form-highlight);
   }
 }
 
 .table-data,
 .header__item {
   flex: 1 1 20%;
-  text-align: center;
-  font-size: 12px;
+  /* text-align: center; */
+  font-size: 32px;
+  text-align: left;
+ 
+}
+.table-data{
+  padding: 20px;
 }
 
 .header__item {
   text-transform: uppercase;
-  font-size: 12px;
+  text-align: left;
+  /* font-size: 24px; */
+}
+
+.header__item > a {
+  padding: 20px;
+ /* text-align: center; */
 }
 
 .filter__link {
@@ -198,15 +208,15 @@ h6 {
   text-decoration: none;
   position: relative;
   display: inline-block;
-  padding-left: $base-spacing-unit;
-  padding-right: $base-spacing-unit;
+  padding-left: var(--base-spacing-unit);
+  padding-right: var(--base-spacing-unit);
 
   &::after {
     content: "";
     position: absolute;
-    right: -($half-spacing-unit * 1.5);
+    right: -(var(--half-spacing-unit) * 1.5);
     color: white;
-    font-size: $half-spacing-unit;
+    font-size: var(--half-spacing-unit);
     top: 50%;
     transform: translateY(-50%);
   }

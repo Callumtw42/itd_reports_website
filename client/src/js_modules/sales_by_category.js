@@ -2,7 +2,7 @@ import React from 'react';
 import PieChart from './pie_chart.js';
 import Table from './table.js';
 import SalesReport from './sales_report.js';
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 export default class SalesByCategory extends SalesReport {
   constructor() {
@@ -74,13 +74,18 @@ export default class SalesByCategory extends SalesReport {
 
 const Div = styled.div`
 .header {
-  display:inline-block;
-  font-size: 3.5vw;
+  /* display:inline-block; */
+  font-size: 42px;
   background-color: rgba(0, 64, 101, 0.6);
   color: white;
   text-align: left;
-  padding: 5px;
+  padding: 10px;
   box-shadow: 0 1px 1px rgba(104, 104, 104, 0.8);
+  /* font-size: 48px; */
+}
+
+.header >p{
+  margin: auto;
 }
 
 .salesReport {
@@ -93,8 +98,14 @@ const Div = styled.div`
   box-shadow: var(--shadow);
 }
 
-.header {
-  // grid-area: header;
+.totalSales {
+  font-size: 30px
+}
+
+.date > input{
+  height: 100px;
+  width: 260px;
+  font-size: 42px;
 }
 
 .chart {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 class NavBar extends Component {
   render() {
@@ -18,8 +18,6 @@ class NavBar extends Component {
 }
 
 const Div = styled.div`
-@import "./global.scss";
-
 * {
   overflow-x: visible;
   font-family: Verdana, Geneva, sans-serif;
@@ -29,14 +27,8 @@ const Div = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   background-color: #004064;
-  // overflow: hidden;
   box-shadow: 0 1px 3px rgba(104, 104, 104, 0.8);
   font-size: 34pt;
-}
-
-.nav {
-  display: grid;
-  grid-auto-flow: column;
 }
 
 .nav > a {
@@ -61,26 +53,26 @@ const Div = styled.div`
   color: #000;
 }
 
-// @media (min-width: 1000px) {
-//   .nav {
-//     grid-template-columns: 1fr 2fr;
-//   }
+ /* @media (min-width: 1000px) {
+   .nav {
+     grid-template-columns: 1fr 2fr;
+   }
 
-//   .nav > div > a {
-//     padding: 50px 30px;
-//     font-size: 17px;
-//   }
+   .nav > div > a {
+     padding: 50px 30px;
+     font-size: 17px;
+   }
 
-//   .nav > div > img {
-//     height: 85px;
-//     width: 85px;
-//     padding: 10px 10px;
-//   }
-// }
+   .nav > div > img {
+     height: 85px;
+     width: 85px;
+     padding: 10px 10px;
+   }
+ }
 
-// @media(min-width:568px){
-//   /*.open-slide{display:none}*/
-// }
+ @media(min-width:568px){
+   /*.open-slide{display:none}*/
+ /* }  */
 `
 
 export default NavBar

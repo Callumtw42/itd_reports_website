@@ -2,9 +2,7 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import 'chartjs-plugin-labels';
 import Chart from './chart.js';
-import styled from 'styled-components';
-
-
+import styled from 'styled-components/macro';
 
 class PieChart extends Chart {
 
@@ -28,61 +26,63 @@ class PieChart extends Chart {
   render() {
     if (this.props.chartData.datasets !== undefined)
       return (
-        <div className="wrapper">
-          <div className="chart">
-            <Pie
-              height='1' width='1'
-              data={this.props.chartData}
-              options={
-                {
-                  layout: {
-                    padding: {
-                      // left: -150,
-                      // right: -300
-                    }
-                  },
-                  plugins: {
-                    labels:
-                    {
-                      render: (data) => { return "" },
-                      // fontSize: 24,
-                    }
-                  },
-                  labels: { display: false },
-                  legend: {
-                    display: false,
-                    position: 'top',
-                    align: 'center',
-                    labels: {
-                      usePointStyle: true,
-                      fontSize: 24
-                    },
-                    fullWidth: true
-
-                  },
-                  tooltips: {
-                    mode: 'index',
-                    callbacks: {
-                      label: (tooltipItem, data) => {
-                        var label = data.labels[tooltipItem.index];
-                        return label;
-                      },
-                      afterLabel: (tooltipItem, data) => {
-                        var sales = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                        var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / this.props.totalSales * 100;
-                        percent = percent.toFixed(2); // make a nice string
-                        return '£ ' + sales + ' (' + percent + '%)';
+        <Div>
+          <div className="wrapper">
+            <div className="chart">
+              <Pie
+                height={1} width={1}
+                data={this.props.chartData}
+                options={
+                  {
+                    layout: {
+                      padding: {
+                        // left: -150,
+                        // right: -300
                       }
                     },
-                    fontSize: 24
+                    plugins: {
+                      labels:
+                      {
+                        render: (data) => { return "" },
+                        // fontSize: 24,
+                      }
+                    },
+                    labels: { display: false },
+                    legend: {
+                      display: false,
+                      position: 'top',
+                      align: 'center',
+                      labels: {
+                        usePointStyle: true,
+                        fontSize: 24
+                      },
+                      fullWidth: true
+
+                    },
+                    tooltips: {
+                      mode: 'index',
+                      callbacks: {
+                        label: (tooltipItem, data) => {
+                          var label = data.labels[tooltipItem.index];
+                          return label;
+                        },
+                        afterLabel: (tooltipItem, data) => {
+                          var sales = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                          var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / this.props.totalSales * 100;
+                          percent = percent.toFixed(2); // make a nice string
+                          return '£ ' + sales + ' (' + percent + '%)';
+                        }
+                      },
+                      fontSize: 24
+                    }
                   }
                 }
-              }
-            />
-          </div>
+              />
+            </div>
 
-          <div className='legend'>{this.legend()}</div>
-        </div>
+            <div className='legend'>{this.legend()}</div>
+          </div>
+        </Div>
       )
     else return (
       <div className="chart">
@@ -95,14 +95,6 @@ class PieChart extends Chart {
 }
 
 const Div = styled.div`
-// @import "./global.scss"; 
-
-// * {
-//   margin: 0;
-//   padding: 0;
-//   overflow-x: hidden;
-// }
-
 .legendItem {
   overflow-x: hidden;
   display: flex;
@@ -111,7 +103,7 @@ const Div = styled.div`
 }
 
 .scroll-bar-wrap {
-  // width: 300px;
+  /* // width: 300px; */
   float: left;
   clear: left;
   position: relative;
@@ -142,7 +134,7 @@ const Div = styled.div`
   top: 0;
   right: 0;
   width: 0.4em;
-  -webkit-transition: all 0.5s;
+  /* -webkit-transition: all 0.5s; */
   opacity: 0;
 }
 /* MAGIC HAPPENS HERE */
@@ -159,7 +151,7 @@ const Div = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  // grid-template-columns: 80% 20%;
+  /* // grid-template-columns: 80% 20%; */
 }
 
 .chart {
@@ -169,19 +161,19 @@ const Div = styled.div`
 
 .legend {
   margin: 0 0 0 0px;
-  // display: block;
+  /* // display: block; */
   position: relative;
   align-content: left;
-  // float: left;
+  /* // float: left;
   // margin: 0;
   // padding: 0;
   // float: left;
-  // clear: left;
-  height: 500;
+  // clear: left; */
+  height: 500px;
   overflow-y: scroll;
   overflow-x: hidden;
 
-  // overflow: hidden;
+  /* // overflow: hidden; */
   -webkit-scrollbar {
     display: none;
   }
@@ -191,8 +183,8 @@ const Div = styled.div`
   overflow-x: hidden;
   float: left;
   clear: left;
-  height: 15px;
-  width: 15px;
+  height: 48px;
+  width: 48px;
   border-radius: 50%;
   display: inline-block;
 }
@@ -200,19 +192,20 @@ const Div = styled.div`
 .label {
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 48px;
 }
 
 
 
  .chartjs-render-monitor{
-  // position: relative;
-  // padding: -950px -950px 0 -950px;
-  // margin: auto;
+  /* // position: relative; */
+  /* // padding: -950px -950px 0 -950px; */
+  /* // margin: auto; */
   width: 100;
 }
 
 /* Media Queries */
-// @media (max-width: 1200px) {
+/* // @media (max-width: 1200px) {
 //   .wrapper {
 //     position: relative;
 //     // height: auto;
@@ -222,10 +215,10 @@ const Div = styled.div`
 //   .legend {
 //     display: none;
 //   }
-// }
+// } */
 
 // /* Media Queries */
-// @media (max-width: 1200px) {
+/* // @media (max-width: 1200px) {
 //   .wrapper {
 //     position: relative;
 //     // height: auto;
@@ -235,7 +228,7 @@ const Div = styled.div`
 //   .legend {
 //     display: none;
 //   }
-// }
+// } */
 
 `
 
