@@ -21,5 +21,10 @@
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",
     "nodemon": "^2.0.2"
+  },
+  "bit": {
+    "env": {},
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "npm"
   }
 }

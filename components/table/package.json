@@ -1,0 +1,22 @@
+{
+  "name": "@bit/mui-org.material-ui.table",
+  "version": "4.5.2",
+  "homepage": "https://bit.dev/mui-org/material-ui/table",
+  "main": "dist/Table/index.js",
+  "dependencies": {
+    "clsx": "^1.0.2",
+    "prop-types": "^15.7.2",
+    "@bit/mui-org.material-ui.internal.types": "4.5.2",
+    "@bit/mui-org.material-ui.styles": "4.5.2"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "bit": {
+    "env": {
+      "compiler": "bit.envs/compilers/react@1.0.4"
+    }
+  }
+}

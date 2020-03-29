@@ -1,6 +1,6 @@
 import React from 'react';
 import PieChart from './pie_chart.js';
-import Table from './table.js';
+import EnhancedTable from './table.js';
 import SalesReport from './sales_report.js';
 import styled from "styled-components/macro";
 
@@ -61,10 +61,10 @@ export default class SalesByCategory extends SalesReport {
           <PieChart className='chart' chartData={this.state.chartData} totalSales={this.state.totalSales} />
           <div className='totalSales'><h1>Total: £{this.state.totalSales.toFixed(2)}</h1></div>
           <div className='date'>
-            <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
-            <input id='endDate' type="date" title='end' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
+            <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)} defaultValue={this.state.startDate}></input>
+            <input id='endDate' type="date" title='end' max={this.todaysDate()} onChange={event => this.dateChange(event)} defaultValue={this.state.startDate}></input>
           </div>
-          <Table sales={this.state.tableData} />
+          <EnhancedTable data={this.state.tableData} />
         </div>
       </Div>
     );

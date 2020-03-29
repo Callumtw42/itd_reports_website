@@ -100,6 +100,8 @@ const Div = styled.div`
   display: flex;
   float: left;
   clear: left;
+
+  /* padding:10px 0px; */
 }
 
 .scroll-bar-wrap {

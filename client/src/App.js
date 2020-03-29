@@ -5,10 +5,12 @@ import NavBar from './js_modules/navbar.js';
 import './App.scss';
 import PieChart from './js_modules/pie_chart.js';
 import styled from "styled-components";
+import 'typeface-roboto';
 
 function App() {
   return (
     <Div>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <div className="App" >
         <meta name="viewport" content="width=1000"></meta>
         <NavBar className="navbar"></NavBar>
