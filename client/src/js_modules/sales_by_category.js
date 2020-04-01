@@ -1,128 +1,106 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PieChart from './pie_chart.js';
-import EnhancedTable from './table.js';
-import SalesReport from './sales_report.js';
-import styled from "styled-components/macro";
+import * as f from './functions.js';
+import 'date-fns';
+import DateField from './date_field.js';
+import { todaysDate, fetchData, SalesReport } from './sales_report.js';
 
-export default class SalesByCategory extends SalesReport {
-  constructor() {
-    super();
-    this.state.startDate = this.todaysDate();
-    this.state.endDate = this.todaysDate();
+export default function SalesByCategory(props) {
+
+  const [tableData, setTableData] = useState([]);
+  const [chartData, setChartData] = useState({});
+  const [totalSales, setTotalSales] = useState(0);
+  const [startDate, setStartDate] = useState(todaysDate());
+  const [endDate, setEndDate] = useState(todaysDate());
+  const [header, setHeader] = useState({ row1: "Sales By Category", row2: todaysDate() + ' - ' + todaysDate() });
+  const [display, setDisplay] = useState(props.display);
+
+  function getData(start, end) {
+    fetchData(`/api/salesData/${start}/${end}`, setTotalSales, formatChartData, formatTableData);
   }
 
-  getData(start, end) {
-    super.getData(`/api/salesData/${start}/${end}`);
-  }
+  useEffect(() => {
+    getData(startDate, endDate);
+    if (display === 'inline') props.callBack(header);
+    console.log('Cat')
+  }, [startDate, endDate, display]);
 
-  componentDidMount() {
-    this.getData(this.todaysDate(), this.todaysDate());
-  }
+  useEffect(() => {
+    setDisplay(props.display);
+    if (display === 'inline') props.callBack(header);
+    console.log("PROPS CHANGED");
+  }, [props.display]);
 
-  formatChartData = (salesData) => {
+  function formatChartData(salesData) {
     let _data = (salesData.length > 0) ? salesData.map(saleCat => saleCat.Sales) : [0];
-    this.setState({
-      chartData: {
-        labels: salesData.map(saleCat => saleCat.Department),
-        datasets: [
-          {
-            label: 'Net Sales £',
-            data: _data,
-            backgroundColor: this.colors(this.getUniqueValues(salesData, 'Cat'))
-          }
-        ]
-      }
+    setChartData({
+
+      labels: salesData.map(saleCat => saleCat.Category),
+      datasets: [
+        {
+          label: 'Net Sales £',
+          data: _data,
+          backgroundColor: f.colors(f.getUniqueValues(salesData, 'Cat'))
+        }
+      ]
+
     });
   }
 
-  formatTableData(data) {
-    this.setState({ tableData: this.removeColumns(data, 'Cat') })
+  function formatTableData(data) {
+    setTableData(f.removeColumns(data, 'Cat'))
   }
 
-  dateChange(event) {
+  function dateChange(event) {
     console.log(event.target.value);
     let caller = event.target;
     let newDate = caller.value;
     if (caller.id === 'startDate') {
-      this.getData(newDate, this.state.endDate);
-      this.setState({ startDate: newDate });
+      setHeader({ row1: "Sales By Category", row2: newDate + ' - ' + endDate })
+      setStartDate(newDate);
     }
     else if (caller.id === 'endDate') {
-      this.getData(this.state.startDate, newDate);
-      this.setState({ endDate: newDate });
+      setHeader({ row1: "Sales By Category", row2: startDate + ' - ' + newDate })
+      setEndDate(newDate);
     }
   };
 
-  render() {
-    return (
-      <Div>
-        <div className='salesReport'>
-          <div className='header'><p>{this.state.startDate + " - " + this.state.endDate + " Session Sales Report"}</p></div>
-          <PieChart className='chart' chartData={this.state.chartData} totalSales={this.state.totalSales} />
-          <div className='totalSales'><h1>Total: £{this.state.totalSales.toFixed(2)}</h1></div>
-          <div className='date'>
-            <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)} defaultValue={this.state.startDate}></input>
-            <input id='endDate' type="date" title='end' max={this.todaysDate()} onChange={event => this.dateChange(event)} defaultValue={this.state.startDate}></input>
-          </div>
-          <EnhancedTable data={this.state.tableData} />
-        </div>
-      </Div>
-    );
+  function pie() {
+    return <PieChart className='chart' chartData={chartData} totalSales={totalSales} ></PieChart>
   }
 
+  function dates() {
+    return (
+      <div className='date'>
+        <DateField
+          id="startDate"
+          label="Start Date"
+          defaultValue={startDate}
+          onChange={(event) => dateChange(event)}
+        />
+        {console.log(todaysDate())}
+        <DateField
+          id="endDate"
+          label="End Date"
+          defaultValue={endDate}
+          onChange={(event) => dateChange(event)}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <SalesReport
+      startDate={startDate}
+      dateChange={dateChange}
+      endDate={endDate}
+      chartData={chartData}
+      totalSales={totalSales}
+      tableData={tableData}
+      chart={pie()}
+      date={dates()}
+    >
+
+    </SalesReport>
+  )
 }
-
-const Div = styled.div`
-.header {
-  /* display:inline-block; */
-  font-size: 42px;
-  background-color: rgba(0, 64, 101, 0.6);
-  color: white;
-  text-align: left;
-  padding: 10px;
-  box-shadow: 0 1px 1px rgba(104, 104, 104, 0.8);
-  /* font-size: 48px; */
-}
-
-.header >p{
-  margin: auto;
-}
-
-.salesReport {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  background: var(--primary);
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-
-.totalSales {
-  font-size: 30px
-}
-
-.date > input{
-  height: 100px;
-  width: 260px;
-  font-size: 42px;
-}
-
-.chart {
-  // grid-area: chart;
-}
-
-.date {
-  // grid-area: dates;
-}
-
-.table {
-  // grid-area: table;
-}
-
-.totalSales {
-  // grid-area: totalSales;
-}
-
-`;
-

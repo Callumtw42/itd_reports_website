@@ -99,7 +99,7 @@ function EnhancedTableHead(props) {
       setHeadCells(Object.keys(props.data[0]).map((e, index) => {
         let isNum = (typeof f.getValue(props.data[0], e) == 'number') ? true : false
         return {
-          id: index,
+          id: index+1+'',
           numeric: isNum,
           disablePadding: false,
           label: e
@@ -192,10 +192,9 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
           <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-            Nutrition
           </Typography>
         )}
-
+{/* 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton aria-label="delete">
@@ -208,7 +207,7 @@ const EnhancedTableToolbar = (props) => {
               <FilterListIcon />
             </IconButton>
           </Tooltip>
-        )}
+        )} */}
     </Toolbar>
   );
 };
@@ -248,7 +247,7 @@ export default function EnhancedTable(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(props.data.length);
   const [data, setData] = React.useState([]);
 
   function createData(name, calories, fat, carbs, protein) {
@@ -276,12 +275,16 @@ export default function EnhancedTable(props) {
       let key = 0;
       setRows(props.data.map(e => { return Object.values(e).map(e => { return <TableCell fontSize={32} key={key++} align="left">{e}</TableCell> }) }));
       setData(props.data);
+      setRowsPerPage(props.data.length);
       console.log(rows[0]);
     }
   });
 
   const handleRequestSort = (event, property) => {
+    console.log('property '+property);
+    console.log('orderBy '+orderBy);
     const isAsc = orderBy === property && order === 'asc';
+    console.log('isAsc '+isAsc);
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
@@ -331,7 +334,8 @@ export default function EnhancedTable(props) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+  
+  let key = 0;
   return (
     <Div className={classes.root}>
       <Paper className={classes.paper}>
@@ -357,7 +361,6 @@ export default function EnhancedTable(props) {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  let key = 0;
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -369,7 +372,7 @@ export default function EnhancedTable(props) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      // key={row.name}
                       selected={isItemSelected}
                     >
                       {/* <TableCell key={key++} padding="checkbox">
@@ -397,7 +400,7 @@ export default function EnhancedTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
@@ -405,12 +408,12 @@ export default function EnhancedTable(props) {
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        /> */}
       </Paper>
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
-      />
+      /> */}
     </Div>
   );
 }

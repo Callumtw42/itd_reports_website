@@ -1,44 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BarChart from './bar_chart.js';
-import Table from './table.js';
-import SalesReport from './sales_report.js';
+import * as f from './functions.js';
+import 'date-fns';
+import DateField from './date_field.js';
+import { todaysDate, fetchData, SalesReport } from './sales_report.js';
 
+function SalesByHour(props) {
 
-class SalesByHour extends SalesReport {
-  constructor() {
-    super();
-    this.state.date = this.todaysDate();
+  const [date, setDate] = useState(todaysDate());
+  const [tableData, setTableData] = useState([]);
+  const [chartData, setChartData] = useState({});
+  const [totalSales, setTotalSales] = useState(0);
+  const [header, setHeader] = useState({ row1: "Sales By Hour", row2: todaysDate() });
+  const [display, setDisplay] = useState(props.display);
+
+  useEffect(() => {
+    getData(date);
+    if (display === 'inline') props.callBack(header);
+    console.log('Hour')
+  }, [date, display]);
+
+  useEffect(() => {
+    setDisplay(props.display);
+    if (display === 'inline') props.callBack(header);
+    console.log("PROPS CHANGED");
+  }, [props.display]);
+
+  function getData(date) {
+    fetchData(`/api/hourlySalesData/${date}`, setTotalSales, formatChartData, formatTableData);
   }
 
-  componentDidMount() {
-    this.getData(this.todaysDate());
-  }
 
-  getData(date) {
-    super.getData(`/api/hourlySalesData/${date}`);
-  }
-
-
-  dateChange(event) {
+  function dateChange(event) {
     console.log(event.target.value);
     let caller = event.target;
     let newDate = caller.value;
     if (caller.id === 'startDate') {
-      this.getData(newDate);
+      setHeader({ row1: "Sales By Hour", row2: newDate })
+      setDate(newDate);
     }
   };
 
-  formatTableData(data) {
+  function formatTableData(data) {
 
-    this.setState({ tableData: this.removeColumns(data, 'Cat', 'TillDate', 'TillHour') })
+    setTableData(f.removeColumns(data, 'Cat', 'TillDate', 'TillHour'));
   }
 
-  formatChartData = (salesData) => {
+  function formatChartData(salesData) {
     let _labels = Array.from(Array(24).keys()).map(obj => { return ('0' + obj + ':00').slice(-5) });
     if (salesData.length > 0) {
       let key = 0;
-      let departments = this.getUniqueValues(salesData, 'Department');
-      let categories = this.getUniqueValues(salesData, 'Cat');
+      let departments = f.getUniqueValues(salesData, 'Category');
+      let categories = f.getUniqueValues(salesData, 'Cat');
 
       let _datasets =
         departments.map(o => {
@@ -47,45 +60,61 @@ class SalesByHour extends SalesReport {
             label: o,
             data: _labels.map(i => {
               colors.push([categories[departments.indexOf(o)]])
-              let salesAtTime = this.getElementsWithValue(this.getElementsWithValue(salesData, 'Department', o), 'TillHour', i).map(j => { return j.Sales });
-              return this.sum(salesAtTime);
+              let salesAtTime = f.getElementsWithValue(f.getElementsWithValue(salesData, 'Category', o), 'TillHour', i).map(j => { return j.Sales });
+              return f.sum(salesAtTime);
             }),
-            backgroundColor: this.colors(colors),
+            backgroundColor: f.colors(colors),
             datasetKeyProvider: key++
           }
         });
 
-      this.setState({
-        chartData: {
-          labels: _labels,
-          datasets: _datasets
-        }
+      setChartData({
+
+        labels: _labels,
+        datasets: _datasets
+
       });
     }
     else {
-      this.setState({
-        totalSales: 0,
-        chartData: {
-          labels: _labels,
-          datasets: []
-        }
+      setChartData({
+
+        labels: _labels,
+        datasets: []
+
       });
+      setTotalSales(0);
     }
   }
 
-  render() {
-    return (
-      <div className='salesReport'>
-        <div className='header'> <p >{this.state.date + " - Hourly Sales Breakdown"}</p></div>
-        <div className='chart'><BarChart chartData={this.state.chartData} totalSales={this.state.totalSales} /></div>
-        <div className='totalSales'><h1>Total: £{this.state.totalSales.toFixed(2)}</h1></div>
-        <div className='date'>
-          <input id='startDate' type="date" title='start' max={this.todaysDate()} onChange={event => this.dateChange(event)}></input>
-        </div>
-        <Table className='table' sales={this.state.tableData} />
-      </div>
-    );
+  function bar() {
+    return <BarChart className='chart' chartData={chartData} totalSales={totalSales} ></BarChart>
   }
+
+  function dates() {
+    return (
+      <div className='date'>
+        <DateField
+          id="startDate"
+          label="Date"
+          defaultValue={date}
+          onChange={(event) => dateChange(event)}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <SalesReport
+      dateChange={dateChange}
+      chartData={chartData}
+      totalSales={totalSales}
+      tableData={tableData}
+      chart={bar()}
+      date={dates()}
+    >
+
+    </SalesReport>
+  )
 
 }
 

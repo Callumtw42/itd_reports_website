@@ -1,23 +1,23 @@
 
 export function getUniqueValues(objArr, key) {
     return [...new Set(objArr.map(i => {
-        return this.getValue(i, key);
+        return getValue(i, key);
     }))];
 }
 
 export function getElementsWithValue(objArr, key, value) {
     return objArr.filter(e =>
-        this.getValue(e, key) === value)
+        getValue(e, key) === value)
 }
 
-export function allocateData(data) {
-    console.log('data fetched...', data);
-}
+// export function allocateData(data) {
+//     console.log('data fetched...', data);
+// }
 
 export function getData(url) {
     fetch(url)
         .then(res => res.json())
-        .then(data => this.allocateData(data))
+        // .then(data => allocateData(data))
         .catch((error) => {
             console.log(error)
         })
@@ -118,15 +118,15 @@ export function notEmpty(data) {
 }
 
 export function getColumn(data, col) {
-    return (this.notEmpty(data)) ? data.map(e => { return this.getValue(e, col) }) : []
+    return (notEmpty(data)) ? data.map(e => { return getValue(e, col) }) : []
 }
 
 export function removeColumns(data, ...col) {
-    return (this.notEmpty(data)) ? data.map(e => { col.map(c => { return delete e[c] }); return e }) : []
+    return (notEmpty(data)) ? data.map(e => { col.map(c => { return delete e[c] }); return e }) : []
 }
 
 export function sum(arr){
-    return (this.notEmpty(arr)) ? arr.reduce(this.add) : 0;
+    return (notEmpty(arr)) ? arr.reduce(add) : 0;
 }
 
 export function getValue(e, key) {

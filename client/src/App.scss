@@ -1,5 +1,3 @@
-
-
 * {
   // font-family: Verdana, Geneva, sans-serif;
   // font-family: "Source Sans Pro", sans-serif;
@@ -15,5 +13,8 @@ body {
 }
 
 .Table {
+}
 
+.clickable > * {
+  pointer-events: none;
 }
