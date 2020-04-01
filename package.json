@@ -20,7 +20,6 @@
     "node-sass": "^4.13.1"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.10.7",
     "nodemon": "^2.0.2"
   },
   "bit": {

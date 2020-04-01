@@ -1,11 +1,10 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import React from 'react';
 import styled from 'styled-components';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,27 +39,29 @@ export default function NavBar(props) {
         props.setSideBar(true);
     }
 
+    function header() {
+        if (typeof props.header === 'string')
+            return <Typography variant="h6" style = {{fontSize: 64}} className={classes.title}>{props.header}</Typography>
+        else return (
+            <div className={classes.headerBox}>
+                <Typography variant="h6" className={classes.title}>{props.header.row1}</Typography>
+                <Typography variant="h6" className={classes.title}> {props.header.row2}</Typography>
+            </div>
+        )
+    }
+
     return (
         <Div>
             <div className={classes.root}>
                 <AppBar position="fixed">
                     <Toolbar className={classes.toolBar}>
-                        <img src='ITDlogo.jpg'></img>
-
-                        <div className={classes.headerBox}>
-                            <Typography variant="h6" className={classes.title}>
-                                {props.header.row1}
-                            </Typography>
-                            <Typography variant="h6" className={classes.title}>
-                                {props.header.row2}
-                            </Typography>
-                        </div>
+                        <img src='ITDlogo.jpg' alt='logo'></img>
+                            {header()}
                     </Toolbar>
                     <IconButton onClick={handleIconClick} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon className={classes.menuIcon} />
                     </IconButton>
                 </AppBar>
-                {console.log("Nav Render")}
             </div>
         </Div>
     );
@@ -89,6 +90,10 @@ img{
     /* align-self: right; */
     
 }
+
+/* .MuiTypography-root > .makeStyles-title-5{
+font-size: 100px;
+} */
 /* .img{
     align-self: right;
 } */

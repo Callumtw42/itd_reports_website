@@ -11,7 +11,6 @@ export function getElementsWithValue(objArr, key, value) {
 }
 
 // export function allocateData(data) {
-//     console.log('data fetched...', data);
 // }
 
 export function getData(url) {
@@ -19,7 +18,6 @@ export function getData(url) {
         .then(res => res.json())
         // .then(data => allocateData(data))
         .catch((error) => {
-            console.log(error)
         })
 }
 
@@ -133,3 +131,14 @@ export function getValue(e, key) {
     return e[key];
 }
 
+export function dbg(x){
+    console.log(x);
+}
+
+export function convertDate(date){
+    return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + (date.getDate())).slice(-2);
+}
+
+export function sizeOf(e){
+    return Object.keys(e).length;
+}

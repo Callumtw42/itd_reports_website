@@ -1,8 +1,6 @@
-import * as f from './functions.js';
-import React,{useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import PieChart from './pie_chart.js';
-import DateField from './date_field.js';
+import * as f from './functions.js';
 import EnhancedTable from './table.js';
 
   export function todaysDate() {
@@ -16,7 +14,6 @@ import EnhancedTable from './table.js';
       .then(res => res.json())
       .then(data => allocateData(data, ...allocations))
       .catch((error) => {
-        console.log(error)
       })
   }
 //
@@ -29,13 +26,13 @@ import EnhancedTable from './table.js';
     );
   }
 
-  export function SalesReport(props){
+  export function Report(props){
 
     return (
       <Div>
-        <div className='salesReport'>
+        <div className='report'>
+        <div className='totalSales'><h1>Total: £{props.totalSales.toFixed(2)}</h1></div>
           {props.chart}
-          <div className='totalSales'><h1>Total: £{props.totalSales.toFixed(2)}</h1></div>
           {props.date}
           <EnhancedTable data={props.tableData} />
         </div>
@@ -60,9 +57,9 @@ import EnhancedTable from './table.js';
   margin: auto;
 }
 
-.salesReport {
-  height: 100vh;
-  width: 100vw;
+.report {
+  max-height: 100vh;
+  max-width: 100vw;
   display: flex;
   flex-direction: column;
   background: var(--primary);
@@ -78,7 +75,7 @@ import EnhancedTable from './table.js';
 
 
 .totalSales {
-  margin: 0;
+  margin: 30px 0 0 0;
   font-size: 30px
 }
 
@@ -115,5 +112,6 @@ import EnhancedTable from './table.js';
 .MuiFormControl-root{
   min-width: 300px;
 }
+
 
 `;

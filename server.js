@@ -65,6 +65,16 @@ app.get('/api/hourlySalesData/:startDate', (req, res) => {
     });
 });
 
+app.get('/api/stock', (req, res) => {
+    let sql = `SELECT ProdID, ProductName, Description, UnitQuantity, stockitem.LastUpdate FROM itdepos.stockitem JOIN product ON stockitem.ProdID = product.ProductID JOIN category ON product.CategoryID = category.CategoryID;`;
+    let query = db.query(sql, (err, results) =>{
+    if(err) throw err;
+    // res.send('sales fetched');
+    
+    res.json(results);
+    });
+});
+
 
 
 //listen

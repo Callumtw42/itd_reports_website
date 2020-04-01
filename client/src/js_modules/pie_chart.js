@@ -1,31 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import 'chartjs-plugin-labels';
-import Chart from './chart.js';
 import styled from 'styled-components/macro';
 import * as f from './functions.js';
 
 export default function PieChart(props) {
 
   // const [legend, setLegend] = useState(<div>TEST</div>)
-
-  let defaultProps = {
-    displayTitle: false,
-    displayLegend: false,
-    location: 'City',
-  }
-
   // useEffect(() => {
-  //   // console.log(createLegend());
   //   if (!Object.is(createLegend().toString(), legend.toString())) {
   //     setLegend(<div>XXX</div>);
-  //     console.log("update")
   //   }
   // });
 
   function createLegend() {
     if (f.notEmpty(props.chartData.datasets)) {
-      console.log("YESS")
       let chartData = props.chartData;
       let key = 0;
       let colorStrings = chartData.datasets[0].backgroundColor;
@@ -60,13 +48,6 @@ export default function PieChart(props) {
                     padding: {
                       // left: -150,
                       // right: -300
-                    }
-                  },
-                  plugins: {
-                    labels:
-                    {
-                      render: (data) => { return "" },
-                      // fontSize: 24,
                     }
                   },
                   labels: { display: false },
@@ -192,9 +173,9 @@ const Div = styled.div`
 }
 
 .chart > canvas {
-  max-width: 800px;
+  max-width: 500px;
   /* margin: 30px 0 0 0; */
-  margin: 50px auto ;
+  margin: 0px auto ;
   /* height: 2000px; */
 }
 

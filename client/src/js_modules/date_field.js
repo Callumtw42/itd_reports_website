@@ -1,7 +1,7 @@
 
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import React from 'react';
 import styled from "styled-components/macro";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +24,10 @@ const Div = styled.div`
   
   .MuiFormControl-root{
     min-width: 300px;
+  }
+
+  .MuiFormLabel-root{
+    font-size: 32px;
   }
   `;
 

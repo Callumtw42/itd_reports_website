@@ -1,6 +1,5 @@
-import React, { Component, useEffect } from 'react';
-import { useState } from 'react';
 import * as $ from 'jquery';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components/macro";
 
 

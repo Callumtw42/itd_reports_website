@@ -1,9 +1,9 @@
+import 'date-fns';
 import React, { useEffect, useState } from 'react';
 import BarChart from './bar_chart.js';
-import * as f from './functions.js';
-import 'date-fns';
 import DateField from './date_field.js';
-import { todaysDate, fetchData, SalesReport } from './sales_report.js';
+import * as f from './functions.js';
+import { fetchData, Report, todaysDate } from './report.js';
 
 function SalesByHour(props) {
 
@@ -12,27 +12,22 @@ function SalesByHour(props) {
   const [chartData, setChartData] = useState({});
   const [totalSales, setTotalSales] = useState(0);
   const [header, setHeader] = useState({ row1: "Sales By Hour", row2: todaysDate() });
-  const [display, setDisplay] = useState(props.display);
+
+  const getData = (date) => {
+    fetchData(`/api/hourlySalesData/${date}`, setTotalSales, formatChartData, formatTableData);
+  };
 
   useEffect(() => {
     getData(date);
-    if (display === 'inline') props.callBack(header);
-    console.log('Hour')
-  }, [date, display]);
+    if (props.display === 'inline') props.callBack(header);
+  }, [date]);
 
   useEffect(() => {
-    setDisplay(props.display);
-    if (display === 'inline') props.callBack(header);
-    console.log("PROPS CHANGED");
+    if (props.display === 'inline') props.callBack(header);
   }, [props.display]);
-
-  function getData(date) {
-    fetchData(`/api/hourlySalesData/${date}`, setTotalSales, formatChartData, formatTableData);
-  }
 
 
   function dateChange(event) {
-    console.log(event.target.value);
     let caller = event.target;
     let newDate = caller.value;
     if (caller.id === 'startDate') {
@@ -60,7 +55,7 @@ function SalesByHour(props) {
             label: o,
             data: _labels.map(i => {
               colors.push([categories[departments.indexOf(o)]])
-              let salesAtTime = f.getElementsWithValue(f.getElementsWithValue(salesData, 'Category', o), 'TillHour', i).map(j => { return j.Sales });
+              let salesAtTime = f.getElementsWithValue(f.getElementsWithValue(salesData, 'Category', o), 'TillHour', i).map(j => { return j.Sales - j.Refund });
               return f.sum(salesAtTime);
             }),
             backgroundColor: f.colors(colors),
@@ -104,7 +99,7 @@ function SalesByHour(props) {
   }
 
   return (
-    <SalesReport
+    <Report
       dateChange={dateChange}
       chartData={chartData}
       totalSales={totalSales}
@@ -113,7 +108,7 @@ function SalesByHour(props) {
       date={dates()}
     >
 
-    </SalesReport>
+    </Report>
   )
 
 }

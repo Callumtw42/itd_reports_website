@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import PieChart from './pie_chart.js';
-import * as f from './functions.js';
 import 'date-fns';
+import React, { useEffect, useState } from 'react';
 import DateField from './date_field.js';
-import { todaysDate, fetchData, SalesReport } from './sales_report.js';
+import * as f from './functions.js';
+import PieChart from './pie_chart.js';
+import { fetchData, Report, todaysDate } from './report.js';
 
 export default function SalesByCategory(props) {
 
@@ -13,7 +13,6 @@ export default function SalesByCategory(props) {
   const [startDate, setStartDate] = useState(todaysDate());
   const [endDate, setEndDate] = useState(todaysDate());
   const [header, setHeader] = useState({ row1: "Sales By Category", row2: todaysDate() + ' - ' + todaysDate() });
-  const [display, setDisplay] = useState(props.display);
 
   function getData(start, end) {
     fetchData(`/api/salesData/${start}/${end}`, setTotalSales, formatChartData, formatTableData);
@@ -21,14 +20,11 @@ export default function SalesByCategory(props) {
 
   useEffect(() => {
     getData(startDate, endDate);
-    if (display === 'inline') props.callBack(header);
-    console.log('Cat')
-  }, [startDate, endDate, display]);
+    if (props.display === 'inline') props.callBack(header);
+  }, [startDate, endDate]);
 
   useEffect(() => {
-    setDisplay(props.display);
-    if (display === 'inline') props.callBack(header);
-    console.log("PROPS CHANGED");
+    if (props.display === 'inline') props.callBack(header);
   }, [props.display]);
 
   function formatChartData(salesData) {
@@ -52,7 +48,6 @@ export default function SalesByCategory(props) {
   }
 
   function dateChange(event) {
-    console.log(event.target.value);
     let caller = event.target;
     let newDate = caller.value;
     if (caller.id === 'startDate') {
@@ -78,7 +73,6 @@ export default function SalesByCategory(props) {
           defaultValue={startDate}
           onChange={(event) => dateChange(event)}
         />
-        {console.log(todaysDate())}
         <DateField
           id="endDate"
           label="End Date"
@@ -90,7 +84,7 @@ export default function SalesByCategory(props) {
   }
 
   return (
-    <SalesReport
+    <Report
       startDate={startDate}
       dateChange={dateChange}
       endDate={endDate}
@@ -101,6 +95,6 @@ export default function SalesByCategory(props) {
       date={dates()}
     >
 
-    </SalesReport>
+    </Report>
   )
 }
