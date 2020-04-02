@@ -33,8 +33,8 @@ export default function PieChart(props) {
     else return <div>AWW</div>
   }
 
-
-  if (props.chartData.datasets !== undefined)
+  function chart(toolTipSize){
+    if (props.chartData.datasets !== undefined)
     return (
       <Div>
         <div className="wrapper">
@@ -63,7 +63,7 @@ export default function PieChart(props) {
 
                   },
                   tooltips: {
-                    bodyFontSize: 32,
+                    bodyFontSize: toolTipSize,
                     mode: 'index',
                     callbacks: {
                       label: (tooltipItem, data) => {
@@ -95,6 +95,10 @@ export default function PieChart(props) {
       />
     </div>
   )
+  }
+
+
+ return chart(f.viewport (12, 32));
 
 }
 
@@ -103,15 +107,12 @@ const Div = styled.div`
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
-  padding: 0 20px;
+  padding: 0 1em;
   float: left;
   clear: left;
-
-  /* padding:10px 0px; */
 }
 
 .scroll-bar-wrap {
-  /* // width: 300px; */
   display: flex;
   flex-direction: row;
   float: left;
@@ -122,7 +123,6 @@ const Div = styled.div`
 }
 
 .scroll-bar-wrap >ul {
-  /* // width: 300px; */
   display: flex;
   flex-direction: row;
   
@@ -152,49 +152,33 @@ const Div = styled.div`
   top: 0;
   right: 0;
   width: 0.4em;
-  /* -webkit-transition: all 0.5s; */
   opacity: 0;
 }
-/* MAGIC HAPPENS HERE */
 .legend:hover .cover-bar {
   opacity: 1;
   -webkit-transition: all 0.5s;
 }
 
 .wrapper {
-  /* padding: 10% 0 0 13%; */
-  
   position: relative;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: left;
-  /* // grid-template-columns: 80% 20%; */
 }
 
 .chart > canvas {
   max-width: 500px;
-  /* margin: 30px 0 0 0; */
   margin: 0px auto ;
-  /* height: 2000px; */
 }
 
 .legend {
   margin: 0 0 0 0px;
-  /* display: flex;
-  flex-direction: row; */
   position: relative;
   align-content: left;
-  /* // float: left;
-  // margin: 0;
-  // padding: 0;
-  // float: left;
-  // clear: left; */
-  /* height: 500px; */
   overflow-y: hidden;
   overflow-x: scroll;
-
-  /* // overflow: hidden; */
+  scrollbar-width: thin;
   -webkit-scrollbar {
     display: none;
   }
@@ -204,56 +188,43 @@ const Div = styled.div`
   overflow-x: hidden;
   float: left;
   clear: left;
-  height: 48px;
-  width: 48px;
+  height: 3em;
+  width: 3em;
   border-radius: 50%;
   display: inline-block;
-  /* padding: 20px 0 0 0; */
-  margin: 8px 0 0 0;
+  margin: auto 0;
 }
 
 .label {
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 48px;
+  font-size: 3em;
 }
-
-
-
  .chartjs-render-monitor{
-  /* // position: relative; */
-  /* // padding: -950px -950px 0 -950px; */
-  /* // margin: auto; */
   width: 100;
 }
 
-/* Media Queries */
-/* // @media (max-width: 1200px) {
-//   .wrapper {
-//     position: relative;
-//     // height: auto;
-//     display: inline-block;
-//   }
+@media (min-width:64em){
 
-//   .legend {
-//     display: none;
-//   }
-// } */
+.dot {
+height: 1em;
+width: 1em;
+}
 
-// /* Media Queries */
-/* // @media (max-width: 1200px) {
-//   .wrapper {
-//     position: relative;
-//     // height: auto;
-//     display: inline-block;
-//   }
+.label {
+font-size: 1em;
+}
 
-//   .legend {
-//     display: none;
-//   }
-// } */
+.legendItem {
+padding: 0 0.25em;
+}
+
+.chart > canvas {
+  max-width: 310px;
+  margin: 0px auto ;
+}
+
+} 
+
 
 `
-
-
-// export default PieChart;

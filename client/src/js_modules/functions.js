@@ -142,3 +142,7 @@ export function convertDate(date){
 export function sizeOf(e){
     return Object.keys(e).length;
 }
+
+export function viewport(small, large){
+        return (window.innerWidth > 1024) ? small: large;
+}

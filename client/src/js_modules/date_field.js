@@ -9,26 +9,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexWrap: 'wrap',
     },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
+
 }));
 
 const Div = styled.div`
-  .MuiInputBase-root{
-    font-size: 48px;
-    min-width: 300px;
-  }
-  
-  .MuiFormControl-root{
-    min-width: 300px;
-  }
-
-  .MuiFormLabel-root{
-    font-size: 32px;
-  }
   `;
 
 export default function DateField(props) {

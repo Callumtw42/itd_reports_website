@@ -160,7 +160,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   table: {
-    minWidth: 750,
+    minWidth: 0,
   },
   visuallyHidden: {
     border: 0,
@@ -306,11 +306,17 @@ export default function EnhancedTable(props) {
 }
 
 const Div = styled.div`
-*{
-font-size: 32px;
-}
 
-.MuiTableCell-root{
-  font-size: 32px;
+  .MuiTableCell-root{
+    padding: 16px 8px;
+    font-size: 2em;
+  }
+
+@media (min-width:64em){
+
+  .MuiTableCell-root{
+    font-size: 1em;
+  }
+
 }
 `

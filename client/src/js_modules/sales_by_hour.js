@@ -100,6 +100,7 @@ function SalesByHour(props) {
 
   return (
     <Report
+      header={header}
       dateChange={dateChange}
       chartData={chartData}
       totalSales={totalSales}

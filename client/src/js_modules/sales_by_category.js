@@ -85,6 +85,7 @@ export default function SalesByCategory(props) {
 
   return (
     <Report
+      header={header}
       startDate={startDate}
       dateChange={dateChange}
       endDate={endDate}

@@ -1,19 +1,60 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from "styled-components/macro";
-import Chart from './chart.js';
+import * as f from './functions.js';
 
-class BarChart extends Chart {
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
 
-  render() {
-    if (this.props.chartData.datasets !== undefined)
+function labelSize() {
+  return f.viewport(12, 26);
+}
+
+export default function BarChart(props) {
+
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  // const [chart, setChart] = useState(chart());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+      console.log(windowDimensions);
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  });
+
+  function legend() {
+    let key = 0;
+    let colorStrings = props.chartData.datasets.map(i => { return [...new Set(i.backgroundColor)] });
+    let labels = props.chartData.datasets.map(i => { return [...new Set(i.label)] });
+    let legendItems = colorStrings.map(c => {
+      return <div key={key++} className='legendItem'>
+        <span key={key++} className="dot" style={{ backgroundColor: c }}></span>
+        <label key={key++} className="label" >{labels[colorStrings.indexOf(c)]}</label>
+      </div>
+
+    }).reverse();
+    return <div className="scroll-bar-wrap">
+      <ul>{legendItems}</ul>
+      <div className="cover-bar"></div>
+    </div>;
+  }
+
+  function chart(labelSize, toolTipSize) {
+    if (props.chartData.datasets !== undefined)
       return (
         <Div>
           <div className="wrapper">
             <div className="chart">
               <Bar
-                data={this.props.chartData}
+                data={props.chartData}
                 options={
                   {
                     scales: {
@@ -21,18 +62,20 @@ class BarChart extends Chart {
                         stacked: true,
                         ticks:
                         {
-                          fontSize:26
-                        }
-                      }],
+                          fontSize: labelSize
+                        },
+                      },
+
+                      ],
                       yAxes: [{
                         stacked: true,
                         ticks:
                         {
-                          fontSize:26
+                          fontSize: labelSize
                         }
                       }]
                     },
-                    labels: { 
+                    labels: {
                       display: false,
                       fontSize: 48
                     },
@@ -48,7 +91,7 @@ class BarChart extends Chart {
 
                     },
                     tooltips: {
-                      bodyFontSize: 32,
+                      bodyFontSize: toolTipSize,
                       mode: 'single',
                       callbacks: {
                         label: (tooltipItem, data) => {
@@ -61,7 +104,7 @@ class BarChart extends Chart {
                         afterLabel: (tooltipItem, data) => {
                           let item = data.datasets[tooltipItem.datasetIndex]
                           var sales = item.data[tooltipItem.index];
-                          var percent = item.data[tooltipItem.index] / this.props.totalSales * 100;
+                          var percent = item.data[tooltipItem.index] / props.totalSales * 100;
                           percent = percent.toFixed(2); // make a nice string
                           sales = sales.toFixed(2);
                           if (item.data[tooltipItem.index] > 0)
@@ -75,7 +118,7 @@ class BarChart extends Chart {
                 }
               />
             </div>
-            <div className='legend'>{this.legend()}</div>
+            <div className='legend'>{legend()}</div>
           </div>
         </Div>
       )
@@ -83,12 +126,17 @@ class BarChart extends Chart {
     else return (
       <div className="chart">
         <Bar
-          data={this.props.chartData}
+          data={props.chartData}
         />
       </div>
 
     )
+
   }
+
+  return chart(labelSize(), f.viewport(12, 32));
+
+
 }
 
 const Div = styled.div`
@@ -96,7 +144,7 @@ const Div = styled.div`
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
-  padding: 0 20px;
+  padding: 0 1em;
   float: left;
   clear: left;
 }
@@ -156,8 +204,7 @@ const Div = styled.div`
 }
 
 .chart > canvas {
-  min-width: 800px;
-  margin: 0px 0 0 0;
+  margin: 0;
 }
 
 .legend {
@@ -166,6 +213,7 @@ const Div = styled.div`
   align-content: left;
   overflow-y: hidden;
   overflow-x: scroll;
+  scrollbar-width: thin;
   -webkit-scrollbar {
     display: none;
   }
@@ -175,17 +223,17 @@ const Div = styled.div`
   overflow-x: hidden;
   float: left;
   clear: left;
-  height: 48px;
-  width: 48px;
+  height: 3em;
+  width: 3em;
   border-radius: 50%;
   display: inline-block;
-  margin: 8px 0 0 0;
+  margin: auto 0;
 }
 
 .label {
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 48px;
+  font-size: 3em;
 }
 
 
@@ -195,110 +243,22 @@ const Div = styled.div`
 }
 
 @media (min-width:64em){
-  .legendItem {
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: row;
-  padding: 0 20px;
-  float: left;
-  clear: left;
-}
 
-.scroll-bar-wrap {
-  display: flex;
-  flex-direction: row;
-  float: left;
-  clear: left;
-  position: relative;
-  margin: 4em auto;
-  margin: 0;
-}
-
-.scroll-bar-wrap >ul {
-  display: flex;
-  flex-direction: row;
-}
-
-.legend::-webkit-scrollbar {
-  float: left;
-  clear: left;
-  width: 0.4em;
-}
-.legend::-webkit-scrollbar,
-.legend::-webkit-scrollbar-thumb {
-  float: left;
-  clear: left;
-  overflow: visible;
-  border-radius: 4px;
-}
-.legend::-webkit-scrollbar-thumb {
-  float: left;
-  clear: left;
-  background: rgba(0, 0, 0, 0.2);
-}
-.cover-bar {
-  position: absolute;
-  background: rgb(255, 255, 255);
-  height: 100%;
-  top: 0;
-  right: 0;
-  width: 0.4em;
-  opacity: 0;
-}
-.legend:hover .cover-bar {
-  opacity: 1;
-  -webkit-transition: all 0.5s;
-}
-
-.wrapper {
-  position: relative;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-}
-
-.chart > canvas {
-  /* min-width: 200px; */
-  /* width: 100%; */
-  margin: 0px 0 0 0;
-}
-
-.legend {
-  margin: 0 0 0 0px;
-  position: relative;
-  align-content: left;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  -webkit-scrollbar {
-    display: none;
-  }
-}
-
-.dot {
-  overflow-x: hidden;
-  float: left;
-  clear: left;
-  height: 48px;
-  width: 48px;
-  border-radius: 50%;
-  display: inline-block;
-  margin: 8px 0 0 0;
+  .dot {
+  height: 1em;
+  width: 1em;
 }
 
 .label {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 48px;
+  font-size: 1em;
 }
 
-
-
- .chartjs-render-monitor{
-  /* width: 100; */
+.legendItem {
+  padding: 0 0.25em;
 }
+
 } 
 
-`
+`;
 
-export default BarChart;
+// export default BarChart;

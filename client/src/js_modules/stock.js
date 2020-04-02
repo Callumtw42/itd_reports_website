@@ -5,6 +5,8 @@ import * as f from './functions.js';
 import PieChart from './pie_chart.js';
 import { fetchData, Report, todaysDate } from './report.js';
 import EnhancedTable from './table.js';
+import styled from 'styled-components';
+import HeaderBar from './header_bar.js'
 
 export default function Stock(props) {
 
@@ -63,6 +65,16 @@ export default function Stock(props) {
   }
 
   return (
-    <EnhancedTable data={tableData} />
+    <Div>
+      <HeaderBar header = {header}></HeaderBar>
+      <div className = 'table'><EnhancedTable data={tableData} /></div>
+      </Div>
   )
 }
+
+const Div = styled.div`
+.table{
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+`
