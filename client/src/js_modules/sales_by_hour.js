@@ -14,13 +14,13 @@ function SalesByHour(props) {
   const [header, setHeader] = useState({ row1: "Sales By Hour", row2: todaysDate() });
 
   const getData = (date) => {
-    fetchData(`/api/hourlySalesData/${date}`, setTotalSales, formatChartData, formatTableData);
+    fetchData(`/api/hourlySalesData/${props.db}/${date}`, setTotalSales, formatChartData, formatTableData);
   };
 
   useEffect(() => {
     getData(date);
     if (props.display === 'inline') props.callBack(header);
-  }, [date]);
+  }, [date, props.db]);
 
   useEffect(() => {
     if (props.display === 'inline') props.callBack(header);

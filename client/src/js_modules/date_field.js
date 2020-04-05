@@ -13,6 +13,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Div = styled.div`
+/* .MuiFormControl-root{
+    position: relative;
+
+} */
+
+.MuiFormControl-root{
+    padding: 0 10px;
+}
+
+.date_field{
+    max-width: 50%;
+}
   `;
 
 export default function DateField(props) {

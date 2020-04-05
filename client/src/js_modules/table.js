@@ -312,11 +312,39 @@ const Div = styled.div`
     font-size: 2em;
   }
 
+  .MuiToolbar-root{
+    display: none
+  }
+
+    .MuiTable-root{
+      margin: 100px 0 0 0;
+  }
+
 @media (min-width:64em){
 
   .MuiTableCell-root{
     font-size: 1em;
+    padding: 0px 5px;
+    margin: 0px 0px;
+    font-size: 12px;
+    max-width: 3vw;
+    min-width: 0;
+    word-wrap: break-word;
   }
+
+  .MuiTable-root{
+      margin: 0;
+  }
+
+  /* .MuiTable-root{
+    position: relative;
+    max-height: 500px;
+  }
+
+  .sc-AxirZ{
+    position: relative;
+    max-height: 500px;
+  } */
 
 }
 `

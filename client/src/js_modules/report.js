@@ -20,6 +20,7 @@ export const fetchData = (url, ...allocations) => {
 }
 
 function allocateData(data, setTotalSales, formatChartData, formatTableData) {
+  console.log(data);
   formatChartData(data);
   formatTableData(data);
   // allocations.map(e=>{return e(data)});
@@ -32,7 +33,7 @@ export function Report(props) {
 
   return (
     <Div>
-<HeaderBar header = {props.header}></HeaderBar>
+      <HeaderBar header={props.header}></HeaderBar>
       <div className='report'>
         <div className='totalSales'><h1>Total: £{props.totalSales.toFixed(2)}</h1></div>
         {props.chart}
@@ -61,8 +62,7 @@ const Div = styled.div`
 }
 
 .report {
-  max-height: 100vh;
-  max-width: 100vw;
+  max-width: 100vw; 
   display: flex;
   flex-direction: column;
   background: var(--primary);
@@ -73,13 +73,13 @@ const Div = styled.div`
 
 
 .totalSales > h1{
-  font-size: 3em;
+  font-size: 32px;
   margin: 0;
 }
 
 
 .totalSales {
-  margin: 30px 0 0 0;
+  margin: 7em 0 0 0;
 
 }
 
@@ -94,10 +94,6 @@ const Div = styled.div`
   font-size: 3em;
 }
 
-.MuiFormControl-root{
-  min-width: 300px;
-}
-
 .MuiFormLabel-root{
   font-size: 3em;
 }
@@ -105,8 +101,11 @@ const Div = styled.div`
 @media (min-width:64em){
 
 .totalSales > h1{
-  font-size: 2em;
-  margin: 0;
+  font-size: 1em;
+}
+
+.totalSales {
+  margin: 1em 0 0 0;
 }
 
 .MuiInputBase-root{
@@ -115,6 +114,10 @@ const Div = styled.div`
 
 .MuiFormLabel-root{
   font-size: 1em;
+}
+
+.report {
+  max-height: 65vh;
 }
 
 }

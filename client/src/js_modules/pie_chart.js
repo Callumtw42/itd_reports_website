@@ -220,7 +220,7 @@ padding: 0 0.25em;
 }
 
 .chart > canvas {
-  max-width: 310px;
+  max-width: 16vw;
   margin: 0px auto ;
 }
 

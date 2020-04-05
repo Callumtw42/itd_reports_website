@@ -15,7 +15,7 @@ export default function SalesByCategory(props) {
   const [header, setHeader] = useState({ row1: "Sales By Category", row2: todaysDate() + ' - ' + todaysDate() });
 
   function getData(start, end) {
-    fetchData(`/api/salesData/${start}/${end}`, setTotalSales, formatChartData, formatTableData);
+    fetchData(`/api/salesData/${props.db}/${start}/${end}`, setTotalSales, formatChartData, formatTableData);
   }
 
   useEffect(() => {
@@ -24,9 +24,13 @@ export default function SalesByCategory(props) {
   }, [startDate, endDate]);
 
   useEffect(() => {
+    getData(startDate, endDate);
+  }, [props.db]);
+
+  useEffect(() => {
     if (props.display === 'inline') props.callBack(header);
   }, [props.display]);
-
+//
   function formatChartData(salesData) {
     let _data = (salesData.length > 0) ? salesData.map(saleCat => saleCat.Sales) : [0];
     setChartData({

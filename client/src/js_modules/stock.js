@@ -30,13 +30,13 @@ export default function Stock(props) {
   }
 
   function getData(start, end) {
-    fetchData(`/api/stock`, formatTableData);
+    fetchData(`/api/stock/${props.db}`, formatTableData);
   }
 
   useEffect(() => {
     getData(startDate, endDate);
     if (props.display === 'inline') props.callBack(header);
-  }, [startDate, endDate]);
+  }, [startDate, endDate, props.db]);
 
   useEffect(() => {
     if (props.display === 'inline') props.callBack(header);
@@ -65,7 +65,7 @@ export default function Stock(props) {
   }
 
   return (
-    <Div>
+    <Div className = 'root'>
       <HeaderBar header = {header}></HeaderBar>
       <div className = 'table'><EnhancedTable data={tableData} /></div>
       </Div>
@@ -73,8 +73,17 @@ export default function Stock(props) {
 }
 
 const Div = styled.div`
+
+/* .root{
+  position: relative;
+    max-height: 200px;
+} */
+
+@media (min-width:64em){
 .table{
-  max-height: 100vh;
+  position: relative;
+  max-height: 65vh;
   overflow-y: scroll;
+}
 }
 `

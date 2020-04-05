@@ -27,6 +27,7 @@ const Div = styled.div`
     background-color: #004064;
     flex-direction: row;
     position: relative;
+    z-index: 0;
 
 }   
 
@@ -36,6 +37,7 @@ const Div = styled.div`
 
 h6{
     padding: 5px;
+    font-size: 1em;
 }
 
     @media (max-width:64em){
