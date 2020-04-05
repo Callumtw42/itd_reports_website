@@ -1,21 +1,18 @@
 import 'date-fns';
 import React, { useEffect, useState } from 'react';
-import BarChart from './bar_chart.js';
-import DateField from './date_field.js';
-import * as f from './functions.js';
-import { fetchData, Report, todaysDate } from './report.js';
+import BarChart from '../bar_chart.js';
+import DateField from '../date_field.js';
+import * as f from '../functions.js';
+import { fetchData, Report} from './report.js';
+import {todaysDate} from './report_interface.js';
 
-function SalesByHour(props) {
+export default function SalesByHour(props) {
 
   const [date, setDate] = useState(todaysDate());
   const [tableData, setTableData] = useState([]);
   const [chartData, setChartData] = useState({});
   const [totalSales, setTotalSales] = useState(0);
   const [header, setHeader] = useState({ row1: "Sales By Hour", row2: todaysDate() });
-
-  const getData = (date) => {
-    fetchData(`/api/hourlySalesData/${props.db}/${date}`, setTotalSales, formatChartData, formatTableData);
-  };
 
   useEffect(() => {
     getData(date);
@@ -26,18 +23,20 @@ function SalesByHour(props) {
     if (props.display === 'inline') props.callBack(header);
   }, [props.display]);
 
-
-  function dateChange(event) {
-    let caller = event.target;
-    let newDate = caller.value;
-    if (caller.id === 'startDate') {
-      setHeader({ row1: "Sales By Hour", row2: newDate })
-      setDate(newDate);
-    }
+  const getData = (date) => {
+    fetchData(`/api/hourlySalesData/${props.db}/${date}`, allocateData);
   };
 
-  function formatTableData(data) {
+  function allocateData(data) {
+    console.log(data);
+    formatChartData(data);
+    formatTableData(data);
+    setTotalSales(
+      f.sum(f.getColumn(data, 'Sales')) - f.sum(f.getColumn(data, 'Refund')),
+    );
+  }
 
+  function formatTableData(data) {
     setTableData(f.removeColumns(data, 'Cat', 'TillDate', 'TillHour'));
   }
 
@@ -81,11 +80,21 @@ function SalesByHour(props) {
     }
   }
 
-  function bar() {
+  function dateChange(event) {
+    let caller = event.target;
+    let newDate = caller.value;
+    if (caller.id === 'startDate') {
+      setHeader({ row1: "Sales By Hour", row2: newDate })
+      setDate(newDate);
+    }
+  };
+
+
+  function Bar() {
     return <BarChart className='chart' chartData={chartData} totalSales={totalSales} ></BarChart>
   }
 
-  function dates() {
+  function Dates() {
     return (
       <div className='date'>
         <DateField
@@ -98,20 +107,19 @@ function SalesByHour(props) {
     )
   }
 
+  function Total() {
+
+    return <div className='totalSales'><h1>Total: £{totalSales.toFixed(2)}</h1></div>;
+
+  }
+
   return (
     <Report
       header={header}
-      dateChange={dateChange}
-      chartData={chartData}
-      totalSales={totalSales}
       tableData={tableData}
-      chart={bar()}
-      date={dates()}
-    >
-
-    </Report>
+      content = {<><Total/><Bar/><Dates/></>}
+    />
   )
 
 }
 
-export default SalesByHour;

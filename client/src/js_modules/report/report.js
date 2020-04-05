@@ -1,48 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
-import * as f from './functions.js';
-import EnhancedTable from './table.js';
-import HeaderBar from './header_bar.js'
+import * as f from '../functions.js';
+import EnhancedTable from '../table.js';
+import HeaderBar from '../header_bar.js'
 
-
-export function todaysDate() {
-  var today = new Date();
-  var date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate())).slice(-2);
-  return date;
-}
-
-export const fetchData = (url, ...allocations) => {
+export const fetchData = (url, allocateData) => {
   fetch(url)
     .then(res => res.json())
-    .then(data => allocateData(data, ...allocations))
+    .then(data => allocateData(data))
     .catch((error) => {
     })
 }
 
-function allocateData(data, setTotalSales, formatChartData, formatTableData) {
-  console.log(data);
-  formatChartData(data);
-  formatTableData(data);
-  // allocations.map(e=>{return e(data)});
-  setTotalSales(
-    f.sum(f.getColumn(data, 'Sales')) - f.sum(f.getColumn(data, 'Refund')),
-  );
-}
-
 export function Report(props) {
+
+  function Content(){
+    return (f.exists(props.content)) ? props.content : <div></div>
+  }
 
   return (
     <Div>
       <HeaderBar header={props.header}></HeaderBar>
       <div className='report'>
-        <div className='totalSales'><h1>Total: £{props.totalSales.toFixed(2)}</h1></div>
-        {props.chart}
-        {props.date}
+        <Content />
         <EnhancedTable data={props.tableData} />
       </div>
     </Div>
   );
-
 }
 
 const Div = styled.div`

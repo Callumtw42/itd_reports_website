@@ -1,9 +1,10 @@
 import 'date-fns';
 import React, { useEffect, useState } from 'react';
-import DateField from './date_field.js';
-import * as f from './functions.js';
-import PieChart from './pie_chart.js';
-import { fetchData, Report, todaysDate } from './report.js';
+import DateField from '../date_field.js';
+import * as f from '../functions.js';
+import PieChart from '../pie_chart.js';
+import { fetchData, Report} from './report.js';
+import {todaysDate} from './report_interface.js';
 
 export default function SalesByCategory(props) {
 
@@ -14,23 +15,32 @@ export default function SalesByCategory(props) {
   const [endDate, setEndDate] = useState(todaysDate());
   const [header, setHeader] = useState({ row1: "Sales By Category", row2: todaysDate() + ' - ' + todaysDate() });
 
-  function getData(start, end) {
-    fetchData(`/api/salesData/${props.db}/${start}/${end}`, setTotalSales, formatChartData, formatTableData);
-  }
-
   useEffect(() => {
     getData(startDate, endDate);
     if (props.display === 'inline') props.callBack(header);
-  }, [startDate, endDate]);
-
-  useEffect(() => {
-    getData(startDate, endDate);
-  }, [props.db]);
+  }, [startDate, endDate, props.db]);
 
   useEffect(() => {
     if (props.display === 'inline') props.callBack(header);
   }, [props.display]);
-//
+
+  function getData(start, end) {
+    fetchData(`/api/salesData/${props.db}/${start}/${end}`, allocateData);
+  }
+
+  function allocateData(data) {
+    console.log(data);
+    formatChartData(data);
+    formatTableData(data);
+    setTotalSales(
+      f.sum(f.getColumn(data, 'Sales')) - f.sum(f.getColumn(data, 'Refund')),
+    );
+  }
+
+  function formatTableData(data) {
+    setTableData(f.removeColumns(data, 'Cat'))
+  }
+
   function formatChartData(salesData) {
     let _data = (salesData.length > 0) ? salesData.map(saleCat => saleCat.Sales) : [0];
     setChartData({
@@ -47,10 +57,6 @@ export default function SalesByCategory(props) {
     });
   }
 
-  function formatTableData(data) {
-    setTableData(f.removeColumns(data, 'Cat'))
-  }
-
   function dateChange(event) {
     let caller = event.target;
     let newDate = caller.value;
@@ -64,11 +70,11 @@ export default function SalesByCategory(props) {
     }
   };
 
-  function pie() {
+  function Pie() {
     return <PieChart className='chart' chartData={chartData} totalSales={totalSales} ></PieChart>
   }
 
-  function dates() {
+  function Dates() {
     return (
       <div className='date'>
         <DateField
@@ -87,19 +93,18 @@ export default function SalesByCategory(props) {
     )
   }
 
+  function Total() {
+
+    return <div className='totalSales'><h1>Total: £{totalSales.toFixed(2)}</h1></div>;
+
+  }
+
   return (
+
     <Report
       header={header}
-      startDate={startDate}
-      dateChange={dateChange}
-      endDate={endDate}
-      chartData={chartData}
-      totalSales={totalSales}
       tableData={tableData}
-      chart={pie()}
-      date={dates()}
-    >
-
-    </Report>
+      content={<><Total/><Pie /><Dates /></>}
+    />
   )
 }

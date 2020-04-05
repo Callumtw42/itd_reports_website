@@ -115,6 +115,10 @@ export function notEmpty(data) {
     return (data && data.length)
 }
 
+export function exists(data){
+    return (data) ? true : false;
+}
+
 export function getColumn(data, col) {
     return (notEmpty(data)) ? data.map(e => { return getValue(e, col) }) : []
 }
