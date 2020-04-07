@@ -37,7 +37,7 @@ export default function SalesByHour(props) {
   function allocateData(data) {
     console.log(data);
     setResultData(data);
-    formatChartData(data, x => { return x.Sales - x.Refund -x.Cost });
+    formatChartData(data, x => { return x.Sales});
     formatTableData(data);
     setTotalSales(
       f.sum(f.getColumn(data, 'Sales'))
@@ -159,13 +159,23 @@ const Div = styled.div`
 
 .totalSales > h1{
   font-size: 32px;
-  margin: auto 5%;
+  margin: auto 0;
+  margin-right: 5%;
 }
 
 .totalSales {
   margin: 7em 0 0 0;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+.date {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 auto;
+
 }
 
 @media (min-width:64em){

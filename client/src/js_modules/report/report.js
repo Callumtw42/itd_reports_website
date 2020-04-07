@@ -78,13 +78,6 @@ const Div = styled.div`
 
 } */
 
-.date {
-  display: flex;
-  flex-direction: row;
-  margin: 0 auto;
-
-}
-
 .MuiInputBase-root{
   font-size: 3em;
 }

@@ -1,4 +1,7 @@
 TODO:
+
+NEXT: Complete groupBy Buttom
+
 1. Add an Icon prop + callback to reports to automatically assign icons to the sidebar
 2. Go through reports section and add all reports that can't be added as features of sales by hour / category
 3. Convert sales by hour to hourly/weekly/monthly breakdowns include functionality of appropriate reports in retailsoft

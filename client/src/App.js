@@ -5,6 +5,7 @@ import './App.scss';
 import NavBar from './js_modules/navbar.js';
 import SalesByCategory from './js_modules/report/sales_by_category.js';
 import SalesByHour from './js_modules/report/sales_by_hour.js';
+import SalesByProduct from './js_modules/report/sales_by_product.js';
 import SideBar from './js_modules/sidebar.js';
 import SimpleReport from './js_modules/report/simple_report.js';
 
@@ -70,6 +71,14 @@ function App() {
 
           <div className='paper' id='salesByHour'>
             <SalesByHour
+              db={db}
+              callBack={setHeader}
+              display={display.salesByHour}
+            />
+          </div>
+
+          <div className='paper' id='salesByProduct'>
+            <SalesByProduct
               db={db}
               callBack={setHeader}
               display={display.salesByHour}

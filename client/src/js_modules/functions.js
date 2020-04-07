@@ -111,7 +111,7 @@ export function notEmpty(data) {
     return (data && data.length)
 }
 
-export function exists(data){
+export function exists(data) {
     return (data) ? true : false;
 }
 
@@ -124,7 +124,7 @@ export function removeColumns(refData, ...col) {
     return (notEmpty(data)) ? data.map(e => { col.map(c => { return delete e[c] }); return e }) : [];
 }
 
-export function sum(arr){
+export function sum(arr) {
     return (notEmpty(arr)) ? arr.reduce(add) : 0;
 }
 
@@ -132,18 +132,31 @@ export function getValue(e, key) {
     return e[key];
 }
 
-export function dbg(x){
+export function dbg(x) {
     console.log(x);
 }
 
-export function convertDate(date){
+export function convertDate(date) {
     return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + (date.getDate())).slice(-2);
 }
 
-export function sizeOf(e){
+export function sizeOf(e) {
     return Object.keys(e).length;
 }
 
-export function viewport(small, large){
-        return (window.innerWidth > 1024) ? small: large;
+export function viewport(small, large) {
+    return (window.innerWidth > 1024) ? small : large;
 }
+
+export function sumAndGroup(refData, groupBy) {
+    const data = JSON.parse(JSON.stringify(refData));
+    let groups = getUniqueValues(data, groupBy);
+    let split = groups.map(e => { return getElementsWithValue(data, groupBy, e) });
+    const sumObjectsByKey = (obj1, obj2) => {
+        Object.keys(obj1).forEach(k => { obj1[k] = (typeof obj1[k] === 'number' && k !== groupBy) ? obj1[k] + obj2[k] : obj1[k] });
+        return obj1;
+    }
+    let grouped = split.map(a => { return a.reduce(sumObjectsByKey) });
+    return grouped;
+}
+

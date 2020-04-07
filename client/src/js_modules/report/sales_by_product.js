@@ -7,20 +7,22 @@ import { fetchData, Report } from './report.js';
 import { todaysDate } from './report_interface.js';
 import styled from 'styled-components';
 import RadioButtons from '../radio_buttons.js';
+import DropDown from '../drop_down.js';
 
 export default function SalesByCategory(props) {
 
-  const [resultData, setResultData] = useState([]);
+  const [data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [chartData, setChartData] = useState({});
-  const [totalSales, setTotalSales] = useState(0);
+  const [sales, setSales] = useState(0);
   const [profit, setProfit] = useState(0);
   const [total, setTotal] = useState(0);
   const [startDate, setStartDate] = useState(todaysDate());
   const [endDate, setEndDate] = useState(todaysDate());
-  const [header, setHeader] = useState({ row1: "Sales By Category", row2: todaysDate() + ' - ' + todaysDate() });
+  const [header, setHeader] = useState({ row1: "Sales By Product", row2: todaysDate() + ' - ' + todaysDate() });
   const [dataChoice, setDataChoice] = useState('Sales');
   const [quantity, setQuantity] = useState(0);
+  const [groupBy, setGroupBy] = useState('Cat');
 
   useEffect(() => {
     getData(startDate, endDate);
@@ -32,42 +34,40 @@ export default function SalesByCategory(props) {
   }, [props.display]);
 
   function getData(start, end) {
-    fetchData(`/api/salesData/${props.db}/${start}/${end}`, allocateData);
+    fetchData(`/api/salesByProduct/${props.db}/${start}/${end}`, allocateData);
   }
 
-  function allocateData(data) {
-    console.log(data);
-    setResultData(data);
-    formatChartData(data, x => { return f.getValue(x, 'Sales').toFixed(2) });
-    formatTableData(data);
-    setTotalSales(
-      f.sum(f.getColumn(data, 'Sales'))
+  function allocateData(response) {
+    console.log(response);
+    setData(response);
+    formatChartData(f.sumAndGroup(response, groupBy), x => { return x.Sales.toFixed(2) });
+    formatTableData(f.sumAndGroup(response, groupBy));
+    setSales(
+      f.sum(f.getColumn(response, 'Sales'))
     );
     setTotal(
-      f.sum(f.getColumn(data, 'Sales'))
+      f.sum(f.getColumn(response, 'Sales'))
     );
-    setProfit(f.sum(f.getColumn(data, 'Sales')) 
-    - f.sum(f.getColumn(data, 'Refund')) 
-    - f.sum(f.getColumn(data, 'Cost')));
-    setQuantity(f.sum(f.getColumn(data, 'Qty')));
+    setProfit(f.sum(f.getColumn(response, 'Sales'))
+      - f.sum(f.getColumn(response, 'Refund'))
+      - f.sum(f.getColumn(response, 'Cost')));
+    setQuantity(f.sum(f.getColumn(response, 'Qty')));
   }
 
-
-
-  function formatTableData(data) {
-    setTableData(f.removeColumns(data, 'Cat'))
+  function formatTableData(_data) {
+    setTableData(_data);
   }
 
-  function formatChartData(salesData, setX) {
-    let _data = (salesData.length > 0) ? salesData.map(saleCat => setX(saleCat)) : [0];
+  function formatChartData(_data, setX) {
+    let axisData = (_data.length > 0) ? _data.map(e => setX(e)) : [0];
     setChartData({
 
-      labels: salesData.map(saleCat => saleCat.Category),
+      labels: _data.map(e => e.Category),
       datasets: [
         {
           label: 'Net Sales £',
-          data: _data,
-          backgroundColor: f.colors(f.getUniqueValues(salesData, 'Cat'))
+          data: axisData,
+          backgroundColor: f.colors(f.getUniqueValues(_data, groupBy))
         }
       ]
 
@@ -87,8 +87,25 @@ export default function SalesByCategory(props) {
     }
   };
 
+  const handleDataChoice = (event) => {
+    let choice = event.target.value
+
+    switch (choice) {
+      case 'Sales': formatChartData(f.sumAndGroup(data, groupBy), x => { return x.Sales.toFixed(2) }); setTotal(sales);
+        break;
+      case 'Profit': formatChartData(f.sumAndGroup(data, groupBy), x => { return (x.Sales - x.Cost - x.Refund).toFixed(2) }); setTotal(profit);
+        break;
+      case 'Quantity': formatChartData(f.sumAndGroup(data, groupBy), x => { return (x.Qty) }); setTotal(quantity);
+        break;
+      default:
+        break;
+    }
+
+    setDataChoice(choice);
+  }
+
   function Pie() {
-    return <PieChart className='chart' chartData={chartData} totalSales={totalSales} ></PieChart>
+    return <PieChart className='chart' chartData={chartData} totalSales={sales} ></PieChart>
   }
 
   function Dates() {
@@ -112,25 +129,8 @@ export default function SalesByCategory(props) {
 
   function Total() {
 
-    return <div className='totalSales'><RadioButtons handleChange={handleDataChoice} value={dataChoice} /><h1>Total: {(total === quantity) ? total : '£' + total.toFixed(2)}</h1></div>;
+    return <div className='sales'><DropDown/><RadioButtons handleChange={handleDataChoice} value={dataChoice} /><h1>Total: {(total === quantity) ? total : '£' + total.toFixed(2)}</h1></div>;
 
-  }
-
-  const handleDataChoice = (event) => {
-    let choice = event.target.value
-
-    switch (choice) {
-      case 'Sales': formatChartData(resultData, x => { return x.Sales.toFixed(2) }); setTotal(totalSales);
-        break;
-      case 'Profit': formatChartData(resultData, x => { return (x.Sales - x.Cost - x.Refund).toFixed(2) }); setTotal(profit);
-        break;
-      case 'Quantity': formatChartData(resultData, x => { return (x.Qty) }); setTotal(quantity);
-        break;
-      default:
-        break;
-    }
-
-    setDataChoice(choice);
   }
 
   return (
@@ -147,13 +147,13 @@ export default function SalesByCategory(props) {
 
 const Div = styled.div`
 
-.totalSales > h1{
+.sales > h1{
   font-size: 32px;
   margin: auto 0;
   margin-right: 5%;
 }
 
-.totalSales {
+.sales {
   margin: 7em 0 0 0;
   display: flex;
   flex-direction: row;
@@ -170,11 +170,11 @@ const Div = styled.div`
 
 @media (min-width:64em){
 
-  .totalSales > h1{
+  .sales > h1{
     font-size: 1em;
   }
 
-  .totalSales {
+  .sales {
     margin: 1em 0 0 0;
   }
 }
