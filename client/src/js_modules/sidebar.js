@@ -90,19 +90,25 @@ export default function SideBar(props) {
 
     function handlePageChange(e) {
 
-        props.setDisplaySalesByCategory('none');
-        props.setDisplaySalesByHour('none');
-        props.setDisplayStock('none');
+        let display = {
+            salesByCategory: 'none',
+            salesByHour: 'none',
+            stock: 'none',
+            noSales: 'none'
+        }
 
         switch (e.target.textContent) {
-            case 'Sales By Hour': props.setDisplaySalesByHour('inline');
+            case 'Sales By Hour': display.salesByHour = 'inline';
                 break;
-            case 'Sales By Category': props.setDisplaySalesByCategory('inline');
+            case 'Sales By Category': display.salesByCategory = 'inline';
                 break;
-            case 'Stock': props.setDisplayStock('inline');
+            case 'Stock': display.stock = 'inline';
                 break;
             default:
         }
+
+        props.setDisplay(display);
+
         handleDrawerClose();
     }
 

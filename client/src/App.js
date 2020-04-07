@@ -5,49 +5,23 @@ import './App.scss';
 import NavBar from './js_modules/navbar.js';
 import SalesByCategory from './js_modules/report/sales_by_category.js';
 import SalesByHour from './js_modules/report/sales_by_hour.js';
-import Stock from './js_modules/stock.js';
 import SideBar from './js_modules/sidebar.js';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import * as f from './js_modules/functions.js';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
-// const useStyles = makeStyles((theme) => ({
-//   paper: {
-//     // width: '100%',
-//     // marginBottom: theme.spacing(2),
-//     // overflow: 'scroll'
-//     margin: '5px'
-//   },//
-// }));
+import SimpleReport from './js_modules/report/simple_report.js';
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });
   const [sideBar, setSideBar] = useState(false);
-  const [displaySalesByCategory, setDisplaySalesByCategory] = useState('none');
-  const [displaySalesByHour, setDisplaySalesByHour] = useState('inline');
-  const [displayStock, setDisplayStock] = useState('none');
+  const [display, setDisplay] = useState({
+    salesByCategory: 'none',
+    salesByHour: 'inline',
+    stock: 'none',
+    noSales: 'none'
+  });
   const [db, setDb] = useState('itdepos');
-
-  // useEffect(() =>{
-  //   f.dbg("XXX");
-  // }, [db]);
-
-  // const classes = useStyles();
-  // const [currentPage, setCurrentPage] = useState('SalesByCategory');
-
-  // useEffect(() => {
-
-  // }, [header]);
-
 
   return (
     <Div
-      displaySalesByHour={displaySalesByHour}
-      displayStock={displayStock}
-      displaySalesByCategory={displaySalesByCategory}
-
+      display = {display}
     >
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <div className="App" >
@@ -60,40 +34,47 @@ function App() {
         <SideBar
           display={sideBar}
           setSideBar={setSideBar}
-          setDisplaySalesByCategory={setDisplaySalesByCategory}
-          setDisplaySalesByHour={setDisplaySalesByHour}
-          setDisplayStock={setDisplayStock}
+          setDisplay = {setDisplay}
         >
         </SideBar>
         <div className="content">
-          {/* <section className='boxes'> */}
 
-
-          <Paper className='paper' id='stock'>
-            <Stock
+          <div className='paper' id='stock'>
+            <SimpleReport
+              header={'Stock'}
+              url={`/api/stock/${db}`}
               db={db}
               callBack={setHeader}
-              display={displayStock}
+              display={display.stock}
             />
-          </Paper>
+          </div>
 
-          <Paper className='paper' id='salesByCategory'>
+          {/* <div className='paper' id='noSales'>
+            <SimpleReport
+              header={'No Sales'}
+              url={`/api/noSales/${db}`}
+              db={db}
+              callBack={setHeader}
+              display={display.stock}
+            />
+          </div> */}
+
+          <div className='paper' id='salesByCategory'>
             <SalesByCategory
               db={db}
               callBack={setHeader}
-              display={displaySalesByCategory}
+              display={display.salesByCategory}
             />
 
-          </Paper>
+          </div>
 
-          <Paper className='paper' id='salesByHour'>
+          <div className='paper' id='salesByHour'>
             <SalesByHour
               db={db}
               callBack={setHeader}
-              display={displaySalesByHour}
+              display={display.salesByHour}
             />
-          </Paper>
-          {/* </section> */}
+          </div>
         </div>
       </div>
     </Div>
@@ -104,25 +85,21 @@ function App() {
 const Div = styled.div`
 
 #stock{
-  display: ${props => props.displayStock}
+  display: ${props => props.display.stock}
 }
 
 #salesByHour{
-  display: ${props => props.displaySalesByHour}
+  display: ${props => props.display.salesByHour}
 }
 
 #salesByCategory{
-  display: ${props => props.displaySalesByCategory}
+  display: ${props => props.display.salesByCategory}
 }
 
 body{
   margin:0;
   padding:0;
 
-}
-
-.paper{
-margin: 5px;
 }
 
 .App {
@@ -140,20 +117,16 @@ margin: 5px;
   grid-area: Navbar;
 }
 
-/* .boxes{
-  display: grid;
-  grid-template-columns:1fr;
-  padding: 10px;
-  grid-area: content;
-} */
-
-  /* @media only screen and (min-device-width: 1000px){ */
 @media (min-width:64em){
   #stock{
     display: block;
     grid-area: stock;
 
   }
+
+  .paper{
+    overflow-y: hidden;
+}
 
   #salesByHour{
     display: block;
@@ -165,19 +138,14 @@ margin: 5px;
     grid-area: cat;
   }
 
-  .paper{
-    overflow-y: hidden;
-}
-
   .content{
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns:1fr 1fr 1fr;
+    grid-template-columns:1fr 1fr;
     grid-template-areas: 
-  "stock hour cat"
-  ". . ."
+  "cat hour"
+  "stock . "
   ;
-  /* max-height: 70vh; */
 
   }
 } 

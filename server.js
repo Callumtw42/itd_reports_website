@@ -66,7 +66,7 @@ app.get('/api/stock/:db', (req, res) => {
 });
 
 app.get('/api/databases', (req, res) => {
-    // use(req.params.db);
+
     let sql = `SHOW DATABASES;`;
     let query = db.query(sql, (err, results) =>{
     if(err) throw err;
@@ -75,6 +75,19 @@ app.get('/api/databases', (req, res) => {
     res.json(results);
     });
 });
+
+app.get('/api/noSales/:db', (req, res) => {
+    use(req.params.db);
+    let sql = `SELECT ti.*,p.ProductName,ri.ReturnID,ri.RefundDate,ri.Amount FROM TillItem ti INNER JOIN Till t ON ti.TillId = t.TillID LEFT JOIN Product p ON ti.ProdID = p.ProductID LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID Where t.TillDate >= '2020-04-05' AND t.TillDate <= '2020-04-05' AND t.Reason = 'Sale';`;
+    let query = db.query(sql, (err, results) =>{
+    if(err) throw err;
+    // res.send('sales fetched');
+    
+    res.json(results);
+    });
+});
+
+
 
 function use(dbSel){
     let sql = `USE ${dbSel};`;

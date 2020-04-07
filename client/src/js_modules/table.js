@@ -336,15 +336,5 @@ const Div = styled.div`
       margin: 0;
   }
 
-  /* .MuiTable-root{
-    position: relative;
-    max-height: 500px;
-  }
-
-  .sc-AxirZ{
-    position: relative;
-    max-height: 500px;
-  } */
-
 }
 `

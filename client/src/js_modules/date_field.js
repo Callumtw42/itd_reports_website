@@ -13,10 +13,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Div = styled.div`
-/* .MuiFormControl-root{
-    position: relative;
-
-} */
 
 .MuiFormControl-root{
     padding: 0 10px;

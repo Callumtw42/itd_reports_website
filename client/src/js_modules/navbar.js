@@ -15,23 +15,12 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
-import * as f from './functions.js';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // flexGrow: 1,
-    // minHeight: 100
-  },
   toolBar: {
     minHeight: 150,
     backgroundColor: '#004064'
   },
-  // menuButton: {
-  //   marginRight: theme.spacing(2),
-  // },
-  // menuIcon: {
-  //   fontSize: 100
-  // },
   title: {
     flexGrow: 1,
     fontSize: 48

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import * as f from '../functions.js';
 import EnhancedTable from '../table.js';
-import HeaderBar from '../header_bar.js'
+import HeaderBar from '../header_bar.js';
+import Paper from '@material-ui/core/Paper';
 
 export const fetchData = (url, allocateData) => {
   fetch(url)
@@ -14,18 +15,28 @@ export const fetchData = (url, allocateData) => {
 
 export function Report(props) {
 
-  function Content(){
+  const [tableData, setTableData] = useState([0]);
+
+  useEffect(() => {
+    setTableData(props.tableData)
+  },[props.tableData]);
+
+  function Content() {
     return (f.exists(props.content)) ? props.content : <div></div>
   }
 
   return (
+
     <Div>
-      <HeaderBar header={props.header}></HeaderBar>
-      <div className='report'>
-        <Content />
-        <EnhancedTable data={props.tableData} />
-      </div>
+      <Paper className='paper'>
+        <HeaderBar header={props.header}></HeaderBar>
+        <div className='report'>
+          <Content />
+          <EnhancedTable data={tableData} />
+        </div>
+      </Paper>
     </Div>
+
   );
 }
 
@@ -56,7 +67,7 @@ const Div = styled.div`
 }
 
 
-.totalSales > h1{
+/* .totalSales > h1{
   font-size: 32px;
   margin: 0;
 }
@@ -65,7 +76,7 @@ const Div = styled.div`
 .totalSales {
   margin: 7em 0 0 0;
 
-}
+} */
 
 .date {
   display: flex;
@@ -82,27 +93,31 @@ const Div = styled.div`
   font-size: 3em;
 }
 
+.paper{
+margin: 5px;
+}
+
 @media (min-width:64em){
 
-.totalSales > h1{
-  font-size: 1em;
-}
+  /* .totalSales > h1{
+    font-size: 1em;
+  }
 
-.totalSales {
-  margin: 1em 0 0 0;
-}
+  .totalSales {
+    margin: 1em 0 0 0;
+  } */
 
-.MuiInputBase-root{
-  font-size: 1em;
-}
+  .MuiInputBase-root{
+    font-size: 1em;
+  }
 
-.MuiFormLabel-root{
-  font-size: 1em;
-}
+  .MuiFormLabel-root{
+    font-size: 1em;
+  }
 
-.report {
-  max-height: 65vh;
-}
+  .report {
+    max-height: 65vh;
+  }
 
 }
 

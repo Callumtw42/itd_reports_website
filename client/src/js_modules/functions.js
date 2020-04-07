@@ -10,13 +10,9 @@ export function getElementsWithValue(objArr, key, value) {
         getValue(e, key) === value)
 }
 
-// export function allocateData(data) {
-// }
-
 export function getData(url) {
     fetch(url)
         .then(res => res.json())
-        // .then(data => allocateData(data))
         .catch((error) => {
         })
 }
@@ -123,8 +119,9 @@ export function getColumn(data, col) {
     return (notEmpty(data)) ? data.map(e => { return getValue(e, col) }) : []
 }
 
-export function removeColumns(data, ...col) {
-    return (notEmpty(data)) ? data.map(e => { col.map(c => { return delete e[c] }); return e }) : []
+export function removeColumns(refData, ...col) {
+    const data = JSON.parse(JSON.stringify(refData));
+    return (notEmpty(data)) ? data.map(e => { col.map(c => { return delete e[c] }); return e }) : [];
 }
 
 export function sum(arr){

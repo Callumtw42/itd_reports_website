@@ -18,12 +18,10 @@ function labelSize() {
 export default function BarChart(props) {
 
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-  // const [chart, setChart] = useState(chart());
 
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
-      console.log(windowDimensions);
     }
 
     window.addEventListener('resize', handleResize);
@@ -106,9 +104,9 @@ export default function BarChart(props) {
                           var sales = item.data[tooltipItem.index];
                           var percent = item.data[tooltipItem.index] / props.totalSales * 100;
                           percent = percent.toFixed(2); // make a nice string
-                          sales = sales.toFixed(2);
+                          // sales = sales.toFixed(2);
                           if (item.data[tooltipItem.index] > 0)
-                            return '£ ' + sales + ' (' + percent + '%)';
+                          return (!Number.isInteger(sales)) ? '£ ' + sales.toFixed(2) + ' (' + percent + '%)' : sales + ' (' + percent + '%)';
                           else return '';
                         }
                       },

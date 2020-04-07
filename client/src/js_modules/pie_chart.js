@@ -5,13 +5,6 @@ import * as f from './functions.js';
 
 export default function PieChart(props) {
 
-  // const [legend, setLegend] = useState(<div>TEST</div>)
-  // useEffect(() => {
-  //   if (!Object.is(createLegend().toString(), legend.toString())) {
-  //     setLegend(<div>XXX</div>);
-  //   }
-  // });
-
   function createLegend() {
     if (f.notEmpty(props.chartData.datasets)) {
       let chartData = props.chartData;
@@ -45,10 +38,6 @@ export default function PieChart(props) {
               options={
                 {
                   layout: {
-                    padding: {
-                      // left: -150,
-                      // right: -300
-                    }
                   },
                   labels: { display: false },
                   legend: {
@@ -74,7 +63,7 @@ export default function PieChart(props) {
                         var sales = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
                         var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / props.totalSales * 100;
                         percent = percent.toFixed(2); // make a nice string
-                        return '£ ' + sales + ' (' + percent + '%)';
+                        return (!Number.isInteger(sales)) ? '£ ' + sales + ' (' + percent + '%)' : sales + ' (' + percent + '%)';
                       }
                     },
                     fontSize: 24
