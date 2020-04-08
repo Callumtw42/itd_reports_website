@@ -9,7 +9,9 @@ import styled from 'styled-components';
 import RadioButtons from '../radio_buttons.js';
 import DropDown from '../drop_down.js';
 
-export default function SalesByCategory(props) {
+import SalesReport from './sales_report.js';
+
+export default function VariableTimeReport(props) {
 
   const [data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -19,7 +21,7 @@ export default function SalesByCategory(props) {
   const [total, setTotal] = useState(0);
   const [startDate, setStartDate] = useState(todaysDate());
   const [endDate, setEndDate] = useState(todaysDate());
-  const [header, setHeader] = useState({ row1: "Sales By Product", row2: todaysDate() + ' - ' + todaysDate() });
+  const [header, setHeader] = useState({ row1: "Sales Breakdown", row2: todaysDate() + ' - ' + todaysDate() });
   const [dataChoice, setDataChoice] = useState('Sales');
   const [quantity, setQuantity] = useState(0);
   const [groupBy, setGroupBy] = useState('Cat');
@@ -62,11 +64,15 @@ export default function SalesByCategory(props) {
     setTableData(_data);
   }
 
+  function idToName(e){
+    return (groupBy === 'Id') ? e['Product'] : e['Category'];
+  }
+
   function formatChartData(_data, setX) {
     let axisData = (_data.length > 0) ? _data.map(e => setX(e)) : [0];
     setChartData({
 
-      labels: _data.map(e => e[groupBy]),
+      labels: _data.map(e => idToName(e)),
       datasets: [
         {
           label: 'Net Sales £',
@@ -104,7 +110,7 @@ export default function SalesByCategory(props) {
     switch (dataChoice) {
       case 'Sales': formatChartData(f.sumAndGroup(data, groupBy), x => { return x.Sales.toFixed(2) }); setTotal(sales);
         break;
-      case 'Profit': formatChartData(f.sumAndGroup(data, groupBy), x => { return (x.Sales - x.Cost - x.Refund).toFixed(2) }); setTotal(profit);
+      case 'Profit': formatChartData(f.sumAndGroup(data, groupBy), x => { return (x.Sales - x.Cost || 0 - x.Refund || 0).toFixed(2) }); setTotal(profit);
         break;
       case 'Quantity': formatChartData(f.sumAndGroup(data, groupBy), x => { return (x.Qty) }); setTotal(quantity);
         break;
@@ -149,7 +155,7 @@ export default function SalesByCategory(props) {
 
   return (
     <>
-      <Report
+      <SalesReport
         header={header}
         tableData={tableData}
         content={<Div><Total /><Pie /><Dates /></Div>}
