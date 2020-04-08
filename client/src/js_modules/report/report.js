@@ -64,19 +64,8 @@ const Div = styled.div`
   text-align: center;
   box-shadow: var(--shadow);
   overflow-y: scroll;
+  z-index: -1;
 }
-
-
-/* .totalSales > h1{
-  font-size: 32px;
-  margin: 0;
-}
-
-
-.totalSales {
-  margin: 7em 0 0 0;
-
-} */
 
 .MuiInputBase-root{
   font-size: 3em;

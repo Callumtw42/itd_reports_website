@@ -93,7 +93,7 @@ function Menu(props) {
   return (
     <div className='menu'>
 
-      <div className = 'textButton'>
+      <div className='textButton'>
         <Button
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
@@ -103,7 +103,7 @@ function Menu(props) {
           Branch Selector
         </Button>
       </div>
-      <div className = 'iconButton'>
+      <div className='iconButton'>
         <IconButton
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}

@@ -50,18 +50,8 @@ function App() {
             />
           </div>
 
-          {/* <div className='paper' id='noSales'>
-            <SimpleReport
-              header={'No Sales'}
-              url={`/api/noSales/${db}`}
-              db={db}
-              callBack={setHeader}
-              display={display.stock}
-            />
-          </div> */}
-
           <div className='paper' id='salesByCategory'>
-            <SalesByCategory
+            <SalesByProduct
               db={db}
               callBack={setHeader}
               display={display.salesByCategory}
@@ -77,13 +67,13 @@ function App() {
             />
           </div>
 
-          <div className='paper' id='salesByProduct'>
-            <SalesByProduct
+          {/* <div className='paper' id='salesByProduct'>
+            <SalesByCategory
               db={db}
               callBack={setHeader}
               display={display.salesByHour}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </Div>

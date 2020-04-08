@@ -33,6 +33,10 @@ export default function SalesByCategory(props) {
     if (props.display === 'inline') props.callBack(header);
   }, [props.display]);
 
+  useEffect(() =>{
+    switchData();
+  },[groupBy, dataChoice]);
+
   function getData(start, end) {
     fetchData(`/api/salesByProduct/${props.db}/${start}/${end}`, allocateData);
   }
@@ -62,7 +66,7 @@ export default function SalesByCategory(props) {
     let axisData = (_data.length > 0) ? _data.map(e => setX(e)) : [0];
     setChartData({
 
-      labels: _data.map(e => e.Category),
+      labels: _data.map(e => e[groupBy]),
       datasets: [
         {
           label: 'Net Sales £',
@@ -87,10 +91,17 @@ export default function SalesByCategory(props) {
     }
   };
 
-  const handleDataChoice = (event) => {
+  const handleDataChoiceSwitch = (event) => {
     let choice = event.target.value
+    setDataChoice(choice);
+  }
 
-    switch (choice) {
+  const handleGroupBySwitch = (value) =>{
+    setGroupBy(value);
+  }
+
+  function switchData(){
+    switch (dataChoice) {
       case 'Sales': formatChartData(f.sumAndGroup(data, groupBy), x => { return x.Sales.toFixed(2) }); setTotal(sales);
         break;
       case 'Profit': formatChartData(f.sumAndGroup(data, groupBy), x => { return (x.Sales - x.Cost - x.Refund).toFixed(2) }); setTotal(profit);
@@ -100,8 +111,6 @@ export default function SalesByCategory(props) {
       default:
         break;
     }
-
-    setDataChoice(choice);
   }
 
   function Pie() {
@@ -129,7 +138,12 @@ export default function SalesByCategory(props) {
 
   function Total() {
 
-    return <div className='sales'><DropDown/><RadioButtons handleChange={handleDataChoice} value={dataChoice} /><h1>Total: {(total === quantity) ? total : '£' + total.toFixed(2)}</h1></div>;
+    return (
+      <div className='sales'>
+        <DropDown callback={handleGroupBySwitch} list={['Cat', 'Id']} title = {'Group By'} />
+        <RadioButtons handleChange={handleDataChoiceSwitch} value={dataChoice} />
+        <h1>Total: {(total === quantity) ? total : '£' + total.toFixed(2)}</h1>
+      </div>);
 
   }
 
