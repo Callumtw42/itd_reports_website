@@ -4,9 +4,12 @@ import 'typeface-roboto';
 import './App.scss';
 import NavBar from './js_modules/navbar.js';
 import FixedTimeReport from './js_modules/report/fixed_time_report.js';
-import VariableTimeReport from './js_modules/report/variable_time_report.js';
+// import VariableTimeReport from './js_modules/report/variable_time_report.js';
 import SideBar from './js_modules/sidebar.js';
 import SimpleReport from './js_modules/report/simple_report.js';
+import Report from'./js_modules/report/report.js';
+import SalesReport from'./js_modules/report/sales_report.js';
+import VariableTimeReport from'./js_modules/report/variable_time_report.js';
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });
@@ -21,7 +24,7 @@ function App() {
 
   return (
     <Div
-      display = {display}
+      display={display}
     >
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <div className="App" >
@@ -34,12 +37,12 @@ function App() {
         <SideBar
           display={sideBar}
           setSideBar={setSideBar}
-          setDisplay = {setDisplay}
+          setDisplay={setDisplay}
         >
         </SideBar>
         <div className="content">
 
-          <div className='paper' id='stock'>
+          {/* <div className='paper' id='stock'>
             <SimpleReport
               header={'Stock'}
               url={`/api/stock/${db}`}
@@ -47,32 +50,30 @@ function App() {
               callBack={setHeader}
               display={display.stock}
             />
-          </div>
+          </div> */}
 
           <div className='paper' id='salesByCategory'>
-            <VariableTimeReport
-              db={db}
-              callBack={setHeader}
-              display={display.salesByCategory}
-            />
+            <Report
+              render={
+                <SalesReport render={
+                  <VariableTimeReport
+                    db={db}
+                    callBack={setHeader}
+                    display={display.salesByCategory}
+                  />
+                } />
+              } />
 
           </div>
 
-          <div className='paper' id='salesByHour'>
+          {/* <div className='paper' id='salesByHour'>
             <FixedTimeReport
               db={db}
               callBack={setHeader}
               display={display.salesByHour}
             />
-          </div>
-
-          {/* <div className='paper' id='salesByProduct'>
-            <SalesByCategory
-              db={db}
-              callBack={setHeader}
-              display={display.salesByHour}
-            />
           </div> */}
+
         </div>
       </div>
     </Div>
