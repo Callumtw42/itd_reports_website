@@ -9,18 +9,13 @@ import styled from 'styled-components';
 import RadioButtons from '../radio_buttons.js';
 import DropDown from '../drop_down.js';
 
-export default function SalesReport(props) {
+export default function FixedTimeReport(props) {
 
-   function Render (){
-    console.log(props.x);
-        return props.render;
-      }
-      
     return (
-        <Render
-            setHeader={props.setHeader}
-            setTableData={props.setTableData}
-            
+        <Report
+            header={props.header}
+            tableData={props.tableData}
+            content={props.content}
         />
     )
 

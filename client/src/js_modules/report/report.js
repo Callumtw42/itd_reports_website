@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import * as f from '../functions.js';
 import EnhancedTable from '../table.js';
 import HeaderBar from '../header_bar.js';
 import Paper from '@material-ui/core/Paper';
-
 
 export const fetchData = (url, allocateData) => {
   fetch(url)
@@ -14,31 +13,25 @@ export const fetchData = (url, allocateData) => {
     })
 }
 
-export default function Report(props) {
+export function Report(props) {
 
   const [tableData, setTableData] = useState([0]);
-  const [header, setHeader] = useState('');
 
-  // useEffect(() => {
-  //   setTableData(props.tableData)
-  // },[props.tableData]);
+  useEffect(() => {
+    setTableData(props.tableData)
+  },[props.tableData]);
 
-  const Render = () => {
-
-    return props.render;
+  function Content() {
+    return (f.exists(props.content)) ? props.content : <div></div>
   }
 
   return (
 
     <Div>
       <Paper className='paper'>
-        <HeaderBar header={header}></HeaderBar>
+        <HeaderBar header={props.header}></HeaderBar>
         <div className='report'>
-          <Render
-            setTableData={(x) => setTableData(x)}
-            setHeader={(x) => setHeader(x)}
-            x = {'xxx'}
-          />
+          <Content />
           <EnhancedTable data={tableData} />
         </div>
       </Paper>

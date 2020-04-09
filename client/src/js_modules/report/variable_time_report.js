@@ -14,30 +14,30 @@ import SalesReport from './sales_report.js';
 export default function VariableTimeReport(props) {
 
   const [data, setData] = useState([]);
-  // const [tableData, props.setTableData] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const [chartData, setChartData] = useState({});
   const [sales, setSales] = useState(0);
   const [profit, setProfit] = useState(0);
   const [total, setTotal] = useState(0);
   const [startDate, setStartDate] = useState(todaysDate());
   const [endDate, setEndDate] = useState(todaysDate());
-  // const [props.header, props.setHeader] = useState({ row1: "Sales Breakdown", row2: todaysDate() + ' - ' + todaysDate() });
+  const [header, setHeader] = useState({ row1: "Sales Breakdown", row2: todaysDate() + ' - ' + todaysDate() });
   const [dataChoice, setDataChoice] = useState('Sales');
   const [quantity, setQuantity] = useState(0);
   const [groupBy, setGroupBy] = useState('Cat');
 
   useEffect(() => {
     getData(startDate, endDate);
-    if (props.display === 'inline') props.callBack(props.header);
+    if (props.display === 'inline') props.callBack(header);
   }, [startDate, endDate, props.db]);
 
   useEffect(() => {
-    if (props.display === 'inline') props.callBack(props.header);
+    if (props.display === 'inline') props.callBack(header);
   }, [props.display]);
 
-  useEffect(() => {
+  useEffect(() =>{
     switchData();
-  }, [groupBy, dataChoice]);
+  },[groupBy, dataChoice]);
 
   function getData(start, end) {
     fetchData(`/api/salesByProduct/${props.db}/${start}/${end}`, allocateData);
@@ -61,10 +61,10 @@ export default function VariableTimeReport(props) {
   }
 
   function formatTableData(_data) {
-    props.setTableData(_data);
+    setTableData(_data);
   }
 
-  function idToName(e) {
+  function idToName(e){
     return (groupBy === 'Id') ? e['Product'] : e['Category'];
   }
 
@@ -88,11 +88,11 @@ export default function VariableTimeReport(props) {
     let caller = event.target;
     let newDate = caller.value;
     if (caller.id === 'startDate') {
-      props.setHeader({ row1: "Sales By Category", row2: newDate + ' - ' + endDate })
+      setHeader({ row1: "Sales By Category", row2: newDate + ' - ' + endDate })
       setStartDate(newDate);
     }
     else if (caller.id === 'endDate') {
-      props.setHeader({ row1: "Sales By Category", row2: startDate + ' - ' + newDate })
+      setHeader({ row1: "Sales By Category", row2: startDate + ' - ' + newDate })
       setEndDate(newDate);
     }
   };
@@ -102,11 +102,11 @@ export default function VariableTimeReport(props) {
     setDataChoice(choice);
   }
 
-  const handleGroupBySwitch = (value) => {
+  const handleGroupBySwitch = (value) =>{
     setGroupBy(value);
   }
 
-  function switchData() {
+  function switchData(){
     switch (dataChoice) {
       case 'Sales': formatChartData(f.sumAndGroup(data, groupBy), x => { return x.Sales.toFixed(2) }); setTotal(sales);
         break;
@@ -146,7 +146,7 @@ export default function VariableTimeReport(props) {
 
     return (
       <div className='sales'>
-        <DropDown callback={handleGroupBySwitch} list={['Cat', 'Id']} title={'Group By'} />
+        <DropDown callback={handleGroupBySwitch} list={['Cat', 'Id']} title = {'Group By'} />
         <RadioButtons handleChange={handleDataChoiceSwitch} value={dataChoice} />
         <h1>Total: {(total === quantity) ? total : '£' + total.toFixed(2)}</h1>
       </div>);
@@ -154,10 +154,15 @@ export default function VariableTimeReport(props) {
   }
 
   return (
-    <><Div><Total /><Pie /><Dates /></Div></>
+    <>
+      <SalesReport
+        header={header}
+        tableData={tableData}
+        content={<Div><Total /><Pie /><Dates /></Div>}
+      />
+    </>
   )
 }
-
 
 
 const Div = styled.div`
