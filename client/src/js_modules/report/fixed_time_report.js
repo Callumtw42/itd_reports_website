@@ -3,65 +3,77 @@ import React, { useEffect, useState } from 'react';
 import BarChart from '../bar_chart.js';
 import DateField from '../date_field.js';
 import * as f from '../functions.js';
-import { fetchData, Report } from './report.js';
+// import { fetchData, Report } from './report.js';
 import { todaysDate } from './report_interface.js';
 import styled from 'styled-components';
 import RadioButtons from '../radio_buttons.js';
 import DropDown from '../drop_down.js';
-
+import { fetchData, allocateData } from './sales_report.js';
 import SalesReport from './sales_report.js';
 
 export default function FixedTimeReport(props) {
 
-  const [data, setData] = useState([]);
-  const [tableData, setTableData] = useState([]);
-  const [chartData, setChartData] = useState({});
-  const [sales, setSales] = useState(0);
-  const [profit, setProfit] = useState(0);
-  const [total, setTotal] = useState(0);
+  // const [data, setData] = useState([]);
+  // const [tableData, setTableData] = useState([]);
+  // const [chartData, setChartData] = useState({});
+  // const [sales, setSales] = useState(0);
+  // const [profit, setProfit] = useState(0);
+  // const [total, setTotal] = useState(0);
   const [date, setDate] = useState(todaysDate());
   const [header, setHeader] = useState({ row1: "Time Breakdown", row2: todaysDate() });
-  const [dataChoice, setDataChoice] = useState('Sales');
-  const [quantity, setQuantity] = useState(0);
-  const [groupBy, setGroupBy] = useState('Cat');
+  // const [dataChoice, setDataChoice] = useState('Sales');
+  // const [quantity, setQuantity] = useState(0);
+  // const [groupBy, setGroupBy] = useState('Cat');
 
   useEffect(() => {
     getData(date);
     if (props.display === 'inline') props.callBack(header);
   }, [date, props.db]);
 
-  useEffect(() => {
-    if (props.display === 'inline') props.callBack(header);
-  }, [props.display]);
+  // useEffect(() => {
+  //   if (props.display === 'inline') props.callBack(header);
+  // }, [props.display]);
 
-  useEffect(() => {
-    switchData();
-  }, [groupBy, dataChoice]);
+  // useEffect(() => {
+  //   switchData();
+  // }, [groupBy, dataChoice]);
+
+  //   export const fetchData = (url, allocateData) => {
+  //     fetch(url)
+  //       .then(res => res.json())
+  //       .then(data => allocateData(data))
+  //       .catch((error) => {
+  //       })
+  // }
 
   const getData = (date) => {
     fetchData(`/api/salesByProduct/${props.db}/${date}/${date}`, allocateData);
   };
 
-  function allocateData(response) {
-    console.log(response);
-    setData(response);
-    formatChartData(response, x => { return x.Sales });
-    formatTableData(f.sumAndGroup(response, groupBy));
-    setSales(
-      f.sum(f.getColumn(response, 'Sales'))
-    );
-    setTotal(
-      f.sum(f.getColumn(response, 'Sales'))
-    );
-    setProfit(f.sum(f.getColumn(response, 'Sales'))
-      - f.sum(f.getColumn(response, 'Refund'))
-      - f.sum(f.getColumn(response, 'Cost')));
-    setQuantity(f.sum(f.getColumn(response, 'Qty')));
+  const chartFeed = (response, groupBy) => {
+    return response;
   }
 
-  function formatTableData(_data) {
-    setTableData(_data);
-  }
+  // function allocateData(response) {
+  //   console.log(response);
+  //   setData(response);
+  //   formatChartData(chartFeed(response, groupBy), x => { return x.Sales});
+  //   formatTableData(f.sumAndGroup(response, groupBy));
+  //   setSales(
+  //     f.sum(f.getColumn(response, 'Sales'))
+  //   );
+  //   setTotal(
+  //     f.sum(f.getColumn(response, 'Sales'))
+  //   );
+  //   setProfit(f.sum(f.getColumn(response, 'Sales'))
+  //     - f.sum(f.getColumn(response, 'Refund'))
+  //     - f.sum(f.getColumn(response, 'Cost')));
+  //   setQuantity(f.sum(f.getColumn(response, 'Qty')));
+  // }
+
+  // function formatTableData(_data) {
+  //   setTableData(_data);
+  // }
 
   function idToName() {
     return (groupBy === 'Id') ? 'Product' : 'Category';
@@ -119,14 +131,14 @@ export default function FixedTimeReport(props) {
     }
   };
 
-  const handleDataChoiceSwitch = (event) => {
-    let choice = event.target.value
-    setDataChoice(choice);
-  }
+  // const handleDataChoiceSwitch = (event) => {
+  //   let choice = event.target.value
+  //   setDataChoice(choice);
+  // }
 
-  const handleGroupBySwitch = (value) => {
-    setGroupBy(value);
-  }
+  // const handleGroupBySwitch = (value) =>{
+  //   setGroupBy(value);
+  // }
 
   function switchData() {
     switch (dataChoice) {
@@ -159,26 +171,31 @@ export default function FixedTimeReport(props) {
     )
   }
 
-  function Total() {
+  // function Total() {
 
-    return (
-      <div className='sales'>
-        <DropDown callback={handleGroupBySwitch} list={['Cat', 'Id']} title={'Group By'} />
-        <RadioButtons handleChange={handleDataChoiceSwitch} value={dataChoice} />
-        <h1>Total: {(total === quantity) ? total : '£' + total.toFixed(2)}</h1>
-      </div>);
+  //   return (
+  //     <div className='sales'>
+  //       <DropDown callback={handleGroupBySwitch} list={['Cat', 'Id']} title={'Group By'} />
+  //       <RadioButtons handleChange={handleDataChoiceSwitch} value={dataChoice} />
+  //       <h1>Total: {(total === quantity) ? total : '£' + total.toFixed(2)}</h1>
+  //     </div>);
 
-  }
+  // }
 
   return (
-    <SalesReport
-      header={header}
-      tableData={tableData}
-      content={<Div><Total /><Bar /><Dates /></Div>}
-    />
+    <>
+      <SalesReport
+        header={header}
+        tableData={tableData}
+        getData={getData}
+        chartFeed={chartFeed}
+        content={<Div><Total /><Bar /><Dates /></Div>}
+      />
+    </>
   )
 
 }
+
 
 const Div = styled.div`
 

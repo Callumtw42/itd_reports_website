@@ -5,13 +5,7 @@ import EnhancedTable from '../table.js';
 import HeaderBar from '../header_bar.js';
 import Paper from '@material-ui/core/Paper';
 
-export const fetchData = (url, allocateData) => {
-  fetch(url)
-    .then(res => res.json())
-    .then(data => allocateData(data))
-    .catch((error) => {
-    })
-}
+
 
 export function Report(props) {
 
