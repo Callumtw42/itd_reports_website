@@ -192,7 +192,7 @@ export default function EnhancedTable(props) {
   React.useEffect(() => {
     if (f.notEmpty(props.data) && data !== props.data) {
       let key = 0;
-      setRows(props.data.map(e => { return Object.values(e).map(e => { if(typeof e === 'number') e = e.toFixed(2); return <TableCell fontSize={32} key={key++} align="left">{e}</TableCell> }) }));
+      setRows(props.data.map(e => { return Object.values(e).map(e => { return <TableCell fontSize={32} key={key++} align="left">{e}</TableCell> }) }));
       setData(props.data);
       setRowsPerPage(props.data.length);
     }

@@ -3,8 +3,9 @@ import styled from "styled-components";
 import 'typeface-roboto';
 import './App.scss';
 import NavBar from './js_modules/navbar.js';
-import FixedTimeReport from './js_modules/report/fixed_time_report.js';
-import VariableTimeReport from './js_modules/report/variable_time_report.js';
+import SalesByCategory from './js_modules/report/sales_by_category.js';
+import SalesByHour from './js_modules/report/sales_by_hour.js';
+import SalesByProduct from './js_modules/report/sales_by_product.js';
 import SideBar from './js_modules/sidebar.js';
 import SimpleReport from './js_modules/report/simple_report.js';
 
@@ -50,7 +51,7 @@ function App() {
           </div>
 
           <div className='paper' id='salesByCategory'>
-            <VariableTimeReport
+            <SalesByProduct
               db={db}
               callBack={setHeader}
               display={display.salesByCategory}
@@ -59,7 +60,7 @@ function App() {
           </div>
 
           <div className='paper' id='salesByHour'>
-            <FixedTimeReport
+            <SalesByHour
               db={db}
               callBack={setHeader}
               display={display.salesByHour}
@@ -137,7 +138,6 @@ body{
   }
 
   .content{
-    margin: auto 5%;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns:1fr 1fr;
