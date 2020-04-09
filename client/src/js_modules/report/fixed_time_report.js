@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import RadioButtons from '../radio_buttons.js';
 import DropDown from '../drop_down.js';
 
-import SalesReport from './sales_report.js';
+import {SalesReport} from './sales_report.js';
 
 export default function FixedTimeReport(props) {
 
