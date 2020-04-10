@@ -1,4 +1,4 @@
-use itdepos2;
+use itdepos;
 
 FLUSH TABLES WITH READ LOCK;
 FLUSH LOGS;

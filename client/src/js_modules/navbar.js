@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 import styled from 'styled-components';
-
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -173,6 +172,7 @@ export default function NavBar(props) {
 }
 
 const Div = styled.div`
+
 
 .MuiPaper-root{
     background-color: #004064;

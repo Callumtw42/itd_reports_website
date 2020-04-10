@@ -42,14 +42,12 @@ export function Report(props) {
 
 const Div = styled.div`
 .header {
-  /* display:inline-block; */
   font-size: 42px;
   background-color: rgba(0, 64, 101, 0.6);
   color: white;
   text-align: left;
   padding: 10px;
   box-shadow: 0 1px 1px rgba(104, 104, 104, 0.8);
-  /* font-size: 48px; */
 }
 
 .header >p{
@@ -80,14 +78,6 @@ margin: 5px;
 }
 
 @media (min-width:64em){
-
-  /* .totalSales > h1{
-    font-size: 1em;
-  }
-
-  .totalSales {
-    margin: 1em 0 0 0;
-  } */
 
   .MuiInputBase-root{
     font-size: 1em;

@@ -3,18 +3,69 @@ import React, { useEffect, useState } from 'react';
 import DateField from '../date_field.js';
 import * as f from '../functions.js';
 import PieChart from '../pie_chart.js';
-import { fetchData, Report } from './report.js';
 import { todaysDate } from './report_interface.js';
-import styled from 'styled-components';
 import RadioButtons from '../radio_buttons.js';
 import DropDown from '../drop_down.js';
-import {useSalesReport, SalesReport} from './sales_report.js';
+import { useSalesReport, SalesReport } from './sales_report.js';
 
 export default function VariableTimeReport(props) {
-  const parent = useSalesReport(props);
+
+  const parent = useSalesReport(props, toParent());
+  const [startDate, setStartDate] = useState(todaysDate());
+  const [endDate, setEndDate] = useState(todaysDate());
+
+  useEffect(() => {
+    parent.getData(startDate, endDate);
+    if (props.display === 'inline') props.callBack(parent.header);
+  }, [startDate, endDate, props.db]);
+
+  useEffect(() => {
+    let header = { row1: "Sales Breakdown", row2: todaysDate() + ' - ' + todaysDate() };
+    parent.setHeader(header);
+    if (props.display === 'inline') props.callBack(header);
+  }, [])
+
+  function toParent() {
+    return {
+      formatChartData: formatChartData,
+    }
+  }
+
+  function idToName(e) {
+    return (parent.groupBy === 'Id') ? e['Product'] : e['Category'];
+  }
+
+  function formatChartData(response, setX) {
+    let _data = f.sumAndGroup(response, parent.groupBy)
+    let axisData = (_data.length > 0) ? _data.map(e => setX(e)) : [0];
+    parent.setChartData({
+
+      labels: _data.map(e => idToName(e)),
+      datasets: [
+        {
+          label: 'Net Sales £',
+          data: axisData,
+          backgroundColor: f.colors(f.getUniqueValues(_data, parent.groupBy))
+        }
+      ]
+    });
+  }
+
+  const dateChange = (event) => {
+    let caller = event.target;
+    let newDate = caller.value;
+    if (caller.id === 'startDate') {
+      parent.setHeader({ row1: "Sales By Category", row2: newDate + ' - ' + endDate })
+      setStartDate(newDate);
+    }
+    else if (caller.id === 'endDate') {
+      parent.setHeader({ row1: "Sales By Category", row2: startDate + ' - ' + newDate })
+      setEndDate(newDate);
+    }
+  };
 
   function Pie() {
-    return <PieChart className='chart' chartData={parent.state.chartData} totalSales={parent.state.sales} ></PieChart>
+    return <PieChart className='chart' chartData={parent.chartData} totalSales={parent.sales} ></PieChart>
   }
 
   function Dates() {
@@ -23,14 +74,14 @@ export default function VariableTimeReport(props) {
         <DateField
           id="startDate"
           label="Start Date"
-          defaultValue={parent.state.startDate}
-          onChange={(event) => parent.functions.dateChange(event)}
+          defaultValue={startDate}
+          onChange={(event) => dateChange(event)}
         />
         <DateField
           id="endDate"
           label="End Date"
-          defaultValue={parent.state.endDate}
-          onChange={(event) => parent.functions.dateChange(event)}
+          defaultValue={endDate}
+          onChange={(event) => dateChange(event)}
         />
       </div>
     )
@@ -40,9 +91,9 @@ export default function VariableTimeReport(props) {
 
     return (
       <div className='sales'>
-        <DropDown callback={parent.functions.handleGroupBySwitch} list={['Cat', 'Id']} title = {'Group By'} />
-        <RadioButtons handleChange={parent.functions.handleDataChoiceSwitch} value={parent.state.dataChoice} />
-        <h1>Total: {(parent.state.total === parent.state.quantity) ? parent.state.total : '£' + parent.state.total.toFixed(2)}</h1>
+        <DropDown callback={parent.handleGroupBySwitch} list={['Cat', 'Id']} title={'Group By'} />
+        <RadioButtons handleChange={parent.handleDataChoiceSwitch} value={parent.dataChoice} />
+        <h1>Total: {(parent.total === parent.quantity) ? parent.total : '£' + parent.total.toFixed(2)}</h1>
       </div>);
 
   }
@@ -50,46 +101,10 @@ export default function VariableTimeReport(props) {
   return (
     <>
       <SalesReport
-        header={parent.state.header}
-        tableData={parent.state.tableData}
-        content={<Div><Total /><Pie /><Dates /></Div>}
+        header={parent.header}
+        tableData={parent.tableData}
+        content={<><Total /><Pie /><Dates /></>}
       />
     </>
   )
 }
-
-
-const Div = styled.div`
-
-.sales > h1{
-  font-size: 32px;
-  margin: auto 0;
-  margin-right: 5%;
-}
-
-.sales {
-  margin: 7em 0 0 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.date {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 0 auto;
-
-}
-
-@media (min-width:64em){
-
-  .sales > h1{
-    font-size: 1em;
-  }
-
-  .sales {
-    margin: 1em 0 0 0;
-  }
-}
-`;
