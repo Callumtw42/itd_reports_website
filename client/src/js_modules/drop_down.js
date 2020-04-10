@@ -47,9 +47,8 @@ export default function DropDown(props) {
   }, [open]);
 
   function Items() {
-    let key = 0;
     return (
-      props.list.map(e => { return <Div1><MenuItem key={key++} onClick={handleSelect}>{e}</MenuItem></Div1> })
+      props.list.map((e, index) => { return <Div1 key={index}><MenuItem  onClick={handleSelect}>{e}</MenuItem></Div1> })
     );
   }
 

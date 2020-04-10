@@ -30,7 +30,13 @@ export default function FixedTimeReport(props) {
   function toParent() {
     return {
       formatChartData: formatChartData,
+      formatTableData: formatTableData
     }
+  }
+
+  function formatTableData(_data) {
+    _data.forEach(e =>{ Object.assign(e, {Profit: e.Sales-e.Cost-e.Refund})});
+    parent.setTableData(f.removeColumns(_data, 'Cat', 'TillHour'));
   }
 
   function idToName() {

@@ -34,7 +34,7 @@ export function useSalesReport(props, child) {
         console.log(response);
         setData(response);
         child.formatChartData(response, x => { return x.Sales });
-        formatTableData(f.sumAndGroup(response, groupBy));
+        child.formatTableData(response);
         setSales(
             f.sum(f.getColumn(response, 'Sales'))
         );
@@ -45,10 +45,6 @@ export function useSalesReport(props, child) {
             - f.sum(f.getColumn(response, 'Refund'))
             - f.sum(f.getColumn(response, 'Cost')));
         setQuantity(f.sum(f.getColumn(response, 'Qty')));
-    }
-
-    function formatTableData(_data) {
-        setTableData(_data);
     }
 
     const handleDataChoiceSwitch = (event) => {
@@ -89,7 +85,8 @@ export function useSalesReport(props, child) {
         setHeader: setHeader,
         getData: getData,
         setChartData: setChartData,
-        setSales: setSales
+        setSales: setSales,
+        setTableData: setTableData
     }
 
 }

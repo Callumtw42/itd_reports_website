@@ -25,10 +25,21 @@ export default function VariableTimeReport(props) {
     if (props.display === 'inline') props.callBack(header);
   }, [])
 
+  // useEffect(() => {
+  //   formatTableData(parent.data);
+  // }, [parent.groupBy]);
+
   function toParent() {
     return {
       formatChartData: formatChartData,
+      formatTableData: formatTableData
     }
+  }
+
+  function formatTableData(_data) {
+    let format = f.sumAndGroup(_data, 'Id');
+    format.forEach(e =>{ Object.assign(e, {Profit: e.Sales-e.Cost-e.Refund})});
+    parent.setTableData(f.removeColumns(format, 'TillTime', 'TillHour', 'TillDate', 'Cat' ));
   }
 
   function idToName(e) {
