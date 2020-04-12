@@ -3,52 +3,83 @@ import React, { useEffect, useState } from 'react';
 import BarChart from '../bar_chart.js';
 import DateField from '../date_field.js';
 import * as f from '../functions.js';
-import { todaysDate } from './report_interface.js';
-import styled from 'styled-components';
 import RadioButtons from '../radio_buttons.js';
 import DropDown from '../drop_down.js';
+import { Report } from './report.js';
 
-import { useSalesReport, SalesReport } from './sales_report.js';
+import { useReport } from './report.js';
+import { useVariableTimeReport } from './variable_time_report.js';
 
-export default function FixedTimeReport(props) {
+export function useFixedTimeReport(props) {
 
-  const parent = useSalesReport(props, toParent());
+  const {
+
+    setUrl,
+    fetchData,
+    todaysDate,
+  } = useReport(props);
+
+  const {
+    chartData,
+    sales,
+    profit,
+    total,
+    dataChoice,
+    quantity,
+    groupBy,
+    header,
+    setTotals,
+    setChartData,
+    setSales,
+    setHeader,
+    handleGroupBySwitch,
+    handleDataChoiceSwitch,
+    url,
+    getData,
+    allocateData
+    // formatChartData
+  } = useVariableTimeReport(props, formatChartData, idToName);
 
   const [date, setDate] = useState(todaysDate());
-  useEffect(() => {
-
-    parent.getData(date, date);
-    if (props.display === 'inline') props.callBack(parent.header);
-  }, [date, props.db]);
 
   useEffect(() => {
-    let header = { row1: "Time Breakdown", row2: todaysDate() }
-    parent.setHeader(header);
+    getData(date, date, allocateData)
     if (props.display === 'inline') props.callBack(header);
-  }, [])
+  }, [date]);
 
-  function toParent() {
-    return {
-      formatChartData: formatChartData,
-      formatTableData: formatTableData
-    }
-  }
+  // function getData(start, end, allocate) {
+  //   let _url = `/api/salesByProduct/${props.db}/${start}/${end}`
+  //   setUrl(_url);
+  //   fetchData(_url, allocate);
+  // }
+
+  // function toParent() {
+  //   return {
+  //     formatChartData: formatChartData,
+  //     formatTableData: formatTableData
+  //   }
+  // }
+
+  // const allocateData = (response) => {
+  //   formatChartData(response, x => { return x.Sales });
+  //   setTotals(response);
+  // }
 
   function formatTableData(_data) {
-    _data.forEach(e =>{ Object.assign(e, {Profit: e.Sales-e.Cost-e.Refund})});
-    parent.setTableData(f.removeColumns(_data, 'Cat', 'TillHour'));
+    _data.forEach(e => { Object.assign(e, { Profit: e.Sales - e.Cost - e.Refund }) });
+    return f.removeColumns(_data, 'Cat', 'TillHour');
   }
 
   function idToName() {
-    return (parent.groupBy === 'Id') ? 'Product' : 'Category';
+    return (groupBy === 'Id') ? 'Product' : 'Category';
   }
 
-  function formatChartData(salesData, setX) {
+  function formatChartData (salesData, setX) {
     let _labels = Array.from(Array(24).keys()).map(obj => { return ('0' + obj + ':00').slice(-5) });
     if (salesData.length > 0) {
       let key = 0;
       let departments = f.getUniqueValues(salesData, idToName());
-      let categories = f.getUniqueValues(salesData, parent.groupBy);
+      let categories = f.getUniqueValues(salesData, groupBy);
 
       let _datasets =
         departments.map(o => {
@@ -67,7 +98,7 @@ export default function FixedTimeReport(props) {
           }
         });
 
-      parent.setChartData({
+      setChartData({
 
         labels: _labels,
         datasets: _datasets
@@ -76,13 +107,13 @@ export default function FixedTimeReport(props) {
       console.log(_datasets);
     }
     else {
-      parent.setChartData({
+      setChartData({
 
         labels: _labels,
         datasets: []
 
       });
-      parent.setSales(0);
+      setSales(0);
     }
   }
 
@@ -90,13 +121,48 @@ export default function FixedTimeReport(props) {
     let caller = event.target;
     let newDate = caller.value;
     if (caller.id === 'startDate') {
-      parent.setHeader({ row1: "Sales By Hour", row2: newDate })
+      setHeader({ row1: "Sales By Hour", row2: newDate })
       setDate(newDate);
+      // getData(newDate, newDate);
     }
   };
 
+  return {
+    chartData,
+    sales,
+    date,
+    dateChange,
+    handleGroupBySwitch,
+    handleDataChoiceSwitch,
+    dataChoice,
+    total,
+    quantity,
+    total,
+    url,
+    formatTableData,
+    header,
+  }
+}
+
+export default function FixedTimeReport(props) {
+
+  const {
+    chartData,
+    sales,
+    date,
+    dateChange,
+    handleGroupBySwitch,
+    handleDataChoiceSwitch,
+    dataChoice,
+    total,
+    quantity,
+    url,
+    formatTableData,
+    header,
+  } = useFixedTimeReport(props);
+
   function Bar() {
-    return <BarChart className='chart' chartData={parent.chartData} totalSales={parent.sales} ></BarChart>
+    return <BarChart className='chart' chartData={chartData} totalSales={sales} ></BarChart>
   }
 
   function Dates() {
@@ -116,18 +182,21 @@ export default function FixedTimeReport(props) {
 
     return (
       <div className='sales'>
-        <DropDown callback={parent.handleGroupBySwitch} list={['Cat', 'Id']} title={'Group By'} />
-        <RadioButtons handleChange={parent.handleDataChoiceSwitch} value={parent.dataChoice} />
-        <h1>Total: {(parent.total === parent.quantity) ? parent.total : '£' + parent.total.toFixed(2)}</h1>
+        <DropDown callback={handleGroupBySwitch} list={['Cat', 'Id']} title={'Group By'} />
+        <RadioButtons handleChange={handleDataChoiceSwitch} value={dataChoice} />
+        <h1>Total: {(total === quantity) ? total : '£' + total.toFixed(2)}</h1>
       </div>);
-
   }
 
   return (
-    <SalesReport
-      header={parent.header}
-      tableData={parent.tableData}
+    <Report
+      db={props.db}
+      url={url}
+      tableFormat={formatTableData}
+      header={header}
       content={<><Total /><Bar /><Dates /></>}
+      callBack={props.callBack}
+      display={props.display}
     />
   )
 

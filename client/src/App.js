@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import 'typeface-roboto';
 import './App.scss';
@@ -6,7 +6,8 @@ import NavBar from './js_modules/navbar.js';
 import FixedTimeReport from './js_modules/report/fixed_time_report.js';
 import VariableTimeReport from './js_modules/report/variable_time_report.js';
 import SideBar from './js_modules/sidebar.js';
-import SimpleReport from './js_modules/report/simple_report.js';
+import { Report } from './js_modules/report/report.js';
+import VATReport from './js_modules/report/vat_report.js';
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });
@@ -19,60 +20,73 @@ function App() {
   });
   const [db, setDb] = useState('itdepos');
 
+  function todaysDate() {
+    var today = new Date();
+    var date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate())).slice(-2);
+    return date;
+  }
+
   return (
     <Div
-      display = {display}
+      display={display}
     >
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <div className="App" >
         <meta name="viewport" content="width=1000"></meta>
-        <div className='navBar'><NavBar
-          header={header}
-          setSideBar={setSideBar}
-          setDb={setDb}>
-        </NavBar></div>
+        <div className='navBar'>
+          <NavBar
+            header={header}
+            setSideBar={setSideBar}
+            setDb={setDb}>
+          </NavBar>
+        </div>
         <SideBar
           display={sideBar}
           setSideBar={setSideBar}
-          setDisplay = {setDisplay}
-        >
-        </SideBar>
+          setDisplay={setDisplay}
+        />
         <div className="content">
-
-          <div className='paper' id='stock'>
-            <SimpleReport
-              header={'Stock'}
-              url={`/api/stock/${db}`}
-              db={db}
-              callBack={setHeader}
-              display={display.stock}
-            />
-          </div>
 
           <div className='paper' id='salesByCategory'>
             <VariableTimeReport
-              db={db}
+              db = {db}
+              url = {`/api/salesByProduct/${db}/${todaysDate()}/${todaysDate()}`}
+              tableFormat={x => { return x }}
               callBack={setHeader}
               display={display.salesByCategory}
+              header={"Sales Breakdown"}
             />
-
           </div>
 
           <div className='paper' id='salesByHour'>
             <FixedTimeReport
-              db={db}
+             db = {db}
+             url = {`/api/salesByProduct/${db}/${todaysDate()}/${todaysDate()}`}
+             tableFormat={x => { return x }}
+             callBack={setHeader}
+             display={display.salesByHour}
+             header={"Sales Breakdown"}
+            />
+          </div>
+{/* 
+          <div className='paper' id='stock'>
+            <Report
+              url={`/api/stock/${db}`}
+              format={x => { return x }}
               callBack={setHeader}
-              display={display.salesByHour}
+              display={display.stock}
+              header={"Stock"}
             />
           </div>
 
-          {/* <div className='paper' id='salesByProduct'>
-            <SalesByCategory
+          <div className='paper'>
+            <VATReport
               db={db}
               callBack={setHeader}
-              display={display.salesByHour}
+              display={display.salesByCategory}
             />
           </div> */}
+
         </div>
       </div>
     </Div>
@@ -148,7 +162,6 @@ body{
 
   }
 } 
-
 `
 
 export default App;

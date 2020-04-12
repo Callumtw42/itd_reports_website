@@ -93,9 +93,9 @@ app.get('/api/databases', (req, res) => {
     });
 });
 
-app.get('/api/noSales/:db', (req, res) => {
+app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => { 
     use(req.params.db);
-    let sql = `SELECT ti.*,p.ProductName,ri.ReturnID,ri.RefundDate,ri.Amount FROM TillItem ti INNER JOIN Till t ON ti.TillId = t.TillID LEFT JOIN Product p ON ti.ProdID = p.ProductID LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID Where t.TillDate >= '2020-04-05' AND t.TillDate <= '2020-04-05' AND t.Reason = 'Sale';`;
+    let sql = `SELECT ti.TillID, ti.date, ti.ItemTotal, ti.Quantity, ti.Price, ti.VatRate, ti.Type, ti.IDiscount,t.Discount,t.PriceBand,ri.RefundID,ri.RefundDate,ri.Amount FROM TillItem ti INNER JOIN Till t ON ti.TillId = t.TillID LEFT JOIN RefundItem ri ON ri.RefundID = ti.RefundID WHERE t.TillDate >= '${req.params.startDate}' AND t.TillDate <= '${req.params.endDate}' AND t.Reason = 'Sale' ORDER BY ti.TillID;`;
     let query = db.query(sql, (err, results) =>{
     if(err) throw err;
     // res.send('sales fetched');
