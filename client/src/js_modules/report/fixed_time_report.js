@@ -14,9 +14,11 @@ export function useFixedTimeReport(props) {
 
   const {
 
-    setUrl,
-    fetchData,
+    // setUrl,
+    // fetchData,
     todaysDate,
+    header,
+    setHeader,
   } = useReport(props);
 
   const {
@@ -27,11 +29,11 @@ export function useFixedTimeReport(props) {
     dataChoice,
     quantity,
     groupBy,
-    header,
+    
     setTotals,
     setChartData,
     setSales,
-    setHeader,
+   
     handleGroupBySwitch,
     handleDataChoiceSwitch,
     url,
@@ -44,7 +46,7 @@ export function useFixedTimeReport(props) {
 
   useEffect(() => {
     getData(date, date, allocateData)
-    if (props.display === 'inline') props.callBack(header);
+    // if (props.display === 'inline') props.callBack(header);
   }, [date]);
 
   // function getData(start, end, allocate) {
@@ -121,7 +123,7 @@ export function useFixedTimeReport(props) {
     let caller = event.target;
     let newDate = caller.value;
     if (caller.id === 'startDate') {
-      setHeader({ row1: "Sales By Hour", row2: newDate })
+      setHeader({ row1: "Time Breakdown", row2: newDate })
       setDate(newDate);
       // getData(newDate, newDate);
     }

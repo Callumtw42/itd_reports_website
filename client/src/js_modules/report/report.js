@@ -6,19 +6,35 @@ import HeaderBar from '../header_bar.js';
 import Paper from '@material-ui/core/Paper';
 import 'date-fns';
 
-export function useReport(props) {
+export function useReport(props, allocate) {
 
   const [data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [url, setUrl] = useState(props.url);
+  const [header, setHeader] = useState(props.header);
 
   useEffect(() => {
-    if (props.display === 'inline') props.callBack(props.header);
-  }, [props.display, props.header]);
+    if (props.display === 'inline') props.callBack(header);
+  }, [props.display, header]);
 
   useEffect(() => {
-    fetchData(url, allocateData);
+    setHeader(props.header);
+  }, [props.header]);
+
+  useEffect(() => {
+    setUrl(props.url);
+
   }, [props.url, props.db]);
+
+  useEffect(() => {
+    console.log("data")
+
+    fetchData(url);
+  }, [url]);
+
+  useEffect(() => {
+    allocateData(data);
+  }, [data]);
 
   function todaysDate() {
     var today = new Date();
@@ -26,17 +42,17 @@ export function useReport(props) {
     return date;
   }
 
-  function allocateData(_data) {
+  const allocateData = (allocate) ? allocate : (_data) => {
     setTableData(props.tableFormat(_data));
   }
 
-  const fetchData = (url, allocateData) => {
+  const fetchData = (url) => {
     fetch(url)
       .then(res => res.json())
       .then(data => {
         setData(data);
-        allocateData(data);
-        console.log(data)
+        // allocateData(data);
+        // setUrl(url);
       })
       .catch((error) => {
       })
@@ -50,6 +66,8 @@ export function useReport(props) {
     setTableData,
     todaysDate,
     fetchData,
+    header,
+    setHeader
   }
 }
 
@@ -58,6 +76,7 @@ export function Report(props) {
   const {
     data,
     tableData,
+    header,
     setTableData,
     fetchData
   } = useReport(props);
@@ -70,7 +89,7 @@ export function Report(props) {
 
     <Div>
       <Paper className='paper'>
-        <HeaderBar header={props.header}></HeaderBar>
+        <HeaderBar header={header}></HeaderBar>
         <div className='report'>
           <Content />
           <EnhancedTable data={tableData} />

@@ -15,8 +15,10 @@ export function useVariableTimeReport(props, formatChart, id2) {
     setUrl,
     todaysDate,
     data,
-    fetchData
-  } = useReport(props);
+    header,
+    setHeader
+    // fetchData
+  } = useReport(props, allocateData);
 
   const [startDate, setStartDate] = useState(todaysDate());
   const [endDate, setEndDate] = useState(todaysDate());
@@ -27,24 +29,24 @@ export function useVariableTimeReport(props, formatChart, id2) {
   const [dataChoice, setDataChoice] = useState('Sales');
   const [quantity, setQuantity] = useState(0);
   const [groupBy, setGroupBy] = useState('Cat');
-  const [header, setHeader] = useState(props.header);
+
 
   useEffect(() => {
     getData(startDate, endDate, allocateData)
-    if (props.display === 'inline') props.callBack(header);
+    // if (props.display === 'inline') props.callBack(header);
   }, [startDate, endDate]);
 
   useEffect(() => {
     switchData(dataChoice, formatChartData);
   }, [groupBy, dataChoice]);
 
-  function getData(start, end, allocate) {
+  function getData(start, end) {
     let _url = `/api/salesByProduct/${props.db}/${start}/${end}`
     setUrl(_url);
-    fetchData(_url, allocate);
+    // fetchData(_url, allocate);
   }
 
-  const allocateData = (response) => {
+  function allocateData (response) {
     formatChartData(response, x => { return x.Sales });
     setTotals(response);
   }
