@@ -8,7 +8,7 @@ import { TimeBreakdown } from './js_modules/report/time_breakdown.js';
 import { SalesBreakdown } from './js_modules/report/sales_breakdown.js';
 import SideBar from './js_modules/sidebar.js';
 import { Stock } from './js_modules/report/stock.js';
-import {VAT} from './js_modules/report/vat_report.js';
+import { VAT } from './js_modules/report/vat_report.js';
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });
@@ -50,15 +50,6 @@ function App() {
               phoneDisplay={display.salesByCategory}
             />
           </div>
-{/* 
-          <div className='paper' id='salesByHour'>
-            <TimeBreakdown
-              header={'Time Breakdown'}
-              db={db}
-              callBack={setHeader}
-              display={display.salesByHour}
-            />
-          </div>
 
           <div className='paper' id='stock'>
             <Stock
@@ -76,7 +67,22 @@ function App() {
               setHeader={setHeader}
               phoneDisplay={display.stock}
             />
-          </div> */}
+          </div>
+          {/* 
+          <div className='paper' id='salesByHour'>
+            <TimeBreakdown
+              header={'Time Breakdown'}
+              db={db}
+              callBack={setHeader}
+              display={display.salesByHour}
+            />
+          </div>
+
+
+
+ 
+          
+          */}
 
         </div>
       </div>

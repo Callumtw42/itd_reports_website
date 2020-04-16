@@ -61,7 +61,7 @@ export default function PieChart(props) {
                       },
                       afterLabel: (tooltipItem, data) => {
                         var sales = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                        var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / props.totalSales * 100;
+                        var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / props.xTotal * 100;
                         percent = percent.toFixed(2); // make a nice string
                         return (!Number.isInteger(sales)) ? '£ ' + sales + ' (' + percent + '%)' : sales + ' (' + percent + '%)';
                       }

@@ -1,6 +1,6 @@
 import 'date-fns';
 import React, { useEffect } from 'react';
-import { useSalesBreakdown } from './sales_breakdown.js';
+import { useReport, useDate, useDataFunctions } from './sales_breakdown.js';
 import EnhancedTable from '../table.js';
 import HeaderBar from '../header_bar.js';
 import Paper from '@material-ui/core/Paper';
@@ -10,37 +10,26 @@ import styled, { injectGlobal } from 'styled-components';
 export function VAT(props) {
 
     const {
-        header,
-        allocateData,
-        data,
-        fetchData,
         startDate,
         endDate,
-        Dates
-    } = useSalesBreakdown(props);
+        Dates,
+        ...date
+    } = useDate()
 
-    useEffect(() => {
-        if (props.display === 'inline') props.callBack(header);
-    }, [props.display, header]);
+    const {
+        removeColumns,
+        sumAndGroup,
+        ...dataFunctions
+    } = useDataFunctions();
 
-    useEffect(() => {
-        fetchData(`/api/VAT/${props.db}/${startDate}/${endDate}`);
-    }, [startDate, endDate, props.db]);
-
-    useEffect(() => {
-        allocateData(data);
-    }, [data]);
-
-    function formatTotalData() {
-        return f.removeColumns(f.sumAndGroup(data, 'VatRate'), 'date','Receipt_No', 'Price', 'Type', 'IDiscount', 'Discount', 'PriceBand', 'RefundID', 'RefundDate', 'Amount');
-    }
-
-    function formatDateData(data) {
-        return f.removeColumns(f.sumAndGroup(data, 'Receipt_No'), 'VatRate', 'Price', 'Type', 'IDiscount', 'Discount', 'PriceBand', 'RefundID', 'RefundDate', 'Amount');
-        // return data;
-    }
-
-
+    const {
+        data
+    } = useReport(
+        props,
+        `/api/VAT/${props.db}/${startDate}/${endDate}`,
+        (data) => { return removeColumns(data, 'date', 'Price', 'Type', 'IDiscount', 'Discount', 'PriceBand', 'RefundID', 'RefundDate', 'Amount') },
+        (data) => { return data }
+    );
 
     return (
         <div className='report'>
@@ -49,9 +38,9 @@ export function VAT(props) {
                 <div className='reportBody'>
                     <Dates />
                     <H1>Total VAT</H1>
-                    <EnhancedTable data={formatTotalData(data)} />
+                    <EnhancedTable data={sumAndGroup(data, 'VatRate')} />
                     <H1>VAT Receipts</H1>
-                    <EnhancedTable data={formatDateData(data)} />
+                    <EnhancedTable data={sumAndGroup(data, 'Receipt_No')} />
                 </div>
             </Paper>
         </div>
@@ -67,4 +56,5 @@ margin-left: 1em;
 font-size: 1em;
 
 `;
+
 

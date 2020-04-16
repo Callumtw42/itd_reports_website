@@ -9,7 +9,6 @@ import './Report.scss';
 import EnhancedTable from '../table.js';
 import HeaderBar from '../header_bar.js';
 import Paper from '@material-ui/core/Paper';
-import { restart } from 'nodemon';
 
 function useData(url, format) {
 
@@ -25,6 +24,20 @@ function useData(url, format) {
       .catch((error) => {
       })
   }
+
+  useEffect(() => {
+    fetchData();
+  }, [url]);
+
+  return {
+    data,
+    setData,
+    fetchData,
+  }
+
+}
+
+export function useDataFunctions() {
 
   function notEmpty(data) {
     return (data && data.length);
@@ -56,7 +69,6 @@ function useData(url, format) {
   }
 
   function sumAndGroup(data, col) {
-    // const data = JSON.parse(JSON.stringify(data));
     let groups = getUniqueValues(data, col);
     let split = groups.map(e => { return getElementsWithValue(data, col, e) });
     const sumObjectsByKey = (obj1, obj2) => {
@@ -79,42 +91,31 @@ function useData(url, format) {
       e[key] === value)
   }
 
-  useEffect(() => {
-    fetchData();
-  }, [url]);
-
   return {
-    data,
-    setData,
-    fetchData,
+
+    notEmpty,
+    getColumn,
     sumColumn,
     setColumn,
+    addColumn,
     removeColumns,
     sumAndGroup,
     getUniqueValues,
-    getElementsWithValue,
-    addColumn
+    getElementsWithValue
+
   }
 
 }
 
-
 export function useReport(props, url, formatData, formatTableData) {
 
-  const { data, ...rest
-    // setData,
-    // fetchData,
-    // sumColumn,
-    // setColumn,
-    // removeColumns,
-    // sumAndGroup,
-    // getUniqueValues,
-    // getElementsWithValue,
-    // addColumn
+  const {
+    data,
+    ...rest
   } = useData(url, formatData);
 
   const [tableData, setTableData] = useState([]);
-  const [header, setHeader] = useState('');
+  const [header, setHeader] = useState(props.header);
 
   useEffect(() => {
     if (props.display === 'inline') props.setHeader(header);
@@ -125,63 +126,19 @@ export function useReport(props, url, formatData, formatTableData) {
   }, [data])
 
   return {
-    rest,
     data,
-
     tableData,
     setTableData,
     header,
     setHeader,
-
-
-    // data,
-    // setData,
-    // fetchData,
-    // sumColumn,
-    // setColumn,
-    // removeColumns,
-    // sumAndGroup,
-    // getUniqueValues,
-    // getElementsWithValue,
-    // addColumn,
-    // tableData,
-    // setTableData,
-    // header,
-    // setHeader
+    ...rest
   }
 }
 
-
-export function useSalesBreakdown(props, override) {
+export function useDate() {
 
   const [startDate, setStartDate] = useState(todaysDate());
   const [endDate, setEndDate] = useState(todaysDate());
-
-  const {
-    data,
-    setData,
-    fetchData,
-    sumColumn,
-    setColumn,
-    removeColumns,
-    sumAndGroup,
-    getUniqueValues,
-    getElementsWithValue,
-    addColumn,
-    tableData,
-    setTableData,
-    header,
-    setHeader
-  } = useReport(props, `/api/salesByProduct/${props.db}/${startDate}/${endDate}`, formatData, formatTableData);
-
-  const [chartData, setChartData] = useState({});
-  const [sales, setSales] = useState(0);
-  const [profit, setProfit] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [dataChoice, setDataChoice] = useState('Sales');
-  const [quantity, setQuantity] = useState(0);
-  const [groupBy, setGroupBy] = useState('Cat');
-
 
   function todaysDate() {
     var today = new Date();
@@ -189,15 +146,48 @@ export function useSalesBreakdown(props, override) {
     return date;
   }
 
-  function formatData(data) {
-    return addColumn(data, 'AssocProdID', 'PriceMark', (cell) => { return cell ? 'Non PM' : 'PM' });
+  function Dates() {
+    return (
+      <div className='date'>
+        <DateField
+          id="startDate"
+          label="Start Date"
+          defaultValue={startDate}
+          onChange={(event) => {
+            setStartDate(event.target.value);
+          }}
+        />
+        <DateField
+          id="endDate"
+          label="End Date"
+          defaultValue={endDate}
+          onChange={(event) => setEndDate(event.target.value)}
+        />
+      </div>
+    )
   }
 
-  function formatTableData() {
-    let format = sumAndGroup(data, groupBy);
-    format.forEach(e => { Object.assign(e, { Profit: e.Sales - e.Cost - e.Refund }) });
-    return removeColumns(format, 'TillTime', 'TillHour', 'TillDate', 'Cat', 'AssocProdID');
+  return {
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    todaysDate,
+    Dates
+
   }
+
+}
+
+export function useChart(groupBy, xTotal) {
+
+  const {
+    sumAndGroup,
+    getUniqueValues,
+    ...dataFunctions
+  } = useDataFunctions();
+
+  const [chartData, setChartData] = useState({});
 
   let idToName = (e) => {
     switch (groupBy) {
@@ -208,7 +198,7 @@ export function useSalesBreakdown(props, override) {
     }
   }
 
-  let formatChartData = override && override.formatChartData ? override.formatChartData : (data, setX) => {
+  function formatChartData(data, setX) {
     let _data = sumAndGroup(data, groupBy)
     let axisData = (_data.length > 0) ? _data.map(e => setX(e)) : [0];
     return {
@@ -222,6 +212,77 @@ export function useSalesBreakdown(props, override) {
       ]
     };
   }
+
+  function Chart() {
+    return <PieChart className='chart' chartData={chartData} xTotal={xTotal} ></PieChart>
+  }
+
+  return {
+    chartData,
+    setChartData,
+    idToName,
+    formatChartData,
+    Chart
+  }
+
+}
+
+export function useSalesBreakdown(props, override) {
+
+  const {
+    sumColumn,
+    addColumn,
+    removeColumns,
+    sumAndGroup,
+    ...dateFunctions
+  } = useDataFunctions();
+
+  const {
+    startDate,
+    endDate,
+    Dates,
+    ...date
+
+  } = useDate();
+
+  const {
+    data,
+    tableData,
+    setTableData,
+    header,
+    setHeader,
+    ...report
+
+  } = useReport(props, `/api/salesByProduct/${props.db}/${startDate}/${endDate}`, formatData, formatTableData);
+
+  const [groupBy, setGroupBy] = useState('Cat');
+  const [sales, setSales] = useState(0);
+
+  const {
+    chartData,
+    setChartData,
+    idToName,
+    formatChartData,
+    Chart,
+  } = useChart(groupBy, sales)
+
+  const [profit, setProfit] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [dataChoice, setDataChoice] = useState('Sales');
+  const [quantity, setQuantity] = useState(0);
+
+
+  function formatData(data) {
+    return addColumn(data, 'AssocProdID', 'PriceMark', (cell) => { return cell ? 'Non PM' : 'PM' });
+  }
+
+  function formatTableData() {
+    let format = sumAndGroup(data, groupBy);
+    format.forEach(e => { Object.assign(e, { Profit: e.Sales - e.Cost - e.Refund }) });
+    return removeColumns(format, 'TillTime', 'TillHour', 'TillDate', 'Cat', 'AssocProdID');
+  }
+
+
 
   let switchData = (data, dataChoice) => {
     switch (dataChoice) {
@@ -255,25 +316,6 @@ export function useSalesBreakdown(props, override) {
     setGroupBy(value);
   }
 
-  function Dates() {
-    return (
-      <div className='date'>
-        <DateField
-          id="startDate"
-          label="Start Date"
-          defaultValue={startDate}
-          onChange={(event) => setStartDate(event.target.value)}
-        />
-        <DateField
-          id="endDate"
-          label="End Date"
-          defaultValue={endDate}
-          onChange={(event) => setEndDate(event.target.value)}
-        />
-      </div>
-    )
-  }
-
   function Total() {
 
     return (
@@ -284,22 +326,12 @@ export function useSalesBreakdown(props, override) {
       </div>);
   }
 
-  function MyChart() {
-    return <PieChart className='chart' chartData={chartData} totalSales={sales} ></PieChart>
-  }
-
-
   useEffect(() => {
-
     let block = switchData(data, dataChoice);
-    setTableData(block.tableData);
-    setChartData(block.chartData);
     setTotal(block.total);
   }, [groupBy, dataChoice]);
 
   useEffect(() => {
-    // let _data = addColumn(data, 'AssocProdID', 'PriceMark', (cell) => { return cell ? 'Non Price Mark' : 'Price Mark' });
-
     setChartData(formatChartData(data, x => { return x.Sales }));
     setSales(
       sumColumn(data, 'Sales')
@@ -313,57 +345,23 @@ export function useSalesBreakdown(props, override) {
       - sumColumn(data, 'Cost')
     );
     setQuantity(sumColumn(data, 'Qty'));
+    setHeader({ row1: "Sales Breakdown", row2: startDate + ' - ' + endDate });
+
   }, [data]);
 
   return {
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-    chartData,
-    setChartData,
-    sales,
-    setSales,
-    profit,
-    setProfit,
-    total,
-    setTotal,
-    dataChoice,
-    setDataChoice,
-    quantity,
-    setQuantity,
-    groupBy,
-    setGroupBy,
-    data,
-    setData,
-    tableData,
-    setTableData,
     header,
-    setHeader,
-    todaysDate,
-    fetchData,
-    formatTableData,
-    idToName,
-    formatChartData,
-    switchData,
-    handleDataChoiceSwitch,
-    handleGroupBySwitch,
+    tableData,
     Dates,
     Total,
-    MyChart,
+    Chart,
+    switchData,
     data,
-    fetchData,
-    sumColumn,
-    setColumn,
-    removeColumns,
-    sumAndGroup,
-    getUniqueValues,
-    getElementsWithValue,
-    setColumn,
-    addColumn
+    dataChoice,
+    setTableData,
+    setChartData,
+    ...report
   }
-
-
 }
 
 export function SalesBreakdown(props) {
@@ -373,8 +371,23 @@ export function SalesBreakdown(props) {
     tableData,
     Dates,
     Total,
-    MyChart,
+    Chart,
+    switchData,
+    data,
+    dataChoice,
+    setTableData,
+    setChartData,
+    groupBy
   } = useSalesBreakdown(props);
+
+  useEffect(() => {
+
+    let block = switchData(data, dataChoice);
+    setTableData(block.tableData);
+    setChartData(block.chartData);
+  }, [groupBy, dataChoice]);
+
+//BUGS: group by button not updating chart, datachoice changing without radio button on date change
 
   return (
 
@@ -382,7 +395,7 @@ export function SalesBreakdown(props) {
       <Paper className='reportContainer'>
         <HeaderBar header={header}></HeaderBar>
         <div className='reportBody'>
-          <><Total /><MyChart /><Dates /></>
+          <><Total /><Chart /><Dates /></>
           <EnhancedTable data={tableData} />
         </div>
       </Paper>
