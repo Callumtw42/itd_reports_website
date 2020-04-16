@@ -125,15 +125,11 @@ export function removeColumns(refData, ...col) {
 }
 
 export function sum(arr) {
-    return (notEmpty(arr)) ? arr.reduce(add) : 0;
+    return (notEmpty(arr)) ? arr.reduce((acc, n) => { return acc + n }) : 0;
 }
 
 export function getValue(e, key) {
     return e[key];
-}
-
-export function dbg(x) {
-    console.log(x);
 }
 
 export function convertDate(date) {

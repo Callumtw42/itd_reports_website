@@ -48,7 +48,6 @@ function Menu(props) {
 
   const handleSelect = (event) => {
     props.setDb(event.target.textContent);
-    console.log(event.target.textContent);
     handleClose(event);
   }
 

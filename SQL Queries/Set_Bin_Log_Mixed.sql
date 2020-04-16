@@ -6,3 +6,6 @@ SET GLOBAL binlog_format = 'MIXED';
 FLUSH LOGS;
 UNLOCK TABLES;
 
+
+
+

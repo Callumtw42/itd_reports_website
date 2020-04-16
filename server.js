@@ -40,12 +40,69 @@ app.get('/api/salesData/:db/:startDate/:endDate', (req, res) => {
 //getTodaysSales
 app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
     use(req.params.db);
-    let sql = `SELECT ProdName as Product, ProdId as Id, Cat, Description as Category, Quantity as Qty, (PackCost / PackSize)*Quantity as Cost, (Price * Quantity) as Sales, Amount as Refund, DATE_FORMAT(TillDate, '%y-%m-%d') as TillDate, TIME_FORMAT(TillTime, '%H:%m') as TillHour, TillTime FROM(
-        (SELECT Description, CategoryID as Cat FROM Category) as a
-         JOIN
-         (SELECT ti.TillItemID,t.TillID, t.TillDate,t.TillTime,t.PriceBand,c.CategoryID,ti.ProdID,ti.Barcode AS ItemID,ti.PLU,ti.Price,ti.ItemTotal,ti.Quantity,ti.VATRate,ti.SaleByWeight AS SoldByWeight,ti.IDiscount,ti.RefundID,p.BarCode,p.PackBarcode,p.PackPLU,p.PackSize,p.PackCost,p.Wholesale,p.PackSalePrice,p.Retail,p.RetailAWt,p.PackSalePriceB,p.RetailB,p.RetailBWt,p.SaleByWeight,p.UnitKg,ti.Type AS ItemType,ti.SPOffer,ti.SPOfferText,ti.SPGroupID,ti.Description as ProdName,ri.Amount,ri.RefundDate FROM TillItem ti INNER JOIN Till t ON ti.TillID = t.TillID LEFT JOIN Product p ON ti.ProdID = p.ProductID LEFT JOIN Category c ON p.CategoryID = c.CategoryID LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID WHERE t.TillDate >= '${req.params.startDate}' AND t.TillDate <= '${req.params.endDate}' ORDER BY t.TillID,ti.TillItemID) as b
-         ON b.CategoryID = a.Cat
-         );`;
+    let sql = `SELECT ProdName                          as Product,
+    ProdId                            as Id,
+    Cat,
+    Description                       as Category,
+    Quantity                          as Qty,
+    (PackCost / PackSize) * Quantity  as Cost,
+    (Price * Quantity)                as Sales,
+    Amount                            as Refund,
+    DATE_FORMAT(TillDate, '%y-%m-%d') as TillDate,
+    TIME_FORMAT(TillTime, '%H:%m')    as TillHour,
+    TillTime,
+    AssocProdID
+FROM (
+       (SELECT Description, CategoryID as Cat FROM Category) as a
+      JOIN
+  (SELECT ti.TillItemID,
+          t.TillID,
+          t.TillDate,
+          t.TillTime,
+          t.PriceBand,
+          c.CategoryID,
+          ti.ProdID,
+          ti.Barcode      AS ItemID,
+          ti.PLU,
+          ti.Price,
+          ti.ItemTotal,
+          ti.Quantity,
+          ti.VATRate,
+          ti.SaleByWeight AS SoldByWeight,
+          ti.IDiscount,
+          ti.RefundID,
+          p.BarCode,
+          p.PackBarcode,
+          p.PackPLU,
+          p.PackSize,
+          p.PackCost,
+          p.Wholesale,
+          p.PackSalePrice,
+          p.Retail,
+          p.RetailAWt,
+          p.PackSalePriceB,
+          p.RetailB,
+          p.RetailBWt,
+          p.SaleByWeight,
+          p.UnitKg,
+          ti.Type         AS ItemType,
+          ti.SPOffer,
+          ti.SPOfferText,
+          ti.SPGroupID,
+          ti.Description  as ProdName,
+          ri.Amount,
+          ri.RefundDate
+   FROM TillItem ti
+            INNER JOIN Till t ON ti.TillID = t.TillID
+            LEFT JOIN Product p ON ti.ProdID = p.ProductID
+            LEFT JOIN Category c ON p.CategoryID = c.CategoryID
+            LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID
+   WHERE t.TillDate >= '${req.params.startDate}'
+     AND t.TillDate <= '${req.params.endDate}'
+   ORDER BY t.TillID, ti.TillItemID) as b
+  ON b.CategoryID = a.Cat
+      LEFT JOIN pricemark pm ON pm.AssocProdID = ProdID
+ );`;
     let query = db.query(sql, (err, results) =>{
     if(err) throw err;
     // res.send('sales fetched');
@@ -57,7 +114,7 @@ app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
 //getHourlySales
 app.get('/api/hourlySalesData/:db/:startDate', (req, res) => {
     use(req.params.db);
-    let sql = `SELECT Product, Cat, Description as Category, Quantity as Qty, ((PackCost / PackSize)*Quantity) as Cost, (Price * Quantity) as Sales, Amount as Refund, DATE_FORMAT(TillDate, '%y-%m-%d') as TillDate, TIME_FORMAT(TillTime, '%H:%m') as TillHour, TillTime FROM(
+    let sql = `SELECT Product, Cat, Description as Category, Quantity as Qty, ((PackCost / PackSize)*Quantity) as Cost, (Price * Quantity) as Sales, Amount as Refund, DATE_FORMAT(TillDate, '%y-%m-%d') as TillDate, TIME_FORMAT(TillTime, '%H:%i') as TillHour, TillTime FROM(
         (SELECT Description, CategoryID as Cat FROM Category) as a
          JOIN
          (SELECT ti.TillItemID,t.TillID, t.TillDate,t.TillTime,t.PriceBand,c.CategoryID,ti.ProdID,ti.Barcode AS ItemID,ti.PLU,ti.Price,ti.ItemTotal,ti.Quantity,ti.VATRate,ti.SaleByWeight AS SoldByWeight,ti.IDiscount,ti.RefundID,p.BarCode,p.PackBarcode,p.PackPLU,p.PackSize,p.PackCost,p.Wholesale,p.PackSalePrice,p.Retail,p.RetailAWt,p.PackSalePriceB,p.RetailB,p.RetailBWt,p.SaleByWeight,p.UnitKg,ti.Type AS ItemType,ti.SPOffer,ti.SPOfferText,ti.SPGroupID,ti.Description as Product,ri.Amount,ri.RefundDate FROM TillItem ti INNER JOIN Till t ON ti.TillID = t.TillID LEFT JOIN Product p ON ti.ProdID = p.ProductID LEFT JOIN Category c ON p.CategoryID = c.CategoryID LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID WHERE t.TillDate >= '${req.params.startDate}' AND t.TillDate <= '${req.params.startDate}' ORDER BY t.TillID,ti.TillItemID) as b
@@ -73,7 +130,8 @@ app.get('/api/hourlySalesData/:db/:startDate', (req, res) => {
 
 app.get('/api/stock/:db', (req, res) => {
     use(req.params.db);
-    let sql = `SELECT ProdID as ID, ProductName as Name, Description as Catg, UnitQuantity as Qty, stockitem.LastUpdate FROM stockitem JOIN product ON stockitem.ProdID = product.ProductID JOIN category ON product.CategoryID = category.CategoryID;`;
+    let sql = `SELECT ProdID as ID, ProductName as Name, Description as Catg, UnitQuantity as Qty, DATE_FORMAT(stockitem.LastUpdate, '%y/%m/%d - %H:%i') as LastUpdate
+    FROM stockitem JOIN product ON stockitem.ProdID = product.ProductID JOIN category ON product.CategoryID = category.CategoryID;`;
     let query = db.query(sql, (err, results) =>{
     if(err) throw err;
     // res.send('sales fetched');
@@ -93,9 +151,15 @@ app.get('/api/databases', (req, res) => {
     });
 });
 
+
+
 app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => { 
     use(req.params.db);
-    let sql = `SELECT ti.TillID, ti.date, ti.ItemTotal, ti.Quantity, ti.Price, ti.VatRate, ti.Type, ti.IDiscount,t.Discount,t.PriceBand,ri.RefundID,ri.RefundDate,ri.Amount FROM TillItem ti INNER JOIN Till t ON ti.TillId = t.TillID LEFT JOIN RefundItem ri ON ri.RefundID = ti.RefundID WHERE t.TillDate >= '${req.params.startDate}' AND t.TillDate <= '${req.params.endDate}' AND t.Reason = 'Sale' ORDER BY ti.TillID;`;
+    let sql = `SELECT ti.TillID as Receipt_No, DATE_FORMAT(ti.date, '%y/%m/%d') as date, (ti.ItemTotal - IFNULL(ri.Amount, 0)) as Total_Sales, ti.Quantity, ti.Price, ti.VatRate, ti.Type, ti.IDiscount,
+    t.Discount,t.PriceBand,ri.RefundID,ri.RefundDate,ri.Amount, ((ti.ItemTotal - IFNULL(ri.Amount, 0)) - ((ti.ItemTotal - IFNULL(ri.Amount, 0)) / (1 + (ti.VatRate / 100)))) as Total_VAT, 
+    ((ti.ItemTotal - IFNULL(ri.Amount, 0))-((ti.ItemTotal - IFNULL(ri.Amount, 0)) - ((ti.ItemTotal - IFNULL(ri.Amount, 0)) / (1 + (ti.VatRate / 100))))) as Nett
+    FROM TillItem ti INNER JOIN Till t ON ti.TillId = t.TillID LEFT JOIN RefundItem ri ON ri.RefundID = ti.RefundID 
+    WHERE t.TillDate >= '${req.params.startDate}' AND t.TillDate <= '${req.params.endDate}' AND t.Reason = 'Sale' ORDER BY ti.TillID;`;
     let query = db.query(sql, (err, results) =>{
     if(err) throw err;
     // res.send('sales fetched');

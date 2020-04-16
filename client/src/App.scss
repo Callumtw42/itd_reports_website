@@ -1,8 +1,16 @@
 * {
-  // font-family: Verdana, Geneva, sans-serif;
-  // font-family: "Source Sans Pro", sans-serif;
   box-sizing: border-box;
   scrollbar-width: thin;
+  scrollbar-color: rgb(246, 246, 246) white;
+
+  ::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+    background-color: white;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(246, 246, 246);
+  }
 }
 
 html,
@@ -11,13 +19,8 @@ body {
   -webkit-text-size-adjust: none;
   -moz-text-size-adjust: none;
   -ms-text-size-adjust: none;
-  // margin: auto 5% ;
-}
-
-.Table {
 }
 
 .clickable > * {
   pointer-events: none;
 }
-

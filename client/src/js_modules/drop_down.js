@@ -24,9 +24,8 @@ export default function DropDown(props) {
   };
 
   const handleSelect = (event) => {
-    console.log('xx')
+    ('xx')
     props.callback(event.target.textContent);
-    console.log(event.target.textContent);
     handleClose(event);
   }
 

@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import 'typeface-roboto';
 import './App.scss';
+
 import NavBar from './js_modules/navbar.js';
-import FixedTimeReport from './js_modules/report/fixed_time_report.js';
-import VariableTimeReport from './js_modules/report/variable_time_report.js';
+import { TimeBreakdown } from './js_modules/report/time_breakdown.js';
+import { SalesBreakdown } from './js_modules/report/sales_breakdown.js';
 import SideBar from './js_modules/sidebar.js';
-import { Report } from './js_modules/report/report.js';
-import VATReport from './js_modules/report/vat_report.js';
+import { Stock } from './js_modules/report/stock.js';
+import {VAT} from './js_modules/report/vat_report.js';
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });
@@ -19,12 +20,6 @@ function App() {
     noSales: 'none'
   });
   const [db, setDb] = useState('itdepos');
-
-  function todaysDate() {
-    var today = new Date();
-    var date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate())).slice(-2);
-    return date;
-  }
 
   return (
     <Div
@@ -48,42 +43,38 @@ function App() {
         <div className="content">
 
           <div className='paper' id='salesByCategory'>
-            <VariableTimeReport
-              db = {db}
-              url = {`/api/salesByProduct/${db}/${todaysDate()}/${todaysDate()}`}
-              tableFormat={x => { return x }}
-              callBack={setHeader}
-              display={display.salesByCategory}
-              header={"Sales Breakdown"}
-            />
-          </div>
-
-          <div className='paper' id='salesByHour'>
-            <FixedTimeReport
-             db = {db}
-             url = {`/api/salesByProduct/${db}/${todaysDate()}/${todaysDate()}`}
-             tableFormat={x => { return x }}
-             callBack={setHeader}
-             display={display.salesByHour}
-             header={"Sales Breakdown"}
+            <SalesBreakdown
+              header={'Sales Breakdown'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.salesByCategory}
             />
           </div>
 {/* 
-          <div className='paper' id='stock'>
-            <Report
-              url={`/api/stock/${db}`}
-              format={x => { return x }}
+          <div className='paper' id='salesByHour'>
+            <TimeBreakdown
+              header={'Time Breakdown'}
+              db={db}
               callBack={setHeader}
-              display={display.stock}
-              header={"Stock"}
+              display={display.salesByHour}
             />
           </div>
 
-          <div className='paper'>
-            <VATReport
+          <div className='paper' id='stock'>
+            <Stock
+              header={'Stock'}
               db={db}
-              callBack={setHeader}
-              display={display.salesByCategory}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='VAT'>
+            <VAT
+              header={'VAT'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
             />
           </div> */}
 

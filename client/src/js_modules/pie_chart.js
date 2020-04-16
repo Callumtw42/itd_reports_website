@@ -117,23 +117,6 @@ const Div = styled.div`
   
 }
 
-.legend::-webkit-scrollbar {
-  float: left;
-  clear: left;
-  width: 0.4em;
-}
-.legend::-webkit-scrollbar,
-.legend::-webkit-scrollbar-thumb {
-  float: left;
-  clear: left;
-  overflow: visible;
-  border-radius: 4px;
-}
-.legend::-webkit-scrollbar-thumb {
-  float: left;
-  clear: left;
-  background: rgba(0, 0, 0, 0.2);
-}
 .cover-bar {
   position: absolute;
   background: rgb(255, 255, 255);
@@ -145,7 +128,6 @@ const Div = styled.div`
 }
 .legend:hover .cover-bar {
   opacity: 1;
-  -webkit-transition: all 0.5s;
 }
 
 .wrapper {
@@ -168,14 +150,10 @@ const Div = styled.div`
   overflow-y: hidden;
   overflow-x: scroll;
   scrollbar-width: thin;
-  -webkit-scrollbar {
-    display: none;
-  }
 }
 
 .dot {
   overflow-x: hidden;
-  float: left;
   clear: left;
   height: 3em;
   width: 3em;

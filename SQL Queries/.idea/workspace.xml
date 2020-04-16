@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e645a5ba-ba39-4fb4-a77e-7227aad4783f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1aYpoGq7sfAmow4CPcb5pjoHxAq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DBE.Init.BalloonShown" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="234" y="4" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586922645419">
+      <screen x="0" y="0" width="1280" height="690" />
+    </state>
+    <state x="234" y="4" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.690/1919.-1080.1920.1050/-1.-1090.1920.1050@0.0.1280.690" timestamp="1586922645419" />
+    <state width="1623" height="283" key="GridCell.Tab.0.bottom" timestamp="1587012683184">
+      <screen x="-1" y="-1090" width="1920" height="1050" />
+    </state>
+    <state width="1623" height="283" key="GridCell.Tab.0.bottom/0.0.1280.690/-1.-1090.1920.1050/1919.-1080.1920.1050@-1.-1090.1920.1050" timestamp="1587012683184" />
+    <state width="1623" height="283" key="GridCell.Tab.0.center" timestamp="1587012683184">
+      <screen x="-1" y="-1090" width="1920" height="1050" />
+    </state>
+    <state width="1623" height="283" key="GridCell.Tab.0.center/0.0.1280.690/-1.-1090.1920.1050/1919.-1080.1920.1050@-1.-1090.1920.1050" timestamp="1587012683184" />
+    <state width="1623" height="283" key="GridCell.Tab.0.left" timestamp="1587012683184">
+      <screen x="-1" y="-1090" width="1920" height="1050" />
+    </state>
+    <state width="1623" height="283" key="GridCell.Tab.0.left/0.0.1280.690/-1.-1090.1920.1050/1919.-1080.1920.1050@-1.-1090.1920.1050" timestamp="1587012683184" />
+    <state width="1623" height="283" key="GridCell.Tab.0.right" timestamp="1587012683184">
+      <screen x="-1" y="-1090" width="1920" height="1050" />
+    </state>
+    <state width="1623" height="283" key="GridCell.Tab.0.right/0.0.1280.690/-1.-1090.1920.1050/1919.-1080.1920.1050@-1.-1090.1920.1050" timestamp="1587012683184" />
+  </component>
+</project>
