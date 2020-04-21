@@ -164,7 +164,7 @@ export default function EnhancedTable(props) {
   React.useEffect(() => {
     if (f.notEmpty(props.data)) {
       setData(props.data);
-      setRows(props.data.map(e => { return Object.values(e).map((e, index) => { if (typeof e === 'number') e = e.toFixed(2); return <TableCell fontSize={32} key={index} align="left">{e}</TableCell> }) }));
+      setRows(props.data.map(e => { return Object.values(e).map((e, index) => { if (typeof e === 'number') e = +e.toFixed(2); return <TableCell fontSize={32} key={index} align="left">{e}</TableCell> }) }));
       setRowsPerPage(props.data.length);
     }
   }, [props.data]);
@@ -175,7 +175,7 @@ export default function EnhancedTable(props) {
     setOrderBy(property);
     let label = event.currentTarget.firstChild.firstChild.data;
     let sorted = (data.sort(sortByProperty(label, order)));
-    setRows(sorted.map(e => { return Object.values(e).map((e, index) => { if (typeof e === 'number') e = e.toFixed(2); return <TableCell fontSize={32} key={index} align="left">{e}</TableCell> }) }));
+    setRows(sorted.map(e => { return Object.values(e).map((e, index) => { if (typeof e === 'number') e = +e.toFixed(2); return <TableCell fontSize={32} key={index} align="left">{e}</TableCell> }) }));
 
   };
 

@@ -1,6 +1,9 @@
 import 'date-fns';
 import React, { useEffect } from 'react';
-import { useReport, useDate, useDataFunctions } from './sales_breakdown.js';
+import useDate from './date.js';
+import useReport from "./report";
+
+import useDataFunctions from "./data_functions";
 import EnhancedTable from '../table.js';
 import HeaderBar from '../header_bar.js';
 import Paper from '@material-ui/core/Paper';
@@ -19,6 +22,7 @@ export function VAT(props) {
     const {
         removeColumns,
         sumAndGroup,
+        columns,
         ...dataFunctions
     } = useDataFunctions();
 
@@ -27,8 +31,8 @@ export function VAT(props) {
     } = useReport(
         props,
         `/api/VAT/${props.db}/${startDate}/${endDate}`,
-        (data) => { return removeColumns(data, 'date', 'Price', 'Type', 'IDiscount', 'Discount', 'PriceBand', 'RefundID', 'RefundDate', 'Amount') },
-        (data) => { return data }
+        (data) => { return columns(data, 'VatRate', 'Receipt_No', 'Total_Sales', 'Quantity', 'Total_VAT', 'Nett') },
+        () => { return data }
     );
 
     return (
@@ -38,9 +42,9 @@ export function VAT(props) {
                 <div className='reportBody'>
                     <Dates />
                     <H1>Total VAT</H1>
-                    <EnhancedTable data={sumAndGroup(data, 'VatRate')} />
+                    <EnhancedTable data={sumAndGroup(removeColumns(data, 'Receipt_No'), 'VatRate')} />
                     <H1>VAT Receipts</H1>
-                    <EnhancedTable data={sumAndGroup(data, 'Receipt_No')} />
+                    <EnhancedTable data={sumAndGroup(removeColumns(data, 'VatRate'), 'Receipt_No')} />
                 </div>
             </Paper>
         </div>

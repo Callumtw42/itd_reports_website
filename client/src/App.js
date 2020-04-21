@@ -68,22 +68,6 @@ function App() {
               phoneDisplay={display.stock}
             />
           </div>
-          {/* 
-          <div className='paper' id='salesByHour'>
-            <TimeBreakdown
-              header={'Time Breakdown'}
-              db={db}
-              callBack={setHeader}
-              display={display.salesByHour}
-            />
-          </div>
-
-
-
- 
-          
-          */}
-
         </div>
       </div>
     </Div>
@@ -153,8 +137,8 @@ body{
     grid-template-rows: 1fr;
     grid-template-columns:1fr 1fr;
     grid-template-areas: 
-  "cat hour"
-  "stock . "
+  "cat cat"
+  "stock hour "
   ;
 
   }

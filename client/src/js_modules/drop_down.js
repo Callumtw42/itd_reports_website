@@ -24,8 +24,7 @@ export default function DropDown(props) {
   };
 
   const handleSelect = (event) => {
-    ('xx')
-    props.callback(event.target.textContent);
+    props.callback(event.target.id);
     handleClose(event);
   }
 
@@ -47,7 +46,7 @@ export default function DropDown(props) {
 
   function Items() {
     return (
-      props.list.map((e, index) => { return <Div1 key={index}><MenuItem  onClick={handleSelect}>{e}</MenuItem></Div1> })
+      props.list.map((e, index) => { return <Div1 key={index}><MenuItem  onClick={handleSelect} id={e}>{props.names[index]}</MenuItem></Div1> })
     );
   }
 

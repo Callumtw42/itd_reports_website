@@ -3,6 +3,34 @@ import { Pie } from 'react-chartjs-2';
 import styled from 'styled-components/macro';
 import * as f from './functions.js';
 
+export  function usePieChart(x, labels, colors, total) {
+
+
+
+  function formatChartData(x, labels, colors) {
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Net Sales £',
+          data: x,
+          backgroundColor: f.colors(colors)
+        }
+      ]
+    };
+  }
+
+  function CustomPieChart() {
+    return <PieChart className='chart' chartData={formatChartData(x, labels, colors)} total={total} ></PieChart>
+  }
+
+  return {
+    CustomPieChart
+  }
+
+}
+
+
 export default function PieChart(props) {
 
   function createLegend() {
@@ -26,68 +54,68 @@ export default function PieChart(props) {
     else return <div>AWW</div>
   }
 
-  function chart(toolTipSize){
+  function chart(toolTipSize) {
     if (props.chartData.datasets !== undefined)
-    return (
-      <Div>
-        <div className="wrapper">
-          <div className="chart">
-            <Pie
-              height={1} width={1}
-              data={props.chartData}
-              options={
-                {
-                  layout: {
-                  },
-                  labels: { display: false },
-                  legend: {
-                    display: false,
-                    position: 'top',
-                    align: 'center',
-                    labels: {
-                      usePointStyle: true,
-                      fontSize: 24
+      return (
+        <Div>
+          <div className="wrapper">
+            <div className="chart">
+              <Pie
+                height={1} width={1}
+                data={props.chartData}
+                options={
+                  {
+                    layout: {
                     },
-                    fullWidth: true
-
-                  },
-                  tooltips: {
-                    bodyFontSize: toolTipSize,
-                    mode: 'index',
-                    callbacks: {
-                      label: (tooltipItem, data) => {
-                        var label = data.labels[tooltipItem.index];
-                        return label;
+                    labels: { display: false },
+                    legend: {
+                      display: false,
+                      position: 'top',
+                      align: 'center',
+                      labels: {
+                        usePointStyle: true,
+                        fontSize: 24
                       },
-                      afterLabel: (tooltipItem, data) => {
-                        var sales = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                        var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / props.xTotal * 100;
-                        percent = percent.toFixed(2); // make a nice string
-                        return (!Number.isInteger(sales)) ? '£ ' + sales + ' (' + percent + '%)' : sales + ' (' + percent + '%)';
-                      }
+                      fullWidth: true
+
                     },
-                    fontSize: 24
+                    tooltips: {
+                      bodyFontSize: toolTipSize,
+                      mode: 'index',
+                      callbacks: {
+                        label: (tooltipItem, data) => {
+                          var label = data.labels[tooltipItem.index];
+                          return label;
+                        },
+                        afterLabel: (tooltipItem, data) => {
+                          var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                          var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / props.total * 100;
+                          percent = percent.toFixed(2); // make a nice string
+                          return (!Number.isInteger(value)) ? '£ ' + value.toFixed(2) + ' (' + percent + '%)' : value + ' (' + percent + '%)';
+                        }
+                      },
+                      fontSize: 24
+                    }
                   }
                 }
-              }
-            />
-          </div>
+              />
+            </div>
 
-          <div className='legend'>{createLegend()}</div>
-        </div>
-      </Div>
+            <div className='legend'>{createLegend()}</div>
+          </div>
+        </Div>
+      )
+    else return (
+      <div className="chart">
+        <Pie
+          data={props.chartData}
+        />
+      </div>
     )
-  else return (
-    <div className="chart">
-      <Pie
-        data={props.chartData}
-      />
-    </div>
-  )
   }
 
 
- return chart(f.viewport (12, 32));
+  return chart(f.viewport(12, 32));
 
 }
 
@@ -190,6 +218,33 @@ padding: 0 0.25em;
   max-width: 16vw;
   margin: 0px auto ;
 }
+
+
+/* Inline #9 | http://localhost:3000/ */
+
+.scroll-bar-wrap > ul {
+  /* flex-direction: row; */
+  flex-direction: column;
+}
+
+.wrapper {
+  flex-direction: row;
+  justify-content: center;
+  max-height: 45vh;
+}
+
+.chart > canvas {
+    min-width: 22vw;
+    min-height: 22vw;
+    margin: 0 auto;
+  }
+
+  .legend{
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+
 
 } 
 

@@ -14,6 +14,7 @@
           <node kind="schema">
             <name qname="@" />
             <name qname="itdepos" />
+            <name qname="itdepos2" />
           </node>
         </introspection-scope>
       </schema-mapping>

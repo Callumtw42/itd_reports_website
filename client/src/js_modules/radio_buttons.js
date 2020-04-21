@@ -14,7 +14,7 @@ export default function RadioButtons(props) {
                 <RadioGroup color="#004064" aria-label="gender" name="gender1" value={props.value} onChange={props.handleChange}>
                     <FormControlLabel color="#004064" value="Sales" control={<Radio />} label="Sales" />
                     <FormControlLabel color="#004064" value="Profit" control={<Radio />} label="Profit" />
-                    <FormControlLabel color="#004064" value="Quantity" control={<Radio />} label="Quantity" />
+                    <FormControlLabel color="#004064" value="Qty" control={<Radio />} label="Quantity" />
                 </RadioGroup>
             </FormControl>
         </Div>
