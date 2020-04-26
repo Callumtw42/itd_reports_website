@@ -3,24 +3,11 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
+import useIconSwitch from './icon_switch';
 
 export default function HeaderBar(props) {
 
-    function Header() {
-        if (typeof props.header === 'string')
-            return <Typography className='text' variant="h6">{props.header}</Typography>
-        else return (
-            <div>
-                <Typography className='text' variant="h6">{props.header.row1 + ' - ' + props.header.row2}</Typography>
-            </div>
-        )
-    }
-
-    function Menu() {
-        return props.menu ? props.menu : <></>;
-    }
-
-    return (<Div><AppBar ><Header className='header' /><Menu className='menu'/></AppBar></Div>)
+    return (<Div><AppBar >{props.children}</AppBar></Div>)
 
 }
 
@@ -75,6 +62,9 @@ h6{
     padding-left: 0;
     padding-right: 0;
 }
+
+
+
 
     @media (max-width:64em){
     .MuiPaper-root{

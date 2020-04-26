@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
+import CashierHistory from './js_modules/report/cashier_history'
+import ReturnToSupplier from './js_modules/report/return_to_supplier'
+import VoidSales from './js_modules/report/void_sales'
+import Refund from './js_modules/report/refund'
+import StaffHours from './js_modules/report/staff_hours'
+import Wastage from './js_modules/report/wastage'
+import PriceOverride from './js_modules/report/price_override'
+import VoucherSales from './js_modules/report/voucher_sales'
+import ExpiryDates from './js_modules/report/expiry_dates';
+import ProductExchange from './js_modules/report/product_exchange'
+import CustomerCredit from './js_modules/report/customer_credit'
 import styled from "styled-components";
 import 'typeface-roboto';
 import './App.scss';
-
 import NavBar from './js_modules/navbar.js';
 import { TimeBreakdown } from './js_modules/report/time_breakdown.js';
 import { SalesBreakdown } from './js_modules/report/sales_breakdown.js';
@@ -68,12 +78,111 @@ function App() {
               phoneDisplay={display.stock}
             />
           </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <CustomerCredit
+              header={'Customer Credit'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <ProductExchange
+              header={'Product Exchange'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <ExpiryDates
+              header={'Expiry Dates'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <VoucherSales
+              header={'Voucher Sales'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <PriceOverride
+              header={'Price Override Report'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <Wastage
+              header={'Wastage'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <Refund
+              header={'Refund Report'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <StaffHours
+              header={'Staff Hours'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <VoidSales
+              header={'Void Sales'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <ReturnToSupplier
+              header={'Return To Supplier'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+          <CashierHistory
+              header={'Cashier History'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
         </div>
       </div>
     </Div>
   );
 }
-
 
 const Div = styled.div`
 
@@ -139,6 +248,7 @@ body{
     grid-template-areas: 
   "cat cat"
   "stock hour "
+  ". ."
   ;
 
   }

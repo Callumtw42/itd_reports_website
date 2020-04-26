@@ -23,112 +23,145 @@ db.connect((err) => {
 
 const app = express();
 
-//getTodaysSales
-app.get('/api/salesData/:db/:startDate/:endDate', (req, res) => {
-    use(req.params.db);
-    let sql = `SELECT Cat, Description as Category, SUM(Quantity) as Qty, SUM((PackCost / PackSize)*Quantity) as Cost, SUM(Price * Quantity) as Sales, SUM(Amount) as Refund FROM(
-        (SELECT Description, CategoryID as Cat FROM Category) as a
-         JOIN
-         (SELECT ti.TillItemID,t.TillID, t.TillDate,t.TillTime,t.PriceBand,c.CategoryID,ti.ProdID,ti.Barcode AS ItemID,ti.PLU,ti.Price,ti.ItemTotal,ti.Quantity,ti.VATRate,ti.SaleByWeight AS SoldByWeight,ti.IDiscount,ti.RefundID,p.BarCode,p.PackBarcode,p.PackPLU,p.PackSize,p.PackCost,p.Wholesale,p.PackSalePrice,p.Retail,p.RetailAWt,p.PackSalePriceB,p.RetailB,p.RetailBWt,p.SaleByWeight,p.UnitKg,ti.Type AS ItemType,ti.SPOffer,ti.SPOfferText,ti.SPGroupID,ti.Description as ProdName,ri.Amount,ri.RefundDate FROM TillItem ti INNER JOIN Till t ON ti.TillID = t.TillID LEFT JOIN Product p ON ti.ProdID = p.ProductID LEFT JOIN Category c ON p.CategoryID = c.CategoryID LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID WHERE t.TillDate >= '${req.params.startDate}' AND t.TillDate <= '${req.params.endDate}' ORDER BY t.TillID,ti.TillItemID) as b
-         ON b.CategoryID = a.Cat
-         ) Group by Category;`;
-    let query = db.query(sql, (err, results) => {
-        if (err) throw err;
-        // res.send('sales fetched');
-
-        res.json(results);
-    });
-});
-
-
 function run(sql) {
     let query = db.query(sql, (err, results) => {
         if (err) throw err;
-        // res.send('sales fetched');
-
-        // res.json(results);
     });
 }
 
+function select(sql, res) {
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err;
+        res.json(results);
+    });
+}
 
-//getTodaysSales
+//SalesData
 app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
-    use(req.params.db);
+    run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-
-    let sql = fs.readFileSync(path.join('SQL_Queries', 'Sales.sql'), { encoding: "UTF-8" })
-    let query = db.query(sql, (err, results) => {
-        if (err) throw err;
-        res.json(results);
-    });
+    select(fs.readFileSync(path.join('SQL_Queries', 'Sales.sql'), { encoding: "UTF-8" }), res)
 });
 
-//getHourlySales
-app.get('/api/hourlySalesData/:db/:startDate', (req, res) => {
-    use(req.params.db);
-    let sql = `SELECT Product, Cat, Description as Category, Quantity as Qty, ((PackCost / PackSize)*Quantity) as Cost, (Price * Quantity) as Sales, Amount as Refund, DATE_FORMAT(TillDate, '%y-%m-%d') as TillDate, TIME_FORMAT(TillTime, '%H:%i') as TillHour, TillTime FROM(
-        (SELECT Description, CategoryID as Cat FROM Category) as a
-         JOIN
-         (SELECT ti.TillItemID,t.TillID, t.TillDate,t.TillTime,t.PriceBand,c.CategoryID,ti.ProdID,ti.Barcode AS ItemID,ti.PLU,ti.Price,ti.ItemTotal,ti.Quantity,ti.VATRate,ti.SaleByWeight AS SoldByWeight,ti.IDiscount,ti.RefundID,p.BarCode,p.PackBarcode,p.PackPLU,p.PackSize,p.PackCost,p.Wholesale,p.PackSalePrice,p.Retail,p.RetailAWt,p.PackSalePriceB,p.RetailB,p.RetailBWt,p.SaleByWeight,p.UnitKg,ti.Type AS ItemType,ti.SPOffer,ti.SPOfferText,ti.SPGroupID,ti.Description as Product,ri.Amount,ri.RefundDate FROM TillItem ti INNER JOIN Till t ON ti.TillID = t.TillID LEFT JOIN Product p ON ti.ProdID = p.ProductID LEFT JOIN Category c ON p.CategoryID = c.CategoryID LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID WHERE t.TillDate >= '${req.params.startDate}' AND t.TillDate <= '${req.params.startDate}' ORDER BY t.TillID,ti.TillItemID) as b
-         ON b.CategoryID = a.Cat
-         );`;
-    let query = db.query(sql, (err, results) => {
-        if (err) throw err;
-        // res.send('sales fetched');
-
-        res.json(results);
-    });
-});
-
+// Stock
 app.get('/api/stock/:db', (req, res) => {
-    use(req.params.db);
-    let sql =  fs.readFileSync(path.join('SQL_Queries', 'Stock.sql'), { encoding: "UTF-8" })
-    let query = db.query(sql, (err, results) => {
-        if (err) throw err;
-        // res.send('sales fetched');
-
-        res.json(results);
-    });
+    run(`USE ${req.params.db};`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Stock.sql'), { encoding: "UTF-8" }), res)
 });
 
+// Stock_Reorder
+app.get('/api/reorder/:db', (req, res) => {
+    run(`USE ${req.params.db};`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Reorder.sql'), { encoding: "UTF-8" }), res)
+});
+
+// Stock_Reorder
+app.get('/api/nonscan/:db', (req, res) => {
+    run(`USE ${req.params.db};`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Non_Scan.sql'), { encoding: "UTF-8" }), res)
+});
+
+//Stock Adjust
+app.get('/api/adjust/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Stock_Adjustment.sql'), { encoding: "UTF-8" }), res)
+});
+
+//Customer Credit
+app.get('/api/credit/:db', (req, res) => {
+    run(`USE ${req.params.db};`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Customer_Credit.sql'), { encoding: "UTF-8" }), res)
+});
+
+//Product Exchange
+app.get('/api/exchange/:db', (req, res) => {
+    run(`USE ${req.params.db};`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Product_Exchange.sql'), { encoding: "UTF-8" }), res)
+});
+
+//Expiry Date
+app.get('/api/expiry/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Expiry_Dates.sql'), { encoding: "UTF-8" }), res)
+});
+
+//Voucher Sales
+app.get('/api/voucher/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Voucher_Sales.sql'), { encoding: "UTF-8" }), res)
+});
+
+//Price_Override
+app.get('/api/priceoverride/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Price_Override.sql'), { encoding: "UTF-8" }), res)
+});
+
+//Wastage
+app.get('/api/wastage/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Wastage.sql'), { encoding: "UTF-8" }), res)
+});
+
+
+//Refund
+app.get('/api/refund/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Refund_Report.sql'), { encoding: "UTF-8" }), res)
+});
+
+
+//Staff Hours
+app.get('/api/staffhours/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Staff_Hours.sql'), { encoding: "UTF-8" }), res)
+});
+
+
+//Void_Sales
+app.get('/api/voidsales/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Void_Sales.sql'), { encoding: "UTF-8" }), res)
+});
+
+
+//Return to Supplier
+app.get('/api/returntosupplier/:db/:startDate/:endDate', (req, res) => {
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'Return_To_Supplier.sql'), { encoding: "UTF-8" }), res)
+});
+
+//DBList
 app.get('/api/databases', (req, res) => {
-
-    let sql = `SHOW DATABASES;`;
-    let query = db.query(sql, (err, results) => {
-        if (err) throw err;
-        // res.send('sales fetched');
-
-        res.json(results);
-    });
+    select(`SHOW DATABASES;`, res);
 });
 
-
-
+//VAT
 app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => {
-    use(req.params.db);
-    let sql = `SELECT ti.TillID as Receipt_No, DATE_FORMAT(ti.date, '%y/%m/%d') as date, (ti.ItemTotal - IFNULL(ri.Amount, 0)) as Total_Sales, ti.Quantity, ti.Price, ti.VatRate, ti.Type, ti.IDiscount,
-    t.Discount,t.PriceBand,ri.RefundID,ri.RefundDate,ri.Amount, ((ti.ItemTotal - IFNULL(ri.Amount, 0)) - ((ti.ItemTotal - IFNULL(ri.Amount, 0)) / (1 + (ti.VatRate / 100)))) as Total_VAT, 
-    ((ti.ItemTotal - IFNULL(ri.Amount, 0))-((ti.ItemTotal - IFNULL(ri.Amount, 0)) - ((ti.ItemTotal - IFNULL(ri.Amount, 0)) / (1 + (ti.VatRate / 100))))) as Nett
-    FROM TillItem ti INNER JOIN Till t ON ti.TillId = t.TillID LEFT JOIN RefundItem ri ON ri.RefundID = ti.RefundID 
-    WHERE t.TillDate >= '${req.params.startDate}' AND t.TillDate <= '${req.params.endDate}' AND t.Reason = 'Sale' ORDER BY ti.TillID;`;
-    let query = db.query(sql, (err, results) => {
-        if (err) throw err;
-        // res.send('sales fetched');
-
-        res.json(results);
-    });
+    run(`USE ${req.params.db};`);
+    run(`SET @startDate = '${req.params.startDate}';`);
+    run(`SET @endDate = '${req.params.endDate}';`);
+    select(fs.readFileSync(path.join('SQL_Queries', 'VAT.sql'), { encoding: "UTF-8" }), res);
 });
-
-
-
-function use(dbSel) {
-    let sql = `USE ${dbSel};`;
-    let query = db.query(sql, (err, results) => {
-        if (err) throw err;
-    });
-}
-
 
 //listen
 app.listen('5000', () => {

@@ -33,6 +33,7 @@
 
     .reportContainer {
         margin: 5px;
+        min-height: 70vh;
     }
 
     .sales > h1 {
@@ -52,6 +53,7 @@
         flex-direction: row;
         justify-content: center;
         margin: 0 auto;
+        margin: 10px;
     }
 
     h1 {

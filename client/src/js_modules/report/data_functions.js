@@ -30,7 +30,7 @@ export default function useDataFunctions() {
     }
 
     function columns(data, ...cols) {
-       return data.map(e => { let en = {}; cols.map(c => { return Object.assign(en, { [c]: e[c] }) }); return en });
+        return data.map(e => { let en = {}; cols.map(c => { return Object.assign(en, { [c]: e[c] }) }); return en });
     }
 
     function sumAndGroup(data, col, ...dontSum) {
@@ -43,6 +43,11 @@ export default function useDataFunctions() {
         split = JSON.parse(JSON.stringify(split));
         let grouped = split.map(a => { return a.reduce(sumObjectsByKey) });
         return grouped;
+    }
+
+    function split(data, col) {
+        let groups = getUniqueValues(data, col);
+        return groups.map(e => { return getElementsWithValue(data, col, e) });
     }
 
     function getUniqueValues(data, col) {
@@ -67,7 +72,9 @@ export default function useDataFunctions() {
         sumAndGroup,
         getUniqueValues,
         getElementsWithValue,
-        columns
+        columns,
+        split
+
 
     }
 

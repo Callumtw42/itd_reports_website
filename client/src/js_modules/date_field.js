@@ -37,8 +37,7 @@ export default function DateField(props) {
                 className={classes.textField}
                 InputLabelProps={{
                     shrink: true,
-                  }}
-                // value={endDate}
+                }}
                 onChange={props.onChange}
             />
         </Div>

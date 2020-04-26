@@ -1,22 +1,25 @@
-SELECT TillID                            as Receipt,
-       ProdName                          as Product,
-       ProdId                            as Id,
+SELECT TillID                                    as Receipt,
+       ProdName                                  as Product,
+       ProdId                                    as Id,
        Cat,
-       Description                       as Category,
-       Quantity                          as Qty,
-       (PackCost / PackSize) * Quantity  as Cost,
-       ItemTotal                         as Sales,
-       IFNULL(Amount, 0)                 as Refund,
-       DATE_FORMAT(TillDate, '%y-%m-%d') as TillDate,
-       TIME_FORMAT(TillTime, '%H:%m')    as TillHour,
+       Description                               as Category,
+       Quantity                                  as Qty,
+       IFNULL(PackCost / PackSize, 0) * Quantity as Cost,
+       ItemTotal                                 as Sales,
+       IFNULL(Amount, 0)                         as Refund,
+       DATE_FORMAT(TillDate, '%y/%m/%d')         as TillDate,
+       TIME_FORMAT(TillTime, '%H:%m')            as TillHour,
        Discount,
        DsctReason,
        TillTime,
        Cashier,
-       ASCII(Cashier) * LENGTH(Cashier)  as CashierNum,
-       AssocProdID
+       ASCII(Cashier) * LENGTH(Cashier)          as CashierNum,
+       AssocProdID,
+       Card ,
+       Voucher,
+       Cash
 FROM (
-          (SELECT Description, CategoryID as Cat FROM Category) as a
+          (SELECT Description, CategoryID as Cat FROM Category) as    a
          JOIN
      (SELECT ti.TillItemID,
              t.TillID,
@@ -25,6 +28,8 @@ FROM (
              t.PriceBand,
              t.Cash,
              t.Cashier,
+             t.Voucher,
+             t.Credit                                                      as Card,
              ROUND((t.Discount / (t.Cash + t.Discount) * ti.ItemTotal), 2) AS Discount,
              t.DiscountReason                                              AS DsctReason,
              c.CategoryID,
@@ -69,4 +74,5 @@ FROM (
       ORDER BY t.TillID, ti.TillItemID) as b
      ON b.CategoryID = a.Cat
          LEFT JOIN pricemark pm ON pm.AssocProdID = ProdID
-    );
+    )
+order by Sales desc;

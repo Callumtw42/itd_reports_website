@@ -22,8 +22,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BarChartIcon from '@material-ui/icons/BarChart';
-
 import PieChartIcon from '@material-ui/icons/PieChart';
+import useIconSwitch from '../icon_switch';
+import Typography from '@material-ui/core/Typography';
 
 
 export function useSalesBreakdown(props, formatTableData) {
@@ -43,15 +44,14 @@ export function useSalesBreakdown(props, formatTableData) {
 
   const {
     data,
-    tableData,
-    setTableData,
     header,
     setHeader,
-  } = useReport(props, `/api/salesByProduct/${props.db}/${startDate}/${endDate}`, formatData, formatTableData);
+  } = useReport(props, `/api/salesByProduct/${props.db}/${startDate}/${endDate}`, formatData);
 
   const [groupBy, setGroupBy] = useState('Cat');
   const [total, setTotal] = useState(0);
   const [dataChoice, setDataChoice] = useState('Sales');
+  const [tableData, setTableData] = useState([]);
 
   function formatData(data) {
     let priceMark = addColumn(data, 'AssocProdID', 'PriceMark', (cell) => { return cell ? 'PM' : 'Non PM' });
@@ -75,6 +75,7 @@ export function useSalesBreakdown(props, formatTableData) {
   }, [groupBy, dataChoice]);
 
   useEffect(() => {
+    setTableData(formatTableData());
     setTotal(sumColumn(data, dataChoice));
     setHeader({ row1: "Sales Breakdown", row2: startDate + ' - ' + endDate });
   }, [data]);
@@ -97,7 +98,6 @@ export function useSalesBreakdown(props, formatTableData) {
 
 export function SalesBreakdown(props) {
 
-  const [chart, setChart] = useState('pie');
 
   const {
     header,
@@ -112,7 +112,7 @@ export function SalesBreakdown(props) {
     total,
     setEndDate,
     startDate
-  } = useSalesBreakdown(props, formatTableData.bind(this, chart));
+  } = useSalesBreakdown(props, formatTableData);
 
   const {
     getColumn,
@@ -138,13 +138,24 @@ export function SalesBreakdown(props) {
     total
   );
 
-  function Chart() {
-    return chart === 'pie' ? <CustomPieChart />
+  const [chart, setChart] = useState('pie');
+
+  const {
+    IconSwitch
+  } = useIconSwitch(
+    [
+      { icon: <BarChartIcon />, callBack: setChart.bind(this, 'bar') },
+      { icon: <PieChartIcon />, callBack: setChart.bind(this, 'pie') }
+    ]
+  );
+
+  function GetChart(props) {
+    return props.chart === 'pie' ? <CustomPieChart />
       : <StackedBarChart />
   }
 
-  function GetDate() {
-    return chart === 'pie' ? <Dates />
+  function GetDateField(props) {
+    return props.chart === 'pie' ? <Dates />
       : <OneDate />
   }
 
@@ -158,42 +169,30 @@ export function SalesBreakdown(props) {
     }
   }
 
-  function formatTableData(chart) {
+  function formatTableData() {
     let format = sumAndGroup(data, groupBy, 'Id', 'CashierNum');
     switch (groupBy) {
-      case 'AssocProdID': return columns(format, 'PriceMark', 'Sales', 'Cost', 'Discount', 'Refund', 'Qty');
-      case 'CashierNum': return columns(format, 'Cashier', 'Sales', 'Cost', 'Discount', 'Refund', 'Qty');
-      case 'Id': return columns(format, 'Product', 'Id', 'Category', 'PriceMark', 'Sales', 'Cost', 'Discount', 'Refund', 'Qty');
-      case 'Cat': return columns(format, 'Category', 'Sales', 'Cost', 'Discount', 'Refund', 'Qty');
-      case 'Receipt': return columns(format, 'Receipt', 'Cashier', 'TillTime', 'Sales', 'Cost', 'Discount', 'DsctReason', 'Refund', 'Qty');
-      default: return columns(format, 'Sales', 'Cost', 'Discount', 'Refund', 'Qty');
+      case 'AssocProdID': return columns(format, 'PriceMark', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+      case 'CashierNum': return columns(format, 'Cashier', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+      case 'Id': return columns(format, 'Product', 'Id', 'Category', 'PriceMark', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+      case 'Cat': return columns(format, 'Category', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+      case 'Receipt': return columns(format, 'Receipt', 'Cashier', 'TillTime', 'Sales', 'Cost', 'Discount', 'DsctReason', 'Refund', 'Profit', 'Qty');
+      default: return columns(format, 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
     }
   }
 
-  function handleIconClick() {
-    return chart === 'pie'
-      ? (() => { setChart('bar'); setEndDate(startDate); })()
-      : (() => { setChart('pie'); })()
-  }
-
-  function Menu() {
-
-    return (
-      <List>
-        <ListItem className='clickable' button onClick={() => { handleIconClick() }}>
-          <ListItemIcon>{(() => { return (chart === 'pie') ? <BarChartIcon /> : <PieChartIcon /> })()}</ListItemIcon>
-        </ListItem>
-      </List>
-    )
-  }
+  useEffect(() => {
+    if (chart === 'bar')
+      setEndDate(startDate);
+  }, [chart])
 
   return (
 
     <div className='report'>
       <Paper className='reportContainer'>
-        <HeaderBar header={header} menu={Menu()}></HeaderBar>
+        <HeaderBar /* header={header} */ ><Typography className='text' variant="h6">{header.row1 + ' - ' + header.row2}</Typography><IconSwitch /></HeaderBar>
         <div className='reportBody'>
-          <><Total /><Chart /><GetDate /></>
+          <><Total /><GetChart chart={chart} /><GetDateField chart={chart} /></>
           <EnhancedTable data={tableData} />
         </div>
       </Paper>

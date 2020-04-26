@@ -1,4 +1,5 @@
 import Paper from '@material-ui/core/Paper';
+import useDataFunctions from '../js_modules/report/data_functions'
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,6 +15,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import * as f from './functions.js';
+
+const {
+  notEmpty
+} = useDataFunctions();
 
 function EnhancedTableHead(props) {
   const { classes, order, orderBy, onRequestSort } = props;
@@ -37,7 +42,7 @@ function EnhancedTableHead(props) {
         }
       }));
       setData(props.data);
-    }
+    } else setHeadCells([]);
   }, [props.data]);
 
   return (
@@ -160,15 +165,6 @@ export default function EnhancedTable(props) {
   const [data, setData] = React.useState([]);
 
   const [rows, setRows] = React.useState([]);
-
-  React.useEffect(() => {
-    if (f.notEmpty(props.data)) {
-      setData(props.data);
-      setRows(props.data.map(e => { return Object.values(e).map((e, index) => { if (typeof e === 'number') e = +e.toFixed(2); return <TableCell fontSize={32} key={index} align="left">{e}</TableCell> }) }));
-      setRowsPerPage(props.data.length);
-    }
-  }, [props.data]);
-
   const handleRequestSort = (event, property) => {
     const isAsc = order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -204,7 +200,24 @@ export default function EnhancedTable(props) {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  let key = 0;
+  function EmptyMessage() {
+    return notEmpty(props.data)
+      ? <></> 
+      : <div className = 'emptyMessage'><Typography >Empty</Typography></div>
+  }
+  React.useEffect(() => {
+    if (f.notEmpty(props.data)) {
+      setData(props.data);
+      setRows(props.data.map(e => { return Object.values(e).map((e, index) => { if (typeof e === 'number') e = +e.toFixed(2); return <TableCell fontSize={32} key={index} align="left">{e}</TableCell> }) }));
+      setRowsPerPage(props.data.length);
+    } else {
+      setData([]);
+      setRows([]);
+      setRowsPerPage([]);
+    }
+  }, [props.data]);
+
+
   return (
     <Div className={classes.root}>
       <Paper className={classes.paper}>
@@ -233,7 +246,7 @@ export default function EnhancedTable(props) {
                   const isItemSelected = isSelected(row.name);
                   return (
                     <TableRow
-                      key={key++}
+                      key={index}
                       hover
                       role="checkbox"
                       aria-checked={isItemSelected}
@@ -253,6 +266,7 @@ export default function EnhancedTable(props) {
           </Table>
         </TableContainer>
       </Paper>
+      <EmptyMessage  />
     </Div>
   );
 }
@@ -270,6 +284,10 @@ const Div = styled.div`
 
     .MuiTable-root{
       margin: 100px 0 0 0;
+  }
+
+  .emptyMessage{
+    margin: 25vh;
   }
 
 @media (min-width:64em){

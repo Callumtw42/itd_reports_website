@@ -9,6 +9,8 @@ import HeaderBar from '../header_bar.js';
 import Paper from '@material-ui/core/Paper';
 import * as f from '../functions.js';
 import styled, { injectGlobal } from 'styled-components';
+import Typography from '@material-ui/core/Typography';
+
 
 export function VAT(props) {
 
@@ -32,13 +34,12 @@ export function VAT(props) {
         props,
         `/api/VAT/${props.db}/${startDate}/${endDate}`,
         (data) => { return columns(data, 'VatRate', 'Receipt_No', 'Total_Sales', 'Quantity', 'Total_VAT', 'Nett') },
-        () => { return data }
     );
 
     return (
         <div className='report'>
             <Paper className='reportContainer'>
-                <HeaderBar header={props.header}></HeaderBar>
+                <HeaderBar><Typography className='text' variant="h6">{props.header}</Typography></HeaderBar>
                 <div className='reportBody'>
                     <Dates />
                     <H1>Total VAT</H1>
