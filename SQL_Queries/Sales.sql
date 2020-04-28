@@ -15,11 +15,11 @@ SELECT TillID                                    as Receipt,
        Cashier,
        ASCII(Cashier) * LENGTH(Cashier)          as CashierNum,
        AssocProdID,
-       Card ,
+       Card,
        Voucher,
        Cash
 FROM (
-          (SELECT Description, CategoryID as Cat FROM Category) as    a
+          (SELECT Description, CategoryID as Cat FROM Category) as a
          JOIN
      (SELECT ti.TillItemID,
              t.TillID,

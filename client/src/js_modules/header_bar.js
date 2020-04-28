@@ -17,10 +17,15 @@ const Div = styled.div`
     margin: 0 20px 0px 0px;
 }
 
+.MuiList-padding {
+ margin-left: auto;
+}
+
+
 .MuiPaper-root{
     background-color: #004064;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: left;
     position: relative;
     z-index: 0;
 

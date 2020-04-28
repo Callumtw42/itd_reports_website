@@ -1,13 +1,10 @@
 import React from 'react';
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import styled from 'styled-components';
-import MenuList from '@material-ui/core/MenuList';
 import useDataFunctions from './report/data_functions';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,35 +18,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function useSimpleSelect(items) {
-    const {
-        notEmpty
-    } = useDataFunctions();
+
+    const d = useDataFunctions();
 
     const classes = useStyles();
 
-    const [text, setText] = React.useState('empty');
+    function SimpleSelect(props) {
 
-    useEffect(() => {
-        setText(
+        const [text, setText] = React.useState(
             items[0]
                 ? items[0]['text']
                 : 'empty'
-        )
-    })
+        );
 
-    function Items() {
-        return items.map((i, index) => { return <MenuItem key={index} onMouseDown={() => { i.callBack(); setText(i.text); }}>{i.text}</MenuItem> });
-    }
-
-    function SimpleSelect(props) {
+        function Items() {
+            return items.map((i, index) => {
+                return <MenuItem
+                    key={index}
+                    onMouseDown={
+                        () => {
+                            setText(i.text);
+                            i.callBack();
+                        }
+                    }>
+                    {i.text}
+                </MenuItem>
+            });
+        }
 
         return (
             <Div color={props.color}>
                 <FormControl className={classes.formControl}>
                     <Select
-                        value={0}
+                        value={''}
                         displayEmpty
-                        renderValue={() => { return text }} >
+                        label={text}
+                        renderValue={() => { return text }}
+                    >
                         {Items()}
                     </Select>
                 </FormControl>
@@ -57,7 +62,7 @@ export default function useSimpleSelect(items) {
         );
     }
     return {
-        SimpleSelect
+        SimpleSelect: SimpleSelect,
     }
 }
 

@@ -61,8 +61,24 @@ export default function useDataFunctions() {
             e[key] === value)
     }
 
-    return {
+    function sort(data, property, order) {
+        return data.sort(sortByProperty(property, order))
+    }
 
+    function sortByProperty(property, order) {
+        order = (order === 'asc') ? -1 : 1;
+        return function (a, b) {
+            if (a[property] > b[property])
+                return order;
+            else if (a[property] < b[property])
+                return -order;
+            return 0;
+        }
+    }
+
+
+    return {
+        sort,
         notEmpty,
         getColumn,
         sumColumn,

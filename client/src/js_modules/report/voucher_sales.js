@@ -29,9 +29,9 @@ export default function VoucherSales(props) {
     return (
         <div className='report'>
             <Paper className='reportContainer'>
-                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography></HeaderBar>
+                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates color='white' /></HeaderBar>
                 <div className='reportBody'>
-                    <Dates /><EnhancedTable data={tableData} />
+                    <EnhancedTable data={tableData} />
                 </div>
             </Paper>
         </div>

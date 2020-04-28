@@ -39,9 +39,11 @@ export function VAT(props) {
     return (
         <div className='report'>
             <Paper className='reportContainer'>
-                <HeaderBar><Typography className='text' variant="h6">{props.header}</Typography></HeaderBar>
+                <HeaderBar>
+                    <Typography className='text' variant="h6">{props.header}</Typography>
+                    <Dates color='white' />
+                </HeaderBar>
                 <div className='reportBody'>
-                    <Dates />
                     <H1>Total VAT</H1>
                     <EnhancedTable data={sumAndGroup(removeColumns(data, 'Receipt_No'), 'VatRate')} />
                     <H1>VAT Receipts</H1>

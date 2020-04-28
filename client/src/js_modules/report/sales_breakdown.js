@@ -77,7 +77,6 @@ export function useSalesBreakdown(props, formatTableData) {
   useEffect(() => {
     setTableData(formatTableData());
     setTotal(sumColumn(data, dataChoice));
-    setHeader({ row1: "Sales Breakdown", row2: startDate + ' - ' + endDate });
   }, [data]);
 
   return {
@@ -155,8 +154,8 @@ export function SalesBreakdown(props) {
   }
 
   function GetDateField(props) {
-    return props.chart === 'pie' ? <Dates />
-      : <OneDate />
+    return props.chart === 'pie' ? <Dates color = 'white' />
+      : <OneDate color='white' />
   }
 
   function idToName(groupBy) {
@@ -190,9 +189,9 @@ export function SalesBreakdown(props) {
 
     <div className='report'>
       <Paper className='reportContainer'>
-        <HeaderBar /* header={header} */ ><Typography className='text' variant="h6">{header.row1 + ' - ' + header.row2}</Typography><IconSwitch /></HeaderBar>
+        <HeaderBar  ><Typography className='text' variant="h6">{header}</Typography><GetDateField chart={chart} /><IconSwitch /></HeaderBar>
         <div className='reportBody'>
-          <><Total /><GetChart chart={chart} /><GetDateField chart={chart} /></>
+          <><Total /><GetChart chart={chart} /></>
           <EnhancedTable data={tableData} />
         </div>
       </Paper>

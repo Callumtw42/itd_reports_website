@@ -1,4 +1,6 @@
 import DateField from "../date_field"
+import Typography from '@material-ui/core/Typography'
+import styled from 'styled-components'
 import React from "react";
 import { useState } from 'react';
 export default function useDate() {
@@ -12,40 +14,48 @@ export default function useDate() {
         return date;
     }
 
-    function Dates() {
+    function formatDate(date) {
+        let d = new Date(date);
+        let formatted = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + (d.getDate())).slice(-2)
+        return formatted;
+    }
+
+    function Dates(props) {
+        const { color = 'black' } = props
         return (
-            <div className='date'>
+            <Div className='date' color={color}>
                 <DateField
                     id="startDate"
-                    label="Start Date"
                     defaultValue={startDate}
-                    onChange={(event) => {
-                        setStartDate(event.target.value);
+                    onChange={(date) => {
+                        setStartDate(formatDate(date));
                     }}
                 />
+                <Typography> - </Typography>
                 <DateField
                     id="endDate"
-                    label="End Date"
                     defaultValue={endDate}
-                    onChange={(event) => setEndDate(event.target.value)}
+                    onChange={(date) => setEndDate(formatDate(date))}
                 />
-            </div>
+            </Div>
         )
     }
 
-    function OneDate() {
+    function OneDate(props) {
+        const { color = 'black' } = props
         return (
-            <div className='date'>
+
+            <Div color={color} className='date'>
                 <DateField
                     id="startDate"
-                    label="Date"
                     defaultValue={startDate}
-                    onChange={(event) => {
-                        setStartDate(event.target.value);
-                        setEndDate(event.target.value);
+                    onChange={(date) => {
+                        setStartDate(formatDate(date));
+                        setEndDate(formatDate(date));
                     }}
                 />
-            </div>
+            </Div>
+
         )
     }
 
@@ -61,3 +71,48 @@ export default function useDate() {
     }
 
 }
+
+const Div = styled.div`
+
+--color: ${props => props.color};
+text-align: left;
+    
+.MuiInputBase-root {
+  color: var(--color);
+ width:  10em;
+}
+
+.MuiSvgIcon-root {
+  fill: var(--color);
+}
+
+.MuiInput-underline::before {
+  border-bottom: 1px solid var(--color);
+}
+
+.makeStyles-selectEmpty-275 {
+  margin-top: 0;
+}
+
+.makeStyles-formControl-274 {
+  margin: 0;
+}
+
+.MuiInput-underline::after {
+    border-bottom: 1px solid var(--color);
+}
+
+.MuiInput-underline:hover:not(.Mui-disabled)::before {
+
+    border-bottom: 2px solid var(--color);
+    border-bottom-color: var(--color);
+}
+
+.Mui-selected:hover {
+  background-color: var(--color);
+}
+
+.makeStyles-formControl-274 {
+ margin:2px 5px;
+}
+`
