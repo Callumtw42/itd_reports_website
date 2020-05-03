@@ -56,7 +56,7 @@ app.get('/api/reorder/:db', (req, res) => {
     select(fs.readFileSync(path.join('SQL_Queries', 'Reorder.sql'), { encoding: "UTF-8" }), res)
 });
 
-// Stock_Reorder
+// nonscan
 app.get('/api/nonscan/:db', (req, res) => {
     run(`USE ${req.params.db};`);
     select(fs.readFileSync(path.join('SQL_Queries', 'Non_Scan.sql'), { encoding: "UTF-8" }), res)

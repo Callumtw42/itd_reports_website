@@ -12,6 +12,7 @@ export default function useData(url, format) {
                 then.map(f => { return f(data) })
             })
             .catch((error) => {
+                console.error(error)
             })
     }
 

@@ -1,0 +1,1 @@
+SELECT * FROM ExchangeGoods eg WHERE eg.DateEx >= '2020-04-24 00:00:00' AND eg.DateEx <= '2020-04-24 23:59:59' ORDER BY OrigProduct
