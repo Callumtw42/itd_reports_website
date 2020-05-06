@@ -69,8 +69,8 @@ FROM (
                LEFT JOIN Product p ON ti.ProdID = p.ProductID
                LEFT JOIN Category c ON p.CategoryID = c.CategoryID
                LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID
-      WHERE t.TillDate >= IFNULL(@startDate, '2020-04-20')
-        AND t.TillDate <= IFNULL(@endDate, '2020-04-20')
+      WHERE t.TillDate >= IFNULL(@startDate, '2020-05-04')
+        AND t.TillDate <= IFNULL(@endDate, '2020-05-04')
       ORDER BY t.TillID, ti.TillItemID) as b
      ON b.CategoryID = a.Cat
          LEFT JOIN pricemark pm ON pm.AssocProdID = ProdID

@@ -14,7 +14,6 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
-    "chartjs-plugin-labels": "^1.1.0",
     "date-fns": "^2.0.0-beta.5",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
@@ -43,8 +42,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-object-rest-spread": "^7.9.5"
   }
 }

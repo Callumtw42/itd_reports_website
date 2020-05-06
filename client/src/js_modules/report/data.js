@@ -4,12 +4,13 @@ export default function useData(url, format) {
 
     const [data, setData] = useState([]);
 
-    const fetchData = (...then) => {
+    const fetchData = () => {
         fetch(url)
             .then(res => res.json())
             .then(data => {
-                setData(format(data));
-                then.map(f => { return f(data) })
+                data != null
+                ? setData(format(data))
+                : setData([])
             })
             .catch((error) => {
                 console.error(error)

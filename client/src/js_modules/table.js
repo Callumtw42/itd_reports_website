@@ -161,8 +161,8 @@ export default function EnhancedTable(props) {
   const [selected, setSelected] = React.useState([]);
   const page = 0;
   const dense = false;
-  const [rowsPerPage, setRowsPerPage] = React.useState(props.data.length);
   const [data, setData] = React.useState([]);
+  const [rowsPerPage, setRowsPerPage] = React.useState(props.data.length);
 
   const [rows, setRows] = React.useState([]);
   const handleRequestSort = (event, property) => {
