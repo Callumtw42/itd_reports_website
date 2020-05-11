@@ -4,26 +4,26 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "Go Server",
-            "linux": {"processId":"${input:PID}"},
             "type": "go",
-            "request": "attach",
-            "mode": "local",
-            
-            // "port": 8001,
-            // "processId": "${input:PID}" ,
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/main.go"
         },
         {
             "name": "Launch firefox",
             "type": "firefox",
-            "request": "attach",
+            "request": "launch",
+            "reAttach": true,
             "url": "http://localhost:3000/",
+            "webRoot": "${workspaceFolder}",
             "pathMappings": [
                 {
-                    "url": "http://localhost:3000/",
+                    "url": "http://localhost:3000/mnt/c/users/callum/documents/github/itd_reports_website/client/src",
                     "path": "${workspaceFolder}/client/src"
-                },
+                }
             ]
         }
     ],

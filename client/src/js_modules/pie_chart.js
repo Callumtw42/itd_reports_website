@@ -167,8 +167,8 @@ const Div = styled.div`
 }
 
 .chart > canvas {
-  max-width: 500px;
-  margin: 0px auto ;
+  /* max-width: 500px; */
+  /* margin: 0px auto ; */
 }
 
 .legend {
@@ -214,12 +214,6 @@ font-size: 1em;
 padding: 0 0.25em;
 }
 
-.chart > canvas {
-  max-width: 16vw;
-  margin: 0px auto ;
-}
-
-
 /* Inline #9 | http://localhost:3000/ */
 
 .scroll-bar-wrap > ul {
@@ -234,9 +228,9 @@ padding: 0 0.25em;
 }
 
 .chart > canvas {
-    min-width: 22vw;
-    min-height: 22vw;
-    margin: 0 auto;
+  min-width: 45vh;
+min-height: 45vh;
+    /* margin: 0 auto; */
   }
 
   .legend{
