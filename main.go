@@ -7,7 +7,7 @@ import (
 	"os"
 	"os/exec"
 
-	"lib/sqlapi"
+	"github.com/callumtw42/sqlapi"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
