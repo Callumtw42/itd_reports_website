@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react'
 
-export default function useData(url, format) {
+export interface obj {
+    [key: string]: any
+}
 
-    const [data, setData] = useState([]);
+export default function useData(url: string, format: (d: obj[]) => obj[]) {
+
+    const [data, setData] = useState<obj[]>([]);
 
     const fetchData = () => {
         fetch(url)
             .then(res => res.json())
             .then(data => {
                 data != null
-                ? setData(format(data))
-                : setData([])
+                    ? setData(format(data))
+                    : setData([])
             })
             .catch((error) => {
                 console.error(error)

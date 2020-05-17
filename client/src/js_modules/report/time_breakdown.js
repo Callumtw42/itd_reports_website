@@ -1,17 +1,17 @@
 import 'date-fns';
 import React, { useEffect, useState } from 'react';
-import BarChart from '../bar_chart.js';
-import DateField from '../date_field.js';
-import * as f from '../functions.js';
-import RadioButtons from '../radio_buttons.js';
-import DropDown from '../drop_down.js';
+import BarChart from '../bar_chart';
+import DateField from '../date_field';
+import * as f from '../functions';
+import RadioButtons from '../radio_buttons';
+import DropDown from '../drop_down';
 import {
   useSalesBreakdown,
   useChart
-} from './sales_breakdown.js';
+} from './sales_breakdown';
 import {useStackedBarChart} from "../bar_chart";
-import EnhancedTable from '../table.js';
-import HeaderBar from '../header_bar.js';
+import EnhancedTable from '../table';
+import HeaderBar from '../header_bar';
 import Paper from '@material-ui/core/Paper';
 import useDataFunctions from "./data_functions";
 

@@ -1,13 +1,22 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import * as f from './functions.js';
 
-export  function usePieChart(x, labels, colors, total) {
+interface DataSet {
+  label: string
+  data: number[]
+  backgroundColor: string[]
+}
 
+interface ChartData {
+  labels: string[]
+  datasets: DataSet[]
+}
 
+export function usePieChart(x: number[], labels: string[], colors: string[]) {
 
-  function formatChartData(x, labels, colors) {
+  function formatChartData(x: number[], labels: string[], colors: string[]): ChartData {
     return {
       labels: labels,
       datasets: [
@@ -21,7 +30,7 @@ export  function usePieChart(x, labels, colors, total) {
   }
 
   function CustomPieChart() {
-    return <PieChart className='chart' chartData={formatChartData(x, labels, colors)} total={total} ></PieChart>
+    return <PieChart className='chart' chartData={formatChartData(x, labels, colors)} total={x.reduce((acc, n) => { return acc + n })} ></PieChart>
   }
 
   return {
@@ -30,10 +39,15 @@ export  function usePieChart(x, labels, colors, total) {
 
 }
 
-
-export default function PieChart(props) {
+interface PieChartProps {
+  className: string
+  chartData: ChartData
+  total: number
+}
+export default function PieChart(props: PieChartProps) {
 
   function createLegend() {
+
     if (f.notEmpty(props.chartData.datasets)) {
       let chartData = props.chartData;
       let key = 0;
@@ -54,7 +68,7 @@ export default function PieChart(props) {
     else return <div>AWW</div>
   }
 
-  function chart(toolTipSize) {
+  function chart(toolTipSize: number) {
     if (props.chartData.datasets !== undefined)
       return (
         <Div>
@@ -83,13 +97,13 @@ export default function PieChart(props) {
                       bodyFontSize: toolTipSize,
                       mode: 'index',
                       callbacks: {
-                        label: (tooltipItem, data) => {
+                        label: (tooltipItem: any, data: ChartData) => {
                           var label = data.labels[tooltipItem.index];
                           return label;
                         },
-                        afterLabel: (tooltipItem, data) => {
+                        afterLabel: (tooltipItem: any, data: ChartData) => {
                           var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                          var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / props.total * 100;
+                          var percent: number | string = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / props.total * 100;
                           percent = percent.toFixed(2); // make a nice string
                           return (!Number.isInteger(value)) ? '£ ' + value.toFixed(2) + ' (' + percent + '%)' : value + ' (' + percent + '%)';
                         }

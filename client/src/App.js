@@ -13,12 +13,12 @@ import CustomerCredit from './js_modules/report/customer_credit'
 import styled from "styled-components";
 import 'typeface-roboto';
 import './App.scss';
-import NavBar from './js_modules/navbar.js';
-import { TimeBreakdown } from './js_modules/report/time_breakdown.js';
-import { SalesBreakdown } from './js_modules/report/sales_breakdown.js';
-import SideBar from './js_modules/sidebar.js';
-import { Stock } from './js_modules/report/stock.js';
-import { VAT } from './js_modules/report/vat_report.js';
+import NavBar from './js_modules/navbar';
+import { TimeBreakdown } from './js_modules/report/time_breakdown';
+import { SalesBreakdown } from './js_modules/report/sales_breakdown';
+import SideBar from './js_modules/sidebar';
+import { Stock } from './js_modules/report/stock';
+import { VAT } from './js_modules/report/vat_report';
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });
@@ -61,6 +61,15 @@ function App() {
             />
           </div>
 
+          <div className='paper' id='CustomerCredit'>
+          <CashierHistory
+              header={'Cashier History'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+          
           <div className='paper' id='stock'>
             <Stock
               header={'Stock'}
@@ -73,42 +82,6 @@ function App() {
           <div className='paper' id='VAT'>
             <VAT
               header={'VAT'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <CustomerCredit
-              header={'Customer Credit'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <ProductExchange
-              header={'Product Exchange'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <ExpiryDates
-              header={'Expiry Dates'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <VoucherSales
-              header={'Voucher Sales'}
               db={db}
               setHeader={setHeader}
               phoneDisplay={display.stock}
@@ -170,8 +143,35 @@ function App() {
           </div>
 
           <div className='paper' id='CustomerCredit'>
-          <CashierHistory
-              header={'Cashier History'}
+            <CustomerCredit
+              header={'Customer Credit'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <ProductExchange
+              header={'Product Exchange'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <ExpiryDates
+              header={'Expiry Dates'}
+              db={db}
+              setHeader={setHeader}
+              phoneDisplay={display.stock}
+            />
+          </div>
+
+          <div className='paper' id='CustomerCredit'>
+            <VoucherSales
+              header={'Voucher Sales'}
               db={db}
               setHeader={setHeader}
               phoneDisplay={display.stock}

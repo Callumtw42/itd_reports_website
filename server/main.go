@@ -6,8 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-
-	"github.com/callumtw42/sqlapi"
+	"server/server/sqlapi"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -97,7 +96,7 @@ func main() {
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
 		data := sel("./sql/Sales.sql")
-		jsonEncode(res, data)
+		jsonEncode(res /*sales(data)*/, data)
 	}).Methods("GET")
 
 	//stock adjust

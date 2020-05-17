@@ -25,9 +25,16 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import useIconSwitch from '../icon_switch';
 import Typography from '@material-ui/core/Typography';
+import { obj } from "./data";
 
+interface SalesBreakdownProps {
+  header: string
+  db: string
+  display: React.Dispatch<any>
+  phoneDisplay: string
+}
 
-export function useSalesBreakdown(props, formatTableData) {
+export function useSalesBreakdown(props: SalesBreakdownProps, formatTableData: (data: obj[], groupBy: string) => obj[]) {
 
   const {
     sumColumn,
@@ -48,12 +55,12 @@ export function useSalesBreakdown(props, formatTableData) {
     setHeader,
   } = useReport(props, `/api/salesByProduct/${props.db}/${startDate}/${endDate}`, formatData);
 
-  const [groupBy, setGroupBy] = useState('Cat');
-  const [total, setTotal] = useState(0);
-  const [dataChoice, setDataChoice] = useState('Sales');
-  const [tableData, setTableData] = useState([]);
+  const [groupBy, setGroupBy] = useState<string>('Cat');
+  const [total, setTotal] = useState<number>(0);
+  const [dataChoice, setDataChoice] = useState<string>('Sales');
+  const [tableData, setTableData] = useState<obj>([]);
 
-  function formatData(data) {
+  function formatData(data: obj[]) {
     let priceMark = addColumn(data, 'AssocProdID', 'PriceMark', (cell) => { return cell ? 'PM' : 'Non PM' });
     priceMark.forEach(e => { Object.assign(e, { ['Profit']: (e['Sales'] - e['Discount'] - e['Cost']) }) });
     return priceMark;
@@ -63,19 +70,19 @@ export function useSalesBreakdown(props, formatTableData) {
 
     return (
       <div className='sales'>
-        <DropDown callback={value => setGroupBy(value)} list={['Cat', 'Id', 'AssocProdID', 'CashierNum', 'Receipt']} names={['Category', 'Product', 'Price Mark', 'Cashier', 'Transaction']} title={'Group By'} />
-        <RadioButtons handleChange={event => setDataChoice(event.target.value)} value={dataChoice} />
+        <DropDown callback={(value: string) => setGroupBy(value)} list={['Cat', 'Id', 'AssocProdID', 'CashierNum', 'Receipt']} names={['Category', 'Product', 'Price Mark', 'Cashier', 'Transaction']} title={'Group By'} />
+        <RadioButtons handleChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataChoice(event.target.value)} value={dataChoice} />
         <h1>Total: {(dataChoice === 'Qty') ? total : '£' + total.toFixed(2)}</h1>
       </div>);
   }
 
   useEffect(() => {
-    setTableData(formatTableData());
+    setTableData(formatTableData(data, groupBy));
     setTotal(sumColumn(data, dataChoice));
   }, [groupBy, dataChoice]);
 
   useEffect(() => {
-    setTableData(formatTableData());
+    setTableData(formatTableData(data, groupBy));
     setTotal(sumColumn(data, dataChoice));
   }, [data]);
 
@@ -95,7 +102,7 @@ export function useSalesBreakdown(props, formatTableData) {
   }
 }
 
-export function SalesBreakdown(props) {
+export function SalesBreakdown(props: SalesBreakdownProps) {
 
 
   const {
@@ -123,10 +130,9 @@ export function SalesBreakdown(props) {
 
   const grouped = sumAndGroup(data, groupBy);
   const { CustomPieChart } = usePieChart(
-    getColumn(grouped, dataChoice),
-    getColumn(grouped, idToName(groupBy)),
-    getColumn(grouped, groupBy),
-    total
+    getColumn(grouped, dataChoice) as number[],
+    getColumn(grouped, idToName(groupBy)) as string[],
+    getColumn(grouped, groupBy) as string[],
   );
 
   const { StackedBarChart } = useStackedBarChart(
@@ -148,17 +154,23 @@ export function SalesBreakdown(props) {
     ]
   );
 
-  function GetChart(props) {
+  interface GetChartProps {
+    chart: string
+  }
+  function GetChart(props: GetChartProps) {
     return props.chart === 'pie' ? <CustomPieChart />
       : <StackedBarChart />
   }
 
-  function GetDateField(props) {
-    return props.chart === 'pie' ? <Dates color = 'white' />
+  interface GetDateFieldProps {
+    chart: string
+  }
+  function GetDateField(props: GetDateFieldProps) {
+    return props.chart === 'pie' ? <Dates color='white' />
       : <OneDate color='white' />
   }
 
-  function idToName(groupBy) {
+  function idToName(groupBy: string) {
     switch (groupBy) {
       case 'Id': return 'Product';
       case 'Cat': return 'Category';
@@ -168,7 +180,7 @@ export function SalesBreakdown(props) {
     }
   }
 
-  function formatTableData() {
+  function formatTableData(data: obj[], groupBy: string): obj[] {
     let format = sumAndGroup(data, groupBy, 'Id', 'CashierNum');
     switch (groupBy) {
       case 'AssocProdID': return columns(format, 'PriceMark', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
