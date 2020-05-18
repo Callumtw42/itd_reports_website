@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math"
 	"server/server/datafns"
 )
 
@@ -24,21 +25,26 @@ type SalesData struct {
 	TableData    TableData
 }
 
-//needs test
 func pieChart(data Data) (pieChartData PieChartData) {
-	var x []float64 = pieChartData.AxisData
-	var l []string = pieChartData.AxisLabels
-	var c []string = pieChartData.Colors
+	var x *[]float64 = &pieChartData.AxisData
+	var l *[]string = &pieChartData.AxisLabels
+	var c *[]string = &pieChartData.Colors
+
+	data = data.SumAndGroup("Cat")
+
 	for _, e := range data {
-		x = append(x, e["Sales"].(float64))
-		l = append(l, e["Category"].(string))
-		c = append(c, color(e["Cat"].(int)))
+		*x = append(*x, math.Round(e["Sales"].(float64)*100)/100)
+		*l = append(*l, e["Category"].(string))
+		*c = append(*c, color(int(e["Cat"].(float64))))
 	}
 	return pieChartData
 }
 
-//needs test
-func color(id int) (clrs string) {
+func barChart(data Data) (barChartData BarChartData) {
+	return barChartData
+}
+
+func color(id int) (clr string) {
 	return colorPallette[id%len(colorPallette)]
 }
 

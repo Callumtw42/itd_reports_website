@@ -10,7 +10,7 @@ function labelSize() {
   return f.viewport(12, 26);
 }
 
-
+//Next: refactor charts to accept data objects and columns instead of arrays
 export function useStackedBarChart(
   x,
   y,

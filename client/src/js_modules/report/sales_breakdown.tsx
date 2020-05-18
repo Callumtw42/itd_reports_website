@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import useDate from "./date";
 import DateField from '../date_field.js';
 import * as f from '../functions.js';
-import PieChart from '../pie_chart.js';
+import PieChart from './piechart/piechart.js';
 import BarChart from '../bar_chart.js';
 import RadioButtons from '../radio_buttons.js';
 import DropDown from '../drop_down.js';
@@ -12,7 +12,7 @@ import './Report.scss';
 import EnhancedTable from '../table.js';
 import HeaderBar from '../header_bar.js';
 import Paper from '@material-ui/core/Paper';
-import { usePieChart } from "../pie_chart"
+import usePieChart from "./piechart/piechart"
 import useDataFunctions from './data_functions'
 import useReport from "./report";
 import { Menu } from '@material-ui/core';
@@ -129,10 +129,10 @@ export function SalesBreakdown(props: SalesBreakdownProps) {
   } = useDataFunctions();
 
   const grouped = sumAndGroup(data, groupBy);
-  const { CustomPieChart } = usePieChart(
-    getColumn(grouped, dataChoice) as number[],
-    getColumn(grouped, idToName(groupBy)) as string[],
-    getColumn(grouped, groupBy) as string[],
+  const  PieChart = usePieChart(
+    data,
+    "Sales",
+    "Category"
   );
 
   const { StackedBarChart } = useStackedBarChart(
@@ -158,7 +158,7 @@ export function SalesBreakdown(props: SalesBreakdownProps) {
     chart: string
   }
   function GetChart(props: GetChartProps) {
-    return props.chart === 'pie' ? <CustomPieChart />
+    return props.chart === 'pie' ? <PieChart />
       : <StackedBarChart />
   }
 
