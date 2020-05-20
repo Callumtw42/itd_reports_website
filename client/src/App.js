@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import CashierHistory from './js_modules/report/cashier_history'
-import ReturnToSupplier from './js_modules/report/return_to_supplier'
-import VoidSales from './js_modules/report/void_sales'
-import Refund from './js_modules/report/refund'
-import StaffHours from './js_modules/report/staff_hours'
-import Wastage from './js_modules/report/wastage'
-import PriceOverride from './js_modules/report/price_override'
-import VoucherSales from './js_modules/report/voucher_sales'
-import ExpiryDates from './js_modules/report/expiry_dates';
-import ProductExchange from './js_modules/report/product_exchange'
-import CustomerCredit from './js_modules/report/customer_credit'
+import CashierHistory from './components/reports/cashier_history'
+import ReturnToSupplier from './components/reports/return_to_supplier'
+import VoidSales from './components/reports/void_sales'
+import Refund from './components/reports/refund'
+import StaffHours from './components/reports/staff_hours'
+import Wastage from './components/reports/wastage'
+import PriceOverride from './components/reports/price_override'
+import VoucherSales from './components/reports/voucher_sales'
+import ExpiryDates from './components/reports/expiry_dates';
+import ProductExchange from './components/reports/product_exchange'
+import CustomerCredit from './components/reports/customer_credit'
 import styled from "styled-components";
 import 'typeface-roboto';
 import './App.scss';
-import NavBar from './js_modules/navbar';
-import { TimeBreakdown } from './js_modules/report/time_breakdown';
-import { SalesBreakdown } from './js_modules/report/sales_breakdown';
-import SideBar from './js_modules/sidebar';
-import { Stock } from './js_modules/report/stock';
-import { VAT } from './js_modules/report/vat_report';
+import NavBar from './components/navbar';
+import { SalesBreakdown } from './components/reports/sales_breakdown';
+import SideBar from './components/sidebar';
+import { Stock } from './components/reports/stock';
+import { VAT } from './components/reports/vat_report';
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });

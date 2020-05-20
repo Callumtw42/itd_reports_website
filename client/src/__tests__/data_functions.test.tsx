@@ -1,10 +1,9 @@
-import useDataFunctions from '../js_modules/report/data_functions'
+import * as d from '../components/reports/datafns'
 
 interface obj {
     [key: string]: any
 }
 
-const { ...d } = useDataFunctions();
 
 test("getUniqueValues", () => {
     let data: obj[] = [

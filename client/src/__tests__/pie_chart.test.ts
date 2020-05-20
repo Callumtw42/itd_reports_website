@@ -1,7 +1,7 @@
-import { toInt } from '../js_modules/report/piechart/piechart'
+import * as _ from '../components/piechart/logic'
 
 test('toInt', () => {
     let str: string = "a"
-    expect(toInt(str)).toEqual(97)
-    expect(toInt("abc")).toEqual(979899)
+    expect(_.toInt(str)).toEqual(97)
+    expect(_.toInt("abc")).toEqual(979899)
 })

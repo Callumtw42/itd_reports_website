@@ -5,27 +5,27 @@ import (
 	"server/server/datafns"
 )
 
-type Data = datafns.Data
+type data = datafns.Data
 
-type PieChartData struct {
+type pieChartData struct {
 	AxisData   []float64
 	AxisLabels []string
 	Colors     []string
 }
 
-type BarChartData struct {
+type barChartData struct {
 }
 
-type TableData struct {
+type tableData struct {
 }
 
-type SalesData struct {
-	PieChartData PieChartData
-	BarChartData BarChartData
-	TableData    TableData
+type salesData struct {
+	PieChartData pieChartData
+	BarChartData barChartData
+	TableData    tableData
 }
 
-func pieChart(data Data) (pieChartData PieChartData) {
+func pieChart(data data) (pieChartData pieChartData) {
 	var x *[]float64 = &pieChartData.AxisData
 	var l *[]string = &pieChartData.AxisLabels
 	var c *[]string = &pieChartData.Colors
@@ -40,7 +40,7 @@ func pieChart(data Data) (pieChartData PieChartData) {
 	return pieChartData
 }
 
-func barChart(data Data) (barChartData BarChartData) {
+func barChart(data data) (barChartData barChartData) {
 	return barChartData
 }
 
