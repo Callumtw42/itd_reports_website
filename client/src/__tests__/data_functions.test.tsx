@@ -1,4 +1,4 @@
-import * as d from '../components/reports/datafns'
+import * as d from '../modules/lib/datafns'
 
 interface obj {
     [key: string]: any

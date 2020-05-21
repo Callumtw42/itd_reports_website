@@ -1,4 +1,4 @@
-import * as _ from '../components/piechart/logic'
+import * as _ from '../modules/lib/chart/piechart/logic'
 
 test('toInt', () => {
     let str: string = "a"

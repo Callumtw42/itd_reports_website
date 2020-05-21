@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import CashierHistory from './components/reports/cashier_history'
-import ReturnToSupplier from './components/reports/return_to_supplier'
-import VoidSales from './components/reports/void_sales'
-import Refund from './components/reports/refund'
-import StaffHours from './components/reports/staff_hours'
-import Wastage from './components/reports/wastage'
-import PriceOverride from './components/reports/price_override'
-import VoucherSales from './components/reports/voucher_sales'
-import ExpiryDates from './components/reports/expiry_dates';
-import ProductExchange from './components/reports/product_exchange'
-import CustomerCredit from './components/reports/customer_credit'
+import CashierHistory from './modules/reports/cashier_history'
+import ReturnToSupplier from './modules/reports/return_to_supplier'
+import VoidSales from './modules/reports/void_sales'
+import Refund from './modules/reports/refund'
+import StaffHours from './modules/reports/staff_hours'
+import Wastage from './modules/reports/wastage'
+import PriceOverride from './modules/reports/price_override'
+import VoucherSales from './modules/reports/voucher_sales'
+import ExpiryDates from './modules/reports/expiry_dates';
+import ProductExchange from './modules/reports/product_exchange'
+import CustomerCredit from './modules/reports/customer_credit'
 import styled from "styled-components";
 import 'typeface-roboto';
 import './App.scss';
-import NavBar from './components/navbar';
-import { SalesBreakdown } from './components/reports/sales_breakdown';
-import SideBar from './components/sidebar';
-import { Stock } from './components/reports/stock';
-import { VAT } from './components/reports/vat_report';
+import NavBar from './modules/navbar';
+import { SalesBreakdown } from './modules/reports/sales_breakdown';
+import SideBar from './modules/sidebar';
+import { Stock } from './modules/reports/stock';
+import { VAT } from './modules/reports/vat_report';
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });
