@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"server/server/sqlapi"
+	"server/server/lib/sqlapi"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -53,50 +53,61 @@ func main() {
 	router.HandleFunc("/api/stock/{db}", func(res http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		run("use " + params["db"])
-		data := sel("./sql/Stock.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Stock.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//Stock Reorder
 	router.HandleFunc("/api/reorder/{db}", func(res http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		run("use " + params["db"])
-		data := sel("./sql/Reorder.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Reorder.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//non scan
 	router.HandleFunc("/api/nonscan/{db}", func(res http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		run("use " + params["db"])
-		data := sel("./sql/Non_Scan.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Non_Scan.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//customer credit
 	router.HandleFunc("/api/credit/{db}", func(res http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		run("use " + params["db"])
-		data := sel("./sql/Customer_Credit.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Customer_Credit.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//Product exchange
 	router.HandleFunc("/api/exchange/{db}", func(res http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		run("use " + params["db"])
-		data := sel("./sql/Product_Exchange.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Product_Exchange.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//Sales
 	router.HandleFunc("/api/salesByProduct/{db}/{startDate}/{endDate}", func(res http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
-		run("use " + params["db"])
-		run("set @startDate = " + "'" + params["startDate"] + "'")
-		run("set @endDate = " + "'" + params["endDate"] + "'")
+		run("use " + params["db"] + ";")
+		run("set @startDate = " + "'" + params["startDate"] + "', @endDate = " + "'" + params["endDate"] + "'")
+		// run(";")
+		// setup := " set @endDate = " + "'" + params["endDate"] + "';"
 		data := sel("./sql/Sales.sql")
-		jsonEncode(res /*sales(data)*/, data)
+		jsonEncode(res, data)
 	}).Methods("GET")
 
 	//stock adjust
@@ -105,8 +116,10 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Stock_Adjustment.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Stock_Adjustment.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//Expiry Date
@@ -115,18 +128,22 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Expiry_Dates.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Expiry_Dates.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//voucher sales
 	router.HandleFunc("/api/voucher/{db}/{startDate}/{endDate}", func(res http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		run("use " + params["db"])
-		run("set @startDate = " + "'" + params["startDate"] + "'")
-		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Voucher_Sales.sql")
-		jsonEncode(res, data)
+		run("set @startDate = " + "'" + params["startDate"] + "';")
+		run("set @endDate = " + "'" + params["endDate"] + "';")
+		defer func() {
+			data := sel("./sql/Voucher_Sales.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//price override
@@ -135,8 +152,10 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Price_Override.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Price_Override.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//wastage
@@ -145,8 +164,10 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Wastage.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Wastage.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//refundn
@@ -155,8 +176,10 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Refund_Report.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Refund_Report.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//staff_hours
@@ -165,8 +188,10 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Staff_Hours.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Staff_Hours.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//void sales
@@ -175,8 +200,10 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Void_Sales.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Void_Sales.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//return to supplier
@@ -185,8 +212,10 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/Return_To_Supplier.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/Return_To_Supplier.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//VAT
@@ -195,14 +224,18 @@ func main() {
 		run("use " + params["db"])
 		run("set @startDate = " + "'" + params["startDate"] + "'")
 		run("set @endDate = " + "'" + params["endDate"] + "'")
-		data := sel("./sql/VAT.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/VAT.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//dblist
 	router.HandleFunc("/api/databases", func(res http.ResponseWriter, req *http.Request) {
-		data := sel("./sql/databases.sql")
-		jsonEncode(res, data)
+		defer func() {
+			data := sel("./sql/databases.sql")
+			jsonEncode(res, data)
+		}()
 	}).Methods("GET")
 
 	//listen

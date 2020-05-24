@@ -13,7 +13,7 @@ export default function CustomerCredit(props: {db: string, header: string}) {
 
     const {
         data
-    } = useData(`/api/credit/${props.db}`, (data) => { return data });
+    } = useData(`/api/credit/${props.db}`);
 
     // const [tableData, setTableData] = useState([]);
     // const Table = useTable(data as d.obj[])

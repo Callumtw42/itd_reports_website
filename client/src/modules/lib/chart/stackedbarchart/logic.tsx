@@ -6,9 +6,13 @@ import {
     getColumn,
 } from "../../datafns"
 
-import { colors, toInt } from "../logic"
+import { colors, toInt, viewport } from "../logic"
 
 export * from "../logic"
+
+export function getLabelSize(): number {
+    return viewport(12, 26);
+}
 
 export interface DataSet {
     label: string,

@@ -13,6 +13,13 @@ const db = mysql.createConnection({
     database: 'itdepos'
 })
 
+// const auth = mysql.createConnection({ 
+//     host: 'localhost',
+//     user: 'root',
+//     password: '0089fxcy?',
+//     database: 'users'
+// })
+
 //connect
 db.connect((err) => {
     if (err) {
@@ -41,25 +48,25 @@ app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Sales.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Sales.sql'), { encoding: "UTF-8" }), res)
 });
 
 // Stock
 app.get('/api/stock/:db', (req, res) => {
     run(`USE ${req.params.db};`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Stock.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Stock.sql'), { encoding: "UTF-8" }), res)
 });
 
 // Stock_Reorder
 app.get('/api/reorder/:db', (req, res) => {
     run(`USE ${req.params.db};`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Reorder.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Reorder.sql'), { encoding: "UTF-8" }), res)
 });
 
 // nonscan
 app.get('/api/nonscan/:db', (req, res) => {
     run(`USE ${req.params.db};`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Non_Scan.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Non_Scan.sql'), { encoding: "UTF-8" }), res)
 });
 
 //Stock Adjust
@@ -67,19 +74,19 @@ app.get('/api/adjust/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Stock_Adjustment.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Stock_Adjustment.sql'), { encoding: "UTF-8" }), res)
 });
 
 //Customer Credit
 app.get('/api/credit/:db', (req, res) => {
     run(`USE ${req.params.db};`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Customer_Credit.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Customer_Credit.sql'), { encoding: "UTF-8" }), res)
 });
 
 //Product Exchange
 app.get('/api/exchange/:db', (req, res) => {
     run(`USE ${req.params.db};`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Product_Exchange.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Product_Exchange.sql'), { encoding: "UTF-8" }), res)
 });
 
 //Expiry Date
@@ -87,7 +94,7 @@ app.get('/api/expiry/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Expiry_Dates.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Expiry_Dates.sql'), { encoding: "UTF-8" }), res)
 });
 
 //Voucher Sales
@@ -95,7 +102,7 @@ app.get('/api/voucher/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Voucher_Sales.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Voucher_Sales.sql'), { encoding: "UTF-8" }), res)
 });
 
 //Price_Override
@@ -103,7 +110,7 @@ app.get('/api/priceoverride/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Price_Override.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Price_Override.sql'), { encoding: "UTF-8" }), res)
 });
 
 //Wastage
@@ -111,7 +118,7 @@ app.get('/api/wastage/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Wastage.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Wastage.sql'), { encoding: "UTF-8" }), res)
 });
 
 
@@ -120,7 +127,7 @@ app.get('/api/refund/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Refund_Report.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Refund_Report.sql'), { encoding: "UTF-8" }), res)
 });
 
 
@@ -129,7 +136,7 @@ app.get('/api/staffhours/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Staff_Hours.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Staff_Hours.sql'), { encoding: "UTF-8" }), res)
 });
 
 
@@ -138,7 +145,7 @@ app.get('/api/voidsales/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Void_Sales.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Void_Sales.sql'), { encoding: "UTF-8" }), res)
 });
 
 
@@ -147,7 +154,7 @@ app.get('/api/returntosupplier/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'Return_To_Supplier.sql'), { encoding: "UTF-8" }), res)
+    select(fs.readFileSync(path.join('sql', 'Return_To_Supplier.sql'), { encoding: "UTF-8" }), res)
 });
 
 //DBList
@@ -160,7 +167,7 @@ app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    select(fs.readFileSync(path.join('SQL_Queries', 'VAT.sql'), { encoding: "UTF-8" }), res);
+    select(fs.readFileSync(path.join('sql', 'VAT.sql'), { encoding: "UTF-8" }), res);
 });
 
 //listen

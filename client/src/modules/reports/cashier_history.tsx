@@ -19,7 +19,6 @@ interface CashierHistoryProps {
 export default function CashierHistory(props: CashierHistoryProps) {
 
     const [tableData, setTableData] = useState([] as d.obj[][]);
-    // const [cashier, setCashier] = useState('');
     const {
         startDate,
         endDate,
@@ -27,9 +26,9 @@ export default function CashierHistory(props: CashierHistoryProps) {
     } = useDate();
     const {
         data
-    } = useData(`/api/salesByProduct/${props.db}/${startDate}/${endDate}`, (data) => { return (data) });
+    } = useData(`/api/salesByProduct/${props.db}/${startDate}/${endDate}`);
     const {
-        selected, //NEXT: refactor for new SimpleSelect
+        selected,
         Select,
     } = useSimpleSelect(d.getUniqueValues(data, 'Cashier'), "black");
 
@@ -65,16 +64,8 @@ export default function CashierHistory(props: CashierHistoryProps) {
         }</>)
     }
 
-    // useEffect(() => {
-    //     setTableData(formatTableData(data, selected));
-    // }, [selected])
-
     useEffect(() => {
         setTableData(formatTableData(data, selected));
-        // setCashier( data[0]
-        //         ? data[0]['Cashier']
-        //         : ''
-        // )
     }, [data, selected])
 
     return (
@@ -99,7 +90,6 @@ font-size: 1.25em;
 margin: 5px;
 }
 `;
-
 
 const TableLabel = styled.div`
 display: flex;

@@ -14,10 +14,12 @@ import styled from "styled-components";
 import 'typeface-roboto';
 import './App.scss';
 import NavBar from './modules/navbar';
-import { SalesBreakdown } from './modules/reports/sales_breakdown';
+import { SalesBreakdown } from './modules/reports/sales/sales_breakdown';
 import SideBar from './modules/sidebar';
 import { Stock } from './modules/reports/stock';
 import { VAT } from './modules/reports/vat_report';
+
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   const [header, setHeader] = useState({ row1: 'Test1', row2: 'Test2' });
@@ -35,150 +37,152 @@ function App() {
       display={display}
     >
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-      <div className="App" >
-        <meta name="viewport" content="width=1000"></meta>
-        <div className='navBar'>
-          <NavBar
-            header={header}
+      {/* <Router> */}
+        <div className="App" >
+          <meta name="viewport" content="width=1000"></meta>
+          <div className='navBar'>
+            <NavBar
+              header={header}
+              setSideBar={setSideBar}
+              setDb={setDb}>
+            </NavBar>
+          </div>
+          <SideBar
+            display={sideBar}
             setSideBar={setSideBar}
-            setDb={setDb}>
-          </NavBar>
+            setDisplay={setDisplay}
+          />
+          <div className="content">
+
+            <div className='paper' id='salesByCategory'>
+              <SalesBreakdown
+                header={'Sales Breakdown'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.salesByCategory}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <CashierHistory
+                header={'Cashier History'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='stock'>
+              <Stock
+                header={'Stock'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='VAT'>
+              <VAT
+                header={'VAT'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <PriceOverride
+                header={'Price Override Report'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <Wastage
+                header={'Wastage'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <Refund
+                header={'Refund Report'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <StaffHours
+                header={'Staff Hours'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <VoidSales
+                header={'Void Sales'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <ReturnToSupplier
+                header={'Return To Supplier'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <CustomerCredit
+                header={'Customer Credit'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <ProductExchange
+                header={'Product Exchange'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <ExpiryDates
+                header={'Expiry Dates'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+            <div className='paper' id='CustomerCredit'>
+              <VoucherSales
+                header={'Voucher Sales'}
+                db={db}
+                setHeader={setHeader}
+                phoneDisplay={display.stock}
+              />
+            </div>
+
+          </div>
         </div>
-        <SideBar
-          display={sideBar}
-          setSideBar={setSideBar}
-          setDisplay={setDisplay}
-        />
-        <div className="content">
-
-          <div className='paper' id='salesByCategory'>
-            <SalesBreakdown
-              header={'Sales Breakdown'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.salesByCategory}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-          <CashierHistory
-              header={'Cashier History'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-          
-          <div className='paper' id='stock'>
-            <Stock
-              header={'Stock'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='VAT'>
-            <VAT
-              header={'VAT'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <PriceOverride
-              header={'Price Override Report'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <Wastage
-              header={'Wastage'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <Refund
-              header={'Refund Report'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <StaffHours
-              header={'Staff Hours'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <VoidSales
-              header={'Void Sales'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <ReturnToSupplier
-              header={'Return To Supplier'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <CustomerCredit
-              header={'Customer Credit'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <ProductExchange
-              header={'Product Exchange'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <ExpiryDates
-              header={'Expiry Dates'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-          <div className='paper' id='CustomerCredit'>
-            <VoucherSales
-              header={'Voucher Sales'}
-              db={db}
-              setHeader={setHeader}
-              phoneDisplay={display.stock}
-            />
-          </div>
-
-        </div>
-      </div>
+      {/* </Router> */}
     </Div>
   );
 }

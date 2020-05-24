@@ -17,7 +17,7 @@ export default function Wastage(props: { db: string, header: string }) {
 
     const {
         data
-    } = useData(`/api/wastage/${props.db}/${startDate}/${endDate}`, (data) => { return data });
+    } = useData(`/api/wastage/${props.db}/${startDate}/${endDate}`);
 
     // const [tableData, setTableData] = useState([]);
     // const Table = useTable(data)

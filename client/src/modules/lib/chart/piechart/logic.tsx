@@ -26,6 +26,3 @@ export function formatChartData(x: number[], labels: string[], colorIds: number[
   };
 }
 
-export function viewport(small: number, large: number) {
-  return (window.innerWidth > 1024) ? small : large;
-}

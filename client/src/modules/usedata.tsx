@@ -4,7 +4,7 @@ export interface obj {
     [key: string]: any
 }
 
-export default function useData(url: string, format: (d: obj[]) => obj[]) {
+export default function useData(url: string, /*format: (d: obj[]) => obj[]*/) {
 
     const [data, setData] = useState<obj[]>([]);
 
@@ -13,7 +13,7 @@ export default function useData(url: string, format: (d: obj[]) => obj[]) {
             .then(res => res.json())
             .then(data => {
                 data != null
-                    ? setData(format(data))
+                    ? setData(data)
                     : setData([])
             })
             .catch((error) => {

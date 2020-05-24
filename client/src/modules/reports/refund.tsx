@@ -17,7 +17,7 @@ export default function Refund(props: { header: string, db: string }) {
 
     const {
         data
-    } = useData(`/api/refund/${props.db}/${startDate}/${endDate}`, (data) => { return data });
+    } = useData(`/api/refund/${props.db}/${startDate}/${endDate}`);
 
     // const [tableData, setTableData] = useState([]);
     // const Table = useTable(data)

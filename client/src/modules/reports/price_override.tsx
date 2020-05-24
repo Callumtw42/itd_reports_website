@@ -17,7 +17,7 @@ export default function PriceOverride(props: { db: string, header: string }) {
 
     const {
         data
-    } = useData(`/api/priceoverride/${props.db}/${startDate}/${endDate}`, (data) => { return data });
+    } = useData(`/api/priceoverride/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>

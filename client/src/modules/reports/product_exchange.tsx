@@ -17,7 +17,7 @@ export default function ProductExchange(props: { db: string, header: string }) {
 
     const {
         data
-    } = useData(`/api/exchange/${props.db}/${startDate}/${endDate}`, (data) => { return data });
+    } = useData(`/api/exchange/${props.db}/${startDate}/${endDate}`);
 
     // const [tableData, setTableData] = useState([]);
     // const Table = useTable(data)

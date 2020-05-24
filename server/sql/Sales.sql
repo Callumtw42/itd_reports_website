@@ -1,20 +1,22 @@
-SELECT TillID                                    as Receipt,
-       ProdName                                  as Product,
-       ProdId                                    as Id,
+SELECT
+       Description                                                                          as Category,
+       ProdName                                                                             as Product,
+       if(ISNULL(AssocProdID), 'Non-PM', 'PM')                                               as PriceMark,
+       TillID                                                                               as Receipt,
+       ProdId                                                                               as Id,
        Cat,
-       Description                               as Category,
-       Quantity                                  as Qty,
-       IFNULL(PackCost / PackSize, 0) * Quantity as Cost,
-       ItemTotal                                 as Sales,
-       IFNULL(Amount, 0)                         as Refund,
-       DATE_FORMAT(TillDate, '%y/%m/%d')         as TillDate,
-       TIME_FORMAT(TillTime, '%H:%m')            as TillHour,
+       Quantity                                                                             as Qty,
+       ItemTotal                                                                            as Sales,
+       IFNULL(PackCost / PackSize, 0) * Quantity                                            as Cost,
+       IFNULL(Amount, 0)                                                                    as Refund,
        Discount,
+       ItemTotal - IFNULL(PackCost / PackSize, 0) * Quantity - IFNULL(Amount, 0) - Discount as Profit,
+       DATE_FORMAT(TillDate, '%y/%m/%d')                                                    as TillDate,
+       TIME_FORMAT(TillTime, '%H:%m')                                                       as TillHour,
        DsctReason,
        TillTime,
        Cashier,
-       ASCII(Cashier) * LENGTH(Cashier)          as CashierNum,
-       AssocProdID                               as AssocProdID,
+       ASCII(Cashier) * LENGTH(Cashier)                                                     as CashierNum,
        Card,
        Voucher,
        Cash
@@ -69,8 +71,8 @@ FROM (
                LEFT JOIN Product p ON ti.ProdID = p.ProductID
                LEFT JOIN Category c ON p.CategoryID = c.CategoryID
                LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID
-      WHERE t.TillDate >= IFNULL(@startDate, '2020-05-04')
-        AND t.TillDate <= IFNULL(@endDate, '2020-05-04')
+      WHERE t.TillDate >= IFNULL(@startDate, '2020-05-20')
+        AND t.TillDate <= IFNULL(@endDate, '2020-05-20')
       ORDER BY t.TillID, ti.TillItemID) as b
      ON b.CategoryID = a.Cat
          LEFT JOIN pricemark pm ON pm.AssocProdID = ProdID

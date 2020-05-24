@@ -2,14 +2,14 @@ import 'date-fns';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import HeaderBar from '../header_bar'
-import * as d from '../lib/datafns';
-import useDate from '../lib/usedate/usedate';
-import useReport from './report';
+import HeaderBar from '../header_bar';
+import { columns, obj, removeColumns, sumAndGroup } from '../lib/datafns';
 import Table from '../lib/table/table';
+import useDate from '../lib/usedate/usedate';
+import useData from '../usedata';
 
 
 export function VAT(props: { db: string, header: string }) {
@@ -21,17 +21,11 @@ export function VAT(props: { db: string, header: string }) {
         ...date
     } = useDate()
 
+    const { data } = useData(`/api/VAT/${props.db}/${startDate}/${endDate}`)
 
-    const {
-        data
-    } = useReport(
-        props,
-        `/api/VAT/${props.db}/${startDate}/${endDate}`,
-        (data: d.obj[]) => { return d.columns(data, 'VatRate', 'Receipt_No', 'Total_Sales', 'Quantity', 'Total_VAT', 'Nett') },
-    );
-
-    let totalVat: d.obj[] = d.sumAndGroup(d.removeColumns(data, 'Receipt_No'), 'VatRate')
-    let receipts: d.obj[] = d.sumAndGroup(d.removeColumns(data, 'VatRate'), 'Receipt_No')
+    const tableData = columns(data, 'VatRate', 'Receipt_No', 'Total_Sales', 'Quantity', 'Total_VAT', 'Nett')
+    const totalVat: obj[] = sumAndGroup(removeColumns(tableData, 'Receipt_No'), 'VatRate')
+    const receipts: obj[] = sumAndGroup(removeColumns(tableData, 'VatRate'), 'Receipt_No')
 
     return (
         <div className='report'>
@@ -42,9 +36,9 @@ export function VAT(props: { db: string, header: string }) {
                 </HeaderBar>
                 <div className='reportBody'>
                     <H1>Total VAT</H1>
-                    <Table data={totalVat}  />
+                    <Table data={totalVat} />
                     <H1>VAT Receipts</H1>
-                    <Table data  ={receipts} />
+                    <Table data={receipts} />
                 </div>
             </Paper>
         </div>

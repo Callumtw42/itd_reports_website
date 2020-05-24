@@ -17,7 +17,7 @@ export default function StaffHours(props:{header: string, db:string}) {
 
     const {
         data
-    } = useData(`/api/staffhours/${props.db}/${startDate}/${endDate}`, (data) => { return data });
+    } = useData(`/api/staffhours/${props.db}/${startDate}/${endDate}`);
 
     // const [tableData, setTableData] = useState([]);
     // const Table = useTable(data)

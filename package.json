@@ -2,18 +2,18 @@
   "name": "itd_reports_website",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"air\" \"npm run client\""
+    "server": "cd server; nodemon ./server",
+    "client": "cd client; yarn start"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^5.1.0",
     "date-fns": "^1.0.0",
-    "node-sass": "^4.13.1"
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "node-sass": "^4.13.1",
+    "nodemon": "^2.0.4"
   }
 }

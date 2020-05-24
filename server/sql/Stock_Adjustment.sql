@@ -11,5 +11,4 @@ FROM StockItem si
          LEFT JOIN User u ON si.UserID = u.UserID
 WHERE TransactionDate >= IFNULL(@startDate, '2020-04-23')
   AND TransactionDate <= IFNULL(@endDate, '2020-04-23')
-ORDER BY si.TransactionDate
-LIMIT 500;
+ORDER BY si.TransactionDate;

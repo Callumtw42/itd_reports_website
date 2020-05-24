@@ -8,6 +8,7 @@ import useSimpleSelect from '../lib/useselect/useselect';
 import useData from '../usedata';
 import useDate from '../lib/usedate/usedate';
 import Table from '../lib/table/table';
+import { columns } from "../lib/datafns";
 
 export function Stock(props: { header: string, db: string, display: string }) {
 
@@ -24,16 +25,16 @@ export function Stock(props: { header: string, db: string, display: string }) {
     );
     const {
         data: stock
-    } = useData(`/api/stock/${props.db}`, (data) => { return data });
+    } = useData(`/api/stock/${props.db}`);
     const {
         data: reorder
-    } = useData(`/api/reorder/${props.db}`, (data) => { return data });
+    } = useData(`/api/reorder/${props.db}`);
     const {
         data: nonScan
-    } = useData(`/api/nonscan/${props.db}`, (data) => { return data });
+    } = useData(`/api/nonscan/${props.db}`);
     const {
         data: stockAdjust
-    } = useData(`/api/adjust/${props.db}/${startDate}/${endDate}`, (data) => { return data });
+    } = useData(`/api/adjust/${props.db}/${startDate}/${endDate}`);
     const [tableData, setTableData] = useState(stock)
     const [dateDisplay, setDateDisplay] = useState("flex");
 
@@ -62,7 +63,7 @@ export function Stock(props: { header: string, db: string, display: string }) {
 
     function tableChoice(selected: string) {
         switch (selected) {
-            case "Stock": return stock
+            case "Stock": return columns(stock, "Prod", "Id", "Rtl", "Cost", "Profit", "WhSale", "Updated", "Qty")
             case "Reorder": return reorder
             case "Non Scan": return nonScan
             case "Stock Adjust": return stockAdjust

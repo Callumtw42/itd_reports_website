@@ -1,8 +1,16 @@
 
-export function toInt(s: string): number {
-  let chars = [...s]
-  let byteArr = chars.map((c: string) => { return c.charCodeAt(0) })
-  return parseInt(byteArr.join(""), 10)
+export function viewport(small: number, large: number) {
+  return (window.innerWidth > 1024) ? small : large;
+}
+
+export function toInt(s: string | number): number {
+  if (typeof s === 'number')
+    return s
+  else {
+    let chars = [...s]
+    let byteArr = chars.map((c: string) => { return c.charCodeAt(0) })
+    return parseInt(byteArr.join(""), 10)
+  }
 }
 
 export function colors(subArr: number[]) {
