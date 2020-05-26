@@ -7,7 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import HeaderBar from '../header_bar'
 import SimpleSelect from '../lib/useselect/useselect'
 import Table from '../lib/table/table'
-export default function ReturnToSupplier(props: { header: string, db: string }) {
+import {  ReportProps} from './logic'
+export default function ReturnToSupplier(props: ReportProps) {
 
     const {
         startDate,

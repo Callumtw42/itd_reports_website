@@ -25,8 +25,9 @@ import RadioButtons from '../../radio_buttons';
 import { obj } from '../../usedata';
 // import useReport from '../report';
 import useData from "../../usedata"
+import { ReportProps } from "../logic";
 
-export function SalesBreakdown(props: SalesBreakdownProps) {
+export function SalesBreakdown(props: ReportProps) {
 
   const {
     startDate,

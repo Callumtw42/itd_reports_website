@@ -1,3 +1,4 @@
+import {  ReportProps} from './logic'
 import { useState, useEffect } from 'react'
 import Typography from '@material-ui/core/Typography'
 import useData from '../usedata';
@@ -7,7 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import HeaderBar from '../header_bar'
 import SimpleSelect from '../lib/useselect/useselect'
 import Table from '../lib/table/table'
-export default function VoidSales(props: { header: string, db: string }) {
+
+export default function VoidSales(props: ReportProps) {
 
     const {
         startDate,

@@ -7,7 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import HeaderBar from '../header_bar'
 import SimpleSelect from '../lib/useselect/useselect'
 import Table from '../lib/table/table'
-export default function ProductExchange(props: { db: string, header: string }) {
+import { ReportProps } from './logic'
+export default function ProductExchange(props: ReportProps) {
 
     const {
         startDate,
@@ -31,7 +32,7 @@ export default function ProductExchange(props: { db: string, header: string }) {
             <Paper className='reportContainer'>
                 <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates color='white' /></HeaderBar>
                 <div className='reportBody'>
-                    <Table data={data}/>
+                    <Table data={data} />
                 </div>
             </Paper>
         </div>

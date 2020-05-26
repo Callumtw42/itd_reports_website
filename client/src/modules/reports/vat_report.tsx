@@ -1,3 +1,4 @@
+import {  ReportProps} from './logic';
 import 'date-fns';
 
 import Paper from '@material-ui/core/Paper';
@@ -12,7 +13,7 @@ import useDate from '../lib/usedate/usedate';
 import useData from '../usedata';
 
 
-export function VAT(props: { db: string, header: string }) {
+export function VAT(props: ReportProps) {
 
     const {
         startDate,

@@ -7,7 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import HeaderBar from '../header_bar'
 import SimpleSelect from '../lib/useselect/useselect'
 import Table from '../lib/table/table'
-export default function PriceOverride(props: { db: string, header: string }) {
+import { ReportProps } from './logic'
+export default function PriceOverride(props: ReportProps) {
 
     const {
         startDate,

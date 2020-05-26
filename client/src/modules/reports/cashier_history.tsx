@@ -10,13 +10,14 @@ import Paper from '@material-ui/core/Paper';
 import HeaderBar from '../header_bar'
 import SimpleSelect from '../lib/useselect/useselect'
 import Table from '../lib/table/table'
+import { ReportProps } from "./logic";
 
-interface CashierHistoryProps {
-    db: string,
-    header: string,
-}
+// interface CashierHistoryProps {
+//     db: string,
+//     header: string,
+// }
 
-export default function CashierHistory(props: CashierHistoryProps) {
+export default function CashierHistory(props: ReportProps) {
 
     const [tableData, setTableData] = useState([] as d.obj[][]);
     const {

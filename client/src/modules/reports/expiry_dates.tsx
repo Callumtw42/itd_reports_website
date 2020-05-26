@@ -9,8 +9,9 @@ import HeaderBar from '../header_bar'
 import SimpleSelect from '../lib/useselect/useselect'
 import Table from '../lib/table/table'
 import * as d from "../lib/datafns"
+import { ReportProps } from './logic';
 
-export default function ExpiryDates(props: {db: string,  header: string}) {
+export default function ExpiryDates(props: ReportProps) {
 
     const {
         startDate,

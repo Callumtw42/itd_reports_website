@@ -11,7 +11,6 @@
       <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="3" parent="1" name="itdepos">
-      <Current>1</Current>
       <Collation>latin1_swedish_ci</Collation>
     </schema>
     <schema id="4" parent="1" name="itdepos2">
@@ -30,6 +29,7 @@
       <Collation>latin1_swedish_ci</Collation>
     </schema>
     <schema id="9" parent="1" name="users">
+      <Current>1</Current>
       <Collation>latin1_swedish_ci</Collation>
     </schema>
     <collation id="10" parent="1" name="armscii8_bin">

@@ -1,3 +1,4 @@
+import {  ReportProps} from './logic'
 import 'date-fns';
 
 import Paper from '@material-ui/core/Paper';
@@ -10,7 +11,7 @@ import useDate from '../lib/usedate/usedate';
 import Table from '../lib/table/table';
 import { columns } from "../lib/datafns";
 
-export function Stock(props: { header: string, db: string, display: string }) {
+export function Stock(props: ReportProps) {
 
     const [header, setHeader] = useState(props.header);
     const { startDate, endDate, Dates } = useDate();
@@ -45,8 +46,8 @@ export function Stock(props: { header: string, db: string, display: string }) {
     }, [selected, stock])
 
     useEffect(() => {
-        if (props.display === 'inline') setHeader(header);
-    }, [props.display, header]);
+        if (props.phoneDisplay === 'inline') setHeader(header);
+    }, [props.phoneDisplay, header]);
 
     function render() {
         return (

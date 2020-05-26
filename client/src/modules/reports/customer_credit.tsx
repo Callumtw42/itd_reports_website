@@ -8,8 +8,9 @@ import HeaderBar from '../header_bar'
 import SimpleSelect from '../lib/useselect/useselect'
 import Table from '../lib/table/table'
 import * as d from "../lib/datafns"
+import { ReportProps } from "./logic";
 
-export default function CustomerCredit(props: {db: string, header: string}) {
+export default function CustomerCredit(props: ReportProps) {
 
     const {
         data
@@ -26,7 +27,7 @@ export default function CustomerCredit(props: {db: string, header: string}) {
             <Paper className='reportContainer'>
                 <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography></HeaderBar>
                 <div className='reportBody'>
-                    <Table  data={data} />
+                    <Table data={data} />
                 </div>
             </Paper>
         </div>
