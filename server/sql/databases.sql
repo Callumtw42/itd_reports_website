@@ -1,1 +1,1 @@
-SHOW databases;
+select schema_name from information_schema.SCHEMATA where SCHEMA_NAME != 'information_schema';

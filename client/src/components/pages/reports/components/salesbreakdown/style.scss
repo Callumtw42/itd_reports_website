@@ -1,0 +1,19 @@
+.salesBreakdown {
+  .sales > h1 {
+    margin: auto 0;
+    margin-right: 5%;
+  }
+
+  .sales {
+    margin: 1em 0 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .IconSwitch {
+    border: none;
+    background-color: #004064;
+    color: white;
+  }
+}

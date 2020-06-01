@@ -13,10 +13,11 @@
         <introspection-scope>
           <node kind="schema">
             <name qname="@" />
+            <name qname="information_schema" />
             <name qname="itdepos" />
             <name qname="itdepos2" />
-            <name qname="users" />
             <name qname="itdusers" />
+            <name qname="users" />
           </node>
         </introspection-scope>
       </schema-mapping>

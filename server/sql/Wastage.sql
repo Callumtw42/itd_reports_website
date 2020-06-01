@@ -1,4 +1,4 @@
-SELECT DATE_FORMAT(w.Date1, '%y/%m/%d - %H:%i') as TillDate,
+SELECT DATE_FORMAT(w.Date1, '%d/%m/%y - %H:%i') as TillDate,
        w.Reason,
        Qty,
        ProductName                              as Product,

@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server": "cd server; nodemon --delay 1 ./server.js",
+    "server": "cd server; nodemon ./server.js",
     "client": "cd client; yarn start"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@okta/jwt-verifier": "^1.0.0",
+    "@types/react": "^16.9.35",
     "body-parser": "^1.19.0",
     "concurrently": "^5.1.0",
     "date-fns": "^1.0.0",

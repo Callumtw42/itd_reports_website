@@ -1,0 +1,31 @@
+input {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: inherit;
+  background-color: inherit;
+  color: inherit;
+  border: hidden;
+  border-bottom: solid 1px;
+  border-bottom-color: inherit;
+  text-indent: 2em;
+  z-index:1;
+}
+
+.container :hover{
+  border-bottom: solid 1.25px;
+}
+
+.icon {
+  position: absolute;
+  margin: 5px;
+}
+
+text {
+  margin: 0 1em 0 1em;
+}
+
+.container {
+  height: 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}

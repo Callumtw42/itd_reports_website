@@ -1,5 +1,5 @@
 SELECT ProductName                     as Product,
-       Retail,
+       trim(leading 0 from Retail) + 0 as Retail,
        InputAmount                     as Amount,
        DATE_FORMAT(Expiry, '%y/%m/%d') as Expiry
 FROM itdepos.stockitem t

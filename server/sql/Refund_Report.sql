@@ -1,9 +1,9 @@
-SELECT  ti.Description as Product,
+SELECT ti.Description                as Product,
        Reason,
        Amount,
-       Date,
+       date_format(Date, '%d/%m/%y') as Date,
        Method,
-       RefundCashier as Casher
+       RefundCashier                 as Casher
 FROM RefundItem r
          LEFT JOIN TillItem ti ON ti.TillItemID = r.TillItemID
 WHERE r.Type = 'RT'

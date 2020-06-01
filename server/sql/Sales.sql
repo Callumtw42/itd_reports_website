@@ -11,7 +11,7 @@ SELECT
        IFNULL(Amount, 0)                                                                    as Refund,
        Discount,
        ItemTotal - IFNULL(PackCost / PackSize, 0) * Quantity - IFNULL(Amount, 0) - Discount as Profit,
-       DATE_FORMAT(TillDate, '%y/%m/%d')                                                    as TillDate,
+       DATE_FORMAT(TillDate, '%d/%m/%y')                                                    as TillDate,
        TIME_FORMAT(TillTime, '%H:%m')                                                       as TillHour,
        DsctReason,
        TillTime,

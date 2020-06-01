@@ -1,0 +1,44 @@
+.dot {
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+}
+
+.legendItem {
+  display: flex;
+}
+
+.PieChart,
+.BarChart {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-height: 45vh;
+}
+
+.PieChart > .chart {
+  width: 20vw;
+  @media (max-width: 1024px) {
+    width: 50vw;
+  }
+}
+.chart {
+  @media (max-width: 1024px) {
+    @media screen and (orientation: landscape) {
+      display: none;
+    }
+  }
+}
+.BarChart > .chart {
+  width: 40vw;
+  @media (max-width: 1024px) {
+    width: 90vw;
+  }
+}
+
+.Legend {
+  overflow-y: scroll;
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}

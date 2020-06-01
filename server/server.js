@@ -83,29 +83,69 @@ app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
 });
 
 // Stock
-app.get('/api/stock/:db', (req, res) => {
-    run(`USE ${req.params.db};`);
-    let data = select(fs.readFileSync(path.join('sql', 'Stock.sql'), { encoding: "UTF-8" }), res)
+app.get('/api/stock/:schema/:orderBy/:order/:bufferSize/:bufferCount', (req, res) => {
+    let { schema, orderBy, order, bufferSize, bufferCount } = req.params
+    let sql = fs.readFileSync(path.join('sql', 'stock.sql'), { encoding: "UTF-8" })
+        .replace("${orderBy}", orderBy)
+        .replace("${order}", order)
+        .replace("${bufferSize}", parseInt(bufferSize))
+        .replace("${offset}", parseInt(bufferSize) * parseInt(bufferCount))
+
+    run(`use ${schema}`)
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        res.json(results)
+    });
 });
 
 // Stock_Reorder
-app.get('/api/reorder/:db', (req, res) => {
-    run(`USE ${req.params.db};`);
-    let data = select(fs.readFileSync(path.join('sql', 'Reorder.sql'), { encoding: "UTF-8" }), res)
+app.get('/api/reorder/:schema/:orderBy/:order/:bufferSize/:bufferCount', (req, res) => {
+    let { schema, orderBy, order, bufferSize, bufferCount } = req.params
+    let sql = fs.readFileSync(path.join('sql', 'reorder.sql'), { encoding: "UTF-8" })
+        .replace("${orderBy}", orderBy)
+        .replace("${order}", order)
+        .replace("${bufferSize}", parseInt(bufferSize))
+        .replace("${offset}", parseInt(bufferSize) * parseInt(bufferCount))
+
+    run(`use ${schema}`)
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        res.json(results)
+    });
 });
 
 // nonscan
-app.get('/api/nonscan/:db', (req, res) => {
-    run(`USE ${req.params.db};`);
-    let data = select(fs.readFileSync(path.join('sql', 'Non_Scan.sql'), { encoding: "UTF-8" }), res)
+app.get('/api/nonscan/:schema/:orderBy/:order/:bufferSize/:bufferCount', (req, res) => {
+    let { schema, orderBy, order, bufferSize, bufferCount } = req.params
+    let sql = fs.readFileSync(path.join('sql', 'nonscan.sql'), { encoding: "UTF-8" })
+        .replace("${orderBy}", orderBy)
+        .replace("${order}", order)
+        .replace("${bufferSize}", parseInt(bufferSize))
+        .replace("${offset}", parseInt(bufferSize) * parseInt(bufferCount))
+
+    run(`use ${schema}`)
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        res.json(results)
+    });
 });
 
 //Stock Adjust
-app.get('/api/adjust/:db/:startDate/:endDate', (req, res) => {
-    run(`USE ${req.params.db};`);
-    run(`SET @startDate = '${req.params.startDate}';`);
-    run(`SET @endDate = '${req.params.endDate}';`);
-    let data = select(fs.readFileSync(path.join('sql', 'Stock_Adjustment.sql'), { encoding: "UTF-8" }), res)
+app.get('/api/adjust/:schema/:startDate/:endDate/:orderBy/:order/:bufferSize/:bufferCount', (req, res) => {
+    let { schema, startDate, endDate, orderBy, order, bufferSize, bufferCount } = req.params
+    let sql = fs.readFileSync(path.join('sql', 'adjust.sql'), { encoding: "UTF-8" })
+        .replace("${startDate}", startDate)
+        .replace("${endDate}", endDate)
+        .replace("${orderBy}", orderBy)
+        .replace("${order}", order)
+        .replace("${bufferSize}", parseInt(bufferSize))
+        .replace("${offset}", parseInt(bufferSize) * parseInt(bufferCount))
+
+    run(`use ${schema}`)
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        res.json(results)
+    });
 });
 
 //Customer Credit
@@ -190,7 +230,7 @@ app.get('/api/returntosupplier/:db/:startDate/:endDate', (req, res) => {
 
 //DBList
 app.get('/api/databases', (req, res) => {
-    let data = select(`SHOW DATABASES;`, res);
+    let data = select(fs.readFileSync(path.join('sql', 'databases.sql'), { encoding: "UTF-8" }), res)
 });
 
 //VAT

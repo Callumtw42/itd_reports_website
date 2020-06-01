@@ -3,25 +3,22 @@
   scrollbar-width: thin;
   scrollbar-color: rgb(246, 246, 246) white;
 
+  @media(max-width:1024px){
+    
+  }
+
   ::-webkit-scrollbar {
     height: 5px;
     width: 5px;
     background-color: white;
   }
   ::-webkit-scrollbar-thumb {
-    // background-color: rgb(246, 246, 246);
-     background-color: red
+    background-color: rgb(246, 246, 246);
   }
 }
 
-html,
-body {
-  text-size-adjust: none;
-  -webkit-text-size-adjust: none;
-  -moz-text-size-adjust: none;
-  -ms-text-size-adjust: none;
-}
-
-.clickable > * {
+.clickable{
   pointer-events: none;
 }
+
+
