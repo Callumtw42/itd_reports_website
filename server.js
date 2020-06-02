@@ -11,7 +11,8 @@ const db = mysql.createConnection({
     host: 'callum.mysql.database.azure.com',
     user: 'callum@callum',
     password: '0089fxcy?',
-    database: 'itdepos'
+    database: 'itdepos',
+    port: 3306
 })
 
 //connect
@@ -19,7 +20,9 @@ db.connect((err) => {
     if (err) {
         throw err;
     }
-    console.log('MySql Connected...');
+    else {
+        console.log('MySql Connected...');
+    }
 });
 
 const app = express();
