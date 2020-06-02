@@ -1,15 +1,4 @@
 {
-    "sqltools.connections": [
-        {
-            "database": "itdepos",
-            "dialect": "MySQL",
-            "name": "epos",
-            "password": "0089fxcy?",
-            "port": 3306,
-            "server": "localhost",
-            "username": "root"
-        }
-    ],
     "appService.zipIgnorePattern": [
         "node_modules{,/**}",
         ".vscode{,/**}"

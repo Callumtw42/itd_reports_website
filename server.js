@@ -245,6 +245,7 @@ app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => {
 });
 
 //listen
-let server = app.listen('5000', () => {
-    console.log('Server started on port 5000');
+let server = app.listen(process.env.PORT || '5000', (err) => {
+    if (err) throw err;
+    else console.log(`Server started on port`);
 });

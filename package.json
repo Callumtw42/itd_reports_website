@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server": "npm start",
-    "client": "cd client; yarn install; npm run build; npm start",
-    "build": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
