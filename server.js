@@ -8,8 +8,8 @@ const Joi = require('joi')
 const bodyParser = require("body-parser")
 
 const db = mysql.createConnection({
-    host: 'itdepos.mysql.database.azure.com',
-    user: 'callum@itdepos',
+    host: 'callum.mysql.database.azure.com',
+    user: 'callum@callum',
     password: '0089fxcy?',
     database: 'itdepos'
 })
