@@ -4,9 +4,7 @@
   "description": "",
   "scripts": {
     "server": "cd server; nodemon ./server.js",
-    "client": "cd client; yarn start",
-    "start": "node server.js;",
-    "install": "yarn install; cd client; yarn install" 
+    "client": "cd client; yarn start"
   },
   "author": "",
   "license": "ISC",
