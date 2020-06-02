@@ -9,5 +9,11 @@
             "server": "localhost",
             "username": "root"
         }
-    ]
+    ],
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/0a028fdb-f1db-4eb6-92b2-8aa3d880e88e/resourceGroups/sandbox/providers/Microsoft.Web/sites/itdreports",
+    "appService.deploySubpath": "./client/build"
 }
