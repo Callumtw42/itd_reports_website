@@ -22,5 +22,24 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
+    <data-source name="remote" uuid="6ec9e844-f03b-4057-b372-c386ee2ff718">
+      <database-info product="MySQL" version="5.6.42.0" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.15 (Revision: 79a4336f140499bd22dd07f02b708e163844e3d5)" dbms="MYSQL" exact-version="5.6.47" exact-driver-version="8.0">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>callum@itdepos</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema">
+            <name qname="@" />
+            <name qname="itdepos" />
+            <name qname="itdepos2" />
+            <name qname="users" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
   </component>
 </project>
