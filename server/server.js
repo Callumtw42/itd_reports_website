@@ -58,7 +58,7 @@ app.post('/api/login', (req, res) => {
     const { error, value } = validated
 
     if (error)
-        res.send(error.details[0].message)
+        res.json(error.details[0].message)
     else {
         run(`USE users;`);
         run(`set @name = '${value.username}';`)
