@@ -5,7 +5,7 @@
   "scripts": {
     "server": "cd server; nodemon ./server.js",
     "client": "cd client; yarn start",
-    "start": "yarn run server; yarn run client",
+    "start": "node ./server/server.js;",
     "install": "yarn install; cd client; yarn install" 
   },
   "author": "",
