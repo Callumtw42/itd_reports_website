@@ -10,7 +10,7 @@
   "license": "ISC",
   "engines": {
     "node": "12.15.0",
-    "npm": "6.0"
+    "npm": "6.9"
   },
   "dependencies": {
     "@okta/jwt-verifier": "^1.0.0",
