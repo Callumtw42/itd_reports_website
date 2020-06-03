@@ -22,7 +22,7 @@ export default function useLogin() {
             },
             body: JSON.stringify({ username: username, password: password })
         })
-            .then(res => console.log(res.text()); res.json())
+            .then(res => res.json())
             .then(data => {
                 setData(data)
             })
