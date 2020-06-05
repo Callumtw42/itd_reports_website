@@ -27,6 +27,7 @@ export default function Login(props: RouteComponentProps) {
       <Container component="main" maxWidth="xs" className={classes.paper}>
         <CssBaseline />
         <div className={classes.paper}>
+          <Typography>Updated</Typography>
           <Avatar className={classes.avatar}>
             {/* <LockOutlinedIcon /> */}
             <img src='ITDlogo.jpg' alt='logo'></img>

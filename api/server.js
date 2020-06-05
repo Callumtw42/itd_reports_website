@@ -45,7 +45,7 @@ function select(sql, res, process) {
 
 //test
 app.get('/api/test', (req, res) => {
-    res.json("COnnected")
+    res.json("updated")
 });
 
 //login
