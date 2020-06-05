@@ -43,6 +43,11 @@ function select(sql, res, process) {
     });
 }
 
+//test
+app.get('api/test', (req, res) => {
+    res.json("COnnected")
+});
+
 //login
 app.post('/api/login', (req, res) => {
     //NEXT: learn to post request to eliminate questionmark bug 
