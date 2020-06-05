@@ -1,9 +1,9 @@
 FROM node:14.2-alpine as builder
 
 WORKDIR /
-COPY ./package.json /package.json
+COPY api/package.json /package.json
 RUN npm install
-COPY ./ /
+COPY api /
 
 EXPOSE 8888
 CMD ["npm", "start"]
