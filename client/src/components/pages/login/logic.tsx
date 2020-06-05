@@ -14,7 +14,7 @@ export default function useLogin() {
         console.log(username);
         console.log(password);
 
-        fetch('api/login', {
+        fetch(`${process.env.REACT_APP_DOMAIN}api/login`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

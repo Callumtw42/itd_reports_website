@@ -6,6 +6,8 @@ const path = require('path');
 const fs = require('fs');
 const Joi = require('joi')
 const bodyParser = require("body-parser")
+const cors = require("cors")
+
 
 const db = mysql.createConnection({
     host: 'callum.mysql.database.azure.com',
@@ -26,6 +28,8 @@ db.connect((err) => {
 });
 
 const app = express();
+
+// app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -66,7 +70,7 @@ app.post('/api/login', (req, res) => {
     const { error, value } = validated
 
     if (error)
-        res.send(error.details[0].message)
+        res.json(error.details[0].message)
     else {
         run(`USE users;`);
         run(`set @name = '${value.username}';`)

@@ -10,7 +10,7 @@ export default function useData(url: string, /*format: (d: obj[]) => obj[]*/) {
 
     async function fetchData() {
         try {
-            fetch(url,)
+            fetch(`${process.env.REACT_APP_DOMAIN}${url}`)
                 .then(res => res.json())
                 .then(data => {
                     data != null
@@ -25,7 +25,7 @@ export default function useData(url: string, /*format: (d: obj[]) => obj[]*/) {
             console.error(err)
         }
     }
-    
+
     useEffect(() => {
         fetchData();
     }, [url]);

@@ -11,7 +11,7 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
     const [bufferCount, setBufferCount] = useState(0)
 
     useEffect(() => {
-        fetch(`${route}/${rowsPerBuffer}/${bufferCount}`)
+        fetch(`${process.env.REACT_APP_DOMAIN}${route}/${rowsPerBuffer}/${bufferCount}`)
             .then(res => res.json())
             .then(rows => setData([...data, ...rows]))
             .catch(error => console.log(error))
@@ -21,7 +21,7 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
 
     useEffect(() => {
         setBufferCount(0)
-        fetch(`${route}/${rowsPerBuffer}/${bufferCount}`)
+        fetch(`${process.env.REACT_APP_DOMAIN}${route}/${rowsPerBuffer}/${bufferCount}`)
             .then(res => res.json())
             .then(rows => setData(rows))
             .catch(error => console.log(error))
