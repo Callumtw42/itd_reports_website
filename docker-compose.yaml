@@ -4,11 +4,12 @@ services:
   api:
     build: ./api
     ports:
-      - "8080:8080"
+      - "8001:8080"
     container_name: itdapi
 
   client:
     build: ./client
     ports:
-      - "80:80"
+      - "8000:80"
     container_name: itdclient
+

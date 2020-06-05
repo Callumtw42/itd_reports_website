@@ -1,10 +1,9 @@
 FROM node:14.2-alpine as builder
 
-WORKDIR /app
-COPY package.json /app/package.json
+WORKDIR /
+COPY ./package.json /package.json
 RUN npm install
-COPY server.js /app
-COPY /sql /app/sql
+COPY ./ /
 
-EXPOSE 8080
+EXPOSE 8888
 CMD ["npm", "start"]
