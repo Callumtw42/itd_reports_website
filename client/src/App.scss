@@ -1,24 +1,7 @@
 * {
-  box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: rgb(246, 246, 246) white;
-
-  @media(max-width:1024px){
-    
-  }
-
-  ::-webkit-scrollbar {
-    height: 5px;
-    width: 5px;
-    background-color: white;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: rgb(246, 246, 246);
-  }
 }
 
-.clickable{
+.clickable {
   pointer-events: none;
 }
-
-

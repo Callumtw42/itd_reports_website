@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
+import "./style.scss"
 
 import * as f from '../../components/functions';
 import * as d from '../datafns';
@@ -19,8 +20,7 @@ import EnhancedTableHead from './tablehead';
 const useStyles = makeStyles((theme) => ({
   head: {
     backgroundColor: "blue"
-  }
-
+  },
 }))
 
 export default function EnhancedTable(props: _.EnhancedTableProps) {
@@ -89,20 +89,20 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
   }, [bufferCount])
 
   return (
-    <Div className="table">
-      <Table stickyHeader
+    <Div className="Table">
+      <Table
+        stickyHeader
         aria-labelledby="tableTitle"
         size={dense ? 'small' : 'medium'}
         aria-label="enhanced table"
       >
-        <EnhancedTableHead className={classes.head}
-          order={order}
-          orderBy={orderBy}
-          onRequestSort={handleRequestSort}
-          rowCount={rows.length}
-          data={data}
-        />
-
+          <EnhancedTableHead className={classes.head}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            rowCount={rows.length}
+            data={data}
+          />
         <TableBody className="tableBody">
           {rows
             .map((row, index) => {

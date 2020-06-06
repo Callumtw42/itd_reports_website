@@ -33,32 +33,30 @@ export default function EnhancedTableHead(props: _.EnhancedTableHeadProps) {
   }, [props.data]);
 
   return (
-
-    <TableHead  >
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}
-            onClick={createSortHandler(headCell.id)}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order as "desc" | "asc" | undefined : 'asc'}
+      <TableHead  >
+        <TableRow>
+          {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align={'left'}
+              padding={headCell.disablePadding ? 'none' : 'default'}
+              sortDirection={orderBy === headCell.id ? order : false}
+              onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label}
-              {/* {orderBy === headCell.id ? (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order as "desc" | "asc" | undefined : 'asc'}
+              >
+                {headCell.label}
+                {/* {orderBy === headCell.id ? (
                 <span className={"sort-message"}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </span>
               ) : null} */}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-
+              </TableSortLabel>
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
   );
 }

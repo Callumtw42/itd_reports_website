@@ -1,11 +1,13 @@
-import FormControl from '@material-ui/core/FormControl';
+import './style.scss';
+
+import { Typography } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
-import MuiSelect from '@material-ui/core/Select';
+import Paper from '@material-ui/core/Paper';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { HTMLAttributes } from 'react';
-import { useEffect, ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
-import Div from './style';
-
+// import Div from './style';
 export default function useSimpleSelect(items: string[], color?: string) {
 
     const [selected, setSelected] = React.useState(
@@ -20,33 +22,34 @@ export default function useSimpleSelect(items: string[], color?: string) {
     }, [items])
 
     function Items() {
-        return items.map((s, index) => {
-            return <MenuItem
-                key={index}
-                onMouseDown={
-                    () => {
-                        setSelected(s);
-                    }
-                }>
-                {s}
-            </MenuItem>
-        });
+        return <>
+            {
+                items.map((s, index) => {
+                    return <MenuItem
+                        aria-haspopup
+                        key={index}
+                        onMouseDown={
+                            () => {
+                                setSelected(s);
+                            }
+                        }>
+                        {s}
+                    </MenuItem>
+                })
+            }</>
     }
 
     function Select(props: HTMLAttributes<HTMLDivElement>) {
         return (
-            <Div color={color} className="select">
-                <FormControl >
-                    <MuiSelect
-                        value={''}
-                        displayEmpty
-                        label={selected}
-                        renderValue={() => { return selected }}
-                    >
-                        {Items()}
-                    </MuiSelect>
-                </FormControl>
-            </Div>
+            <div className="Select">
+                <div className="head"><div className="text"><Typography >{selected}<ArrowDropDownIcon /></Typography></div>
+                    <div>
+                        <Paper className="items">
+                            {Items()}
+                        </Paper>
+                    </div>
+                </div>
+            </div>
         );
     }
 

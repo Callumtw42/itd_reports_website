@@ -8,13 +8,24 @@
   display: flex;
 }
 
+.Legend {
+  // margin-top: 2em;
+  max-height: 40vh;
+}
+
 .PieChart,
 .BarChart {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  max-height: 45vh;
+  // max-height: 38vh;
+  // scrollbar-color: rgb(246, 246, 246) white;
 }
+// ::-webkit-scrollbar {
+//   height: 5px;
+//   width: 5px;
+//   background-color: white;
+// }
 
 .PieChart > .chart {
   width: 20vw;

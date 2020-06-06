@@ -29,7 +29,7 @@ export function StockReport(props: ReportProps) {
         ],
         "white"
     );
-    
+
     // useEffect(() => {
     //     if (selected === "Stock Adjust") setDateDisplay("flex")
     //     else setDateDisplay("none")

@@ -2,7 +2,9 @@
   "name": "itd_reports_website",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon server"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

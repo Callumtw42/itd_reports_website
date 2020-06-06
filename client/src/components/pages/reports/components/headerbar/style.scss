@@ -9,6 +9,13 @@
     z-index: 0;
   }
 
+  .Select {
+    .items {
+      position: absolute;
+      background-color: white;
+    }
+  }
+
   h6 {
     padding: 5px;
     font-size: 1em;
