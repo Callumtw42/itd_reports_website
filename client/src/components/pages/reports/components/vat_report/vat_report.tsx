@@ -1,16 +1,17 @@
-import {  ReportProps} from './logic';
+import {  ReportProps} from '../logic';
 import 'date-fns';
+import "./vat.scss"
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import styled from 'styled-components';
 
-import HeaderBar from './headerbar/headerbar';
-import { columns, obj, removeColumns, sumAndGroup } from '../../../../lib/datafns';
-import Table from '../../../../lib/table/table';
-import useDate from '../../../../lib/usedate/usedate';
-import useData from '../../../../lib/usedata';
+import HeaderBar from '../headerbar/headerbar';
+import { columns, obj, removeColumns, sumAndGroup } from '../../../../../lib/datafns';
+import Table from '../../../../../lib/table/table';
+import useDate from '../../../../../lib/usedate/usedate';
+import useData from '../../../../../lib/usedata';
 
 
 export function VAT(props: ReportProps) {

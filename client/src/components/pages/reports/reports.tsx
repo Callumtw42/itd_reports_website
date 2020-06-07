@@ -13,7 +13,7 @@ import ReturnToSupplier from './components/return_to_supplier';
 import { SalesBreakdown } from './components/salesbreakdown/sales_breakdown';
 import StaffHours from './components/staff_hours';
 import { StockReport } from './components/stockreport/stockreport';
-import { VAT } from './components/vat_report';
+import { VAT } from './components/vat_report/vat_report';
 import VoucherSales from './components/voucher_sales';
 import Wastage from './components/wastage';
 // import Div from './style';
@@ -34,7 +34,7 @@ export default function Reports(props: RouteComponentProps) {
                 <Wastage header={'Wastage'} db={db} />
                 <Refund header={'Refund Report'} db={db} />
                 <StaffHours header={'Staff Hours'} db={db} />
-                <VoidSales header={'Void Sales'} db={db} />
+                {/* <VoidSales header={'Void Sales'} db={db} /> */}
                 <ExpiryDates header={'Expiry Dates'} db={db} />
                 {/* <ReturnToSupplier header={'Return To Supplier'} db={db} />
                 <CustomerCredit header={'Customer Credit'} db={db} />

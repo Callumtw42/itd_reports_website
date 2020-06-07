@@ -20,13 +20,6 @@ export default function ProductExchange(props: ReportProps) {
         data
     } = useData(`/api/exchange/${props.db}/${startDate}/${endDate}`);
 
-    // const [tableData, setTableData] = useState([]);
-    // const Table = useTable(data)
-
-    // useEffect(() => {
-    //     setTableData(data);
-    // }, [startDate, endDate])
-
     return (
         <div className='report'>
             <Paper className='reportContainer'>

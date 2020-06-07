@@ -1,5 +1,4 @@
-import './style.ts';
-
+import "./style.scss"
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';

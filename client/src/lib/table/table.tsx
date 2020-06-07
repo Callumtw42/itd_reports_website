@@ -1,4 +1,6 @@
-import Div from "./style"
+
+import "./style.scss"
+// import Div from "./style"
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -87,7 +89,7 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
   }, [bufferCount])
 
   return (
-    <Div className="Table">
+    <div className="Table">
       <Table
         stickyHeader
         aria-labelledby="tableTitle"
@@ -119,7 +121,7 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
       </Table>
       <Buffer />
       <_.EmptyMessage data={props.data} />
-    </Div>
+    </div>
   );
 }
 
