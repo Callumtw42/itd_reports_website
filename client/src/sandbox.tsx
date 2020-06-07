@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from "react-dom"
 import useSelect from "./lib/useselect/useselect"
 import Table from "./lib/table/table"
 
