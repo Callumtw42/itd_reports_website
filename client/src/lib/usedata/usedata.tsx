@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import "./style.scss"
+import React, { useState, useEffect, ReactNode } from 'react'
+import Typography from "@material-ui/core/Typography/Typography"
 
 export interface obj {
     [key: string]: any
@@ -7,6 +9,11 @@ export interface obj {
 export default function useData(url: string, /*format: (d: obj[]) => obj[]*/) {
 
     const [data, setData] = useState<obj[]>([]);
+    const [loading, setLoading] = useState(false)
+
+    function Spinner(props: {}) {
+        return loading ? <div className="Spinner"><div className = "text"><Typography >Loading...</Typography></div> </div>: null
+    }
 
     async function fetchData() {
         try {
@@ -28,12 +35,18 @@ export default function useData(url: string, /*format: (d: obj[]) => obj[]*/) {
 
     useEffect(() => {
         fetchData();
+        setLoading(true)
     }, [url]);
+
+    useEffect(() => {
+        setLoading(false)
+    }, [data])
 
     return {
         data,
         setData,
         fetchData,
+        Spinner
     }
 
 }

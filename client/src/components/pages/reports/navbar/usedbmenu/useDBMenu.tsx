@@ -1,6 +1,6 @@
 import useSelect from '../../../../../lib/useselect/useselect'
 import React, { useEffect, useState } from 'react'
-import useData, { obj } from '../../../../../lib/usedata'
+import useData, { obj } from '../../../../../lib/usedata/usedata'
 
 export default function useDBMenu() {
     const { data } = useData(`api/databases`)

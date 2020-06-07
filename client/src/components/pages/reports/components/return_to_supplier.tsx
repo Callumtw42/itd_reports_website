@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Typography from '@material-ui/core/Typography'
-import useData from '../../../../lib/usedata';
+import useData from '../../../../lib/usedata/usedata';
 import useDate from '../../../../lib/usedate/usedate';
 import React from 'react';
 import Paper from '@material-ui/core/Paper';

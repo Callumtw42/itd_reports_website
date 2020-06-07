@@ -1,25 +1,20 @@
-import { ReportProps } from '../logic'
 import 'date-fns';
-import Stock from './stock'
-import Reorder from './reorder';
+
 import Paper from '@material-ui/core/Paper';
-import NonScan from './nonscan'
-import StockAdjust from './stockadjust'
 import React, { useEffect, useState } from 'react';
 
-import HeaderBar from '../headerbar/headerbar'
 import useSimpleSelect from '../../../../../lib/useselect/useselect';
-import useData from '../../../../../lib/usedata';
-import useDataBuffer from '../usedatabuffer'
-import useDate from '../../../../../lib/usedate/usedate';
-import Table from '../../../../../lib/table/table';
-import { columns } from "../../../../../lib/datafns";
+import HeaderBar from '../headerbar/headerbar';
+import { ReportProps } from '../logic';
+import NonScan from './nonscan';
+import Reorder from './reorder';
+import Stock from './stock';
+import StockAdjust from './stockadjust';
 
 export const ctx = React.createContext({ db: "itdepos" })
 
 export function StockReport(props: ReportProps) {
 
-    const [header, setHeader] = useState(props.header);
     const { selected, Select } = useSimpleSelect(
         [
             "Stock",
@@ -29,12 +24,6 @@ export function StockReport(props: ReportProps) {
         ],
         "white"
     );
-
-    // useEffect(() => {
-    //     if (selected === "Stock Adjust") setDateDisplay("flex")
-    //     else setDateDisplay("none")
-    //     // setTableData(tableChoice(selected));
-    // }, [selected])
 
     function render() {
         return (

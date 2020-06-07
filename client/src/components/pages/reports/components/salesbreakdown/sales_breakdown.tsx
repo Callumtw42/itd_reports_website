@@ -10,7 +10,7 @@ import PieChart from '../../../../../lib/chart/piechart/piechart';
 import StackedBarChart from '../../../../../lib/chart/stackedbarchart/bar_chart';
 import * as d from '../../../../../lib/datafns';
 import Table from '../../../../../lib/table/table';
-import useData, { obj } from '../../../../../lib/usedata';
+import useData, { obj } from '../../../../../lib/usedata/usedata';
 import useDate from '../../../../../lib/usedate/usedate';
 import DropDown from '../../../../drop_down';
 import HeaderBar from '../headerbar/headerbar';
@@ -30,7 +30,7 @@ export function SalesBreakdown(props: ReportProps) {
 
   const { Select, selected } = useSelect(['Category', 'Product', 'PriceMark', 'Cashier', 'Receipt'], "black")
 
-  const { data } = useData(`/api/salesByProduct/${props.db}/${startDate}/${endDate}`)
+  const { data, Spinner } = useData(`/api/salesByProduct/${props.db}/${startDate}/${endDate}`)
 
   const [groupBy, setGroupBy] = useState<string>('Category');
   const [total, setTotal] = useState<number>(0);
@@ -74,22 +74,23 @@ export function SalesBreakdown(props: ReportProps) {
 
   return (
     <div className="salesBreakdown">
-      <Paper className='reportContainer'>
-        <HeaderBar  >
-          <div className="left">
-            <Typography className='text' variant="h6"> {props.header}</Typography>
-            <Dates />
-            {/* <div><input type="date"></input><CalendarTodayIcon /></div> */}
+      <Spinner />
+        <Paper className='reportContainer'>
+          <HeaderBar  >
+            <div className="left">
+              <Typography className='text' variant="h6"> {props.header}</Typography>
+              <Dates />
+              {/* <div><input type="date"></input><CalendarTodayIcon /></div> */}
+            </div>
+            <div className="right">
+              <IconSwitch />
+            </div>
+          </HeaderBar>
+          <div className='reportBody'>
+            <><Total /><GetChart chart={chart} /></>
+            <Table data={tableData} />
           </div>
-          <div className="right">
-            <IconSwitch />
-          </div>
-        </HeaderBar>
-        <div className='reportBody'>
-          <><Total /><GetChart chart={chart} /></>
-          <Table data={tableData} />
-        </div>
-      </Paper>
+        </Paper>
     </div>
   );
 }

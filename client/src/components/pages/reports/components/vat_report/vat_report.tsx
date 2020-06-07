@@ -11,7 +11,7 @@ import HeaderBar from '../headerbar/headerbar';
 import { columns, obj, removeColumns, sumAndGroup } from '../../../../../lib/datafns';
 import Table from '../../../../../lib/table/table';
 import useDate from '../../../../../lib/usedate/usedate';
-import useData from '../../../../../lib/usedata';
+import useData from '../../../../../lib/usedata/usedata';
 
 
 export function VAT(props: ReportProps) {
