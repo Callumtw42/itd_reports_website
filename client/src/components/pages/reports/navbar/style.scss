@@ -1,5 +1,7 @@
 .NavBar {
   height: 5vh;
+  position: relative;
+  z-index: 2003;
 
   @media (max-width: 1024px) {
     @media screen and(orientation: landscape) {
@@ -43,11 +45,11 @@
     @media (max-width: 1024px) {
       * {
         font-size: 2rem !important;
-    margin-top: 5.5px;
+        margin-top: 5.5px;
       }
     }
     margin-top: 11px;
-    .items{
+    .items {
       background-color: white;
     }
   }

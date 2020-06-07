@@ -20,6 +20,14 @@ const Div = styled.div`
   .emptyMessage {
     margin: auto;
   }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
 `;
 
 export default Div;

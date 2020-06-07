@@ -8,10 +8,9 @@ const Joi = require('joi')
 const bodyParser = require("body-parser")
 const cors = require("cors")
 
-
 const db = mysql.createConnection({
-    host: 'callum.mysql.database.azure.com',
-    user: 'callum@callum',
+    host: process.argv[2],
+    user: process.argv[3],
     password: '0089fxcy?',
     database: 'itdepos',
     port: 3306
@@ -19,11 +18,14 @@ const db = mysql.createConnection({
 
 //connect
 db.connect((err) => {
+    console.log(`Connecting...
+    DB: ${process.argv[2]} 
+    User: ${process.argv[3]}`)
     if (err) {
         throw err;
     }
     else {
-        console.log('MySql Connected...');
+        console.log(`MySql Connected... `);
     }
 });
 
@@ -32,6 +34,7 @@ const app = express();
 // app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
 
 function run(sql) {
     let query = db.query(sql, (err, results) => {

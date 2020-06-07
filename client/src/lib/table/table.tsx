@@ -1,4 +1,3 @@
-import './style.ts';
 import Div from "./style"
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -9,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
-import "./style.scss"
 
 import * as f from '../../components/functions';
 import * as d from '../datafns';

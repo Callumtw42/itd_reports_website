@@ -1,11 +1,19 @@
 .Select {
   max-width: fit-content;
+  height: 2em;
+  overflow-y: visible;
 
-  .items {
+  .Items {
+    background-color: white !important;
     display: none;
     flex-direction: column;
     position: absolute;
     margin-top: 1px;
+    z-index: 2001;
+  }
+
+  .item {
+    background-color: white;
   }
 
   .head {
@@ -29,7 +37,7 @@
     .text {
       border-bottom: solid 2px;
     }
-    .items {
+    .Items {
       display: flex;
       flex-direction: column;
     }

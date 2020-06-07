@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "nodemon server"
+    "start": "nodemon server callum.mysql.database.azure.com callum@callum",
+    "startlocal": "nodemon server localhost root"
   },
   "author": "",
   "license": "ISC",

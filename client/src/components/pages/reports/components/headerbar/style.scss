@@ -1,5 +1,9 @@
 .HeaderBar {
   padding: 0 !important;
+  height: 2em;
+  overflow-y: visible;
+  position: relative;
+  z-index: 2000;
 
   .MuiPaper-root {
     background-color: #004064;

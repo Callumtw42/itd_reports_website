@@ -29,10 +29,11 @@ export default function useDate() {
     }
 
     function DateField(props: { handleChange: (e: React.FormEvent<HTMLInputElement>) => void, defaultValue: string }) {
-        return <div className="container"><input type="date"
+        return <div className="datefield"><input type="date"
             required
             defaultValue={props.defaultValue}
             onChange={props.handleChange}
+
         />
             <EventIcon className="icon" />
         </div>
