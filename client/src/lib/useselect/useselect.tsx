@@ -4,9 +4,8 @@ import { Typography } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import React, { useRef, HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useRef } from 'react';
 import { ReactNode, useEffect } from 'react';
-import ReactDOM from "react-dom"
 
 // import Div from './style';
 export default function useSimpleSelect(items: string[], color?: string) {
