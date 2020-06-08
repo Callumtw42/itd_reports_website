@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import React from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import Copyright from './copyright';
@@ -18,11 +18,13 @@ import { useStyles } from './style';
 
 export default function Login(props: RouteComponentProps) {
   const classes = useStyles();
-  const { login, data, password, setPassword, username, setUsername } = useLogin()
+  const { login, data, Spinner } = useLogin()
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   if (data[0] && data[0]["id"]) props.history.push(`/reports`)
-
-  return (
+  return (<div className="Login">
+    <Spinner />
     <Paper className={classes.papersurround}>
       <Container component="main" maxWidth="xs" className={classes.paper}>
         <CssBaseline />
@@ -88,6 +90,6 @@ export default function Login(props: RouteComponentProps) {
       </Container>
 
     </Paper >
-
+  </div>
   );
 }

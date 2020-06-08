@@ -6,18 +6,18 @@ export interface obj {
     [key: string]: any
 }
 
-export default function useData(url: string, /*format: (d: obj[]) => obj[]*/) {
+export default function useData(url: string, body?: RequestInit) {
 
     const [data, setData] = useState<obj[]>([]);
     const [loading, setLoading] = useState(false)
 
     function Spinner(props: {}) {
-        return loading ? <div className="Spinner"><div className = "text"><Typography >Loading...</Typography></div> </div>: null
+        return loading ? <div className="Spinner"><div className="text"><Typography >Loading...</Typography></div> </div> : null
     }
 
     async function fetchData() {
         try {
-            fetch(`${process.env.REACT_APP_DOMAIN}${url}`)
+            fetch(`${process.env.REACT_APP_DOMAIN}${url}`, body)
                 .then(res => res.json())
                 .then(data => {
                     data != null

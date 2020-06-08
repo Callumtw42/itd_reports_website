@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Typography from "@material-ui/core/Typography/Typography"
 
 export interface UserData {
     id: number,
@@ -6,35 +7,41 @@ export interface UserData {
 }
 
 export default function useLogin() {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+
     const [data, setData] = useState<UserData[]>([])
+    const [loading, setLoading] = useState(false)
+
+    function Spinner(props: {}) {
+        return loading ? <div className="Spinner"><div className="text"><Typography >Loading...</Typography></div> </div> : null
+    }
 
     async function login(username: string, password: string) {
-        console.log(username);
-        console.log(password);
 
-        fetch(`${process.env.REACT_APP_DOMAIN}api/login`, {
+        setLoading(true)
+
+        const header = {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ username: username, password: password })
-        })
+        }
+        fetch(`${process.env.REACT_APP_DOMAIN}api/login`, header)
             .then(res => res.json())
             .then(data => {
                 setData(data)
             })
             .catch((error) => console.log(error));
     }
+
+    useEffect(() => {
+        setLoading(false)
+    }, [data])
+
     return {
-        setUsername,
-        setPassword,
+        Spinner,
         data,
-        setData,
         login,
-        username,
-        password
     }
 }

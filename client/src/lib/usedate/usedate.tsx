@@ -11,7 +11,7 @@ export default function useDate() {
     const [date, setDate] = useState({ start: todaysDate(), end: todaysDate() })
 
     function Dates(props: {}) {
-        return <div className="container">
+        return <div className="Dates">
             <DateField handleChange={(e) => setDate({
                 ...date, start: formatDate(e.currentTarget.value), end: date.end
             })} defaultValue={date.start} />
