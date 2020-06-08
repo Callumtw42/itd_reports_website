@@ -23,7 +23,8 @@ export default function useData(url: string, body?: RequestInit) {
                         : setData([])
                 })
                 .catch((error) => {
-                    console.error(error)
+                    console.log(error)
+                    console.log("Reattempting Connection...")
                     fetchData()
                 })
         } catch (err) {

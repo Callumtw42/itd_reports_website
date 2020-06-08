@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useSpinner from "../../../lib/usespinner/usespinner"
 import Typography from "@material-ui/core/Typography/Typography"
 
 export interface UserData {
@@ -9,14 +10,16 @@ export interface UserData {
 export default function useLogin() {
 
     const [data, setData] = useState<UserData[]>([])
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
+    const { Spinner, setLoading } = useSpinner()
 
-    function Spinner(props: {}) {
-        return loading ? <div className="Spinner"><div className="text"><Typography >Loading...</Typography></div> </div> : null
-    }
+
+    // function Spinner(props: {}) {
+    //     return loading ? <div className="Spinner"><div className="text"><Typography >Loading...</Typography></div> </div> : null
+    // }
 
     async function login(username: string, password: string) {
-        
+
         setLoading(true)
 
         const header = {

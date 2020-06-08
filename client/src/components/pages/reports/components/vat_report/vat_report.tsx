@@ -23,7 +23,7 @@ export function VAT(props: ReportProps) {
         ...date
     } = useDate()
 
-    const { data } = useData(`/api/VAT/${props.db}/${startDate}/${endDate}`)
+    const { data, Spinner } = useData(`/api/VAT/${props.db}/${startDate}/${endDate}`)
 
     const tableData = columns(data, 'VatRate', 'Receipt_No', 'Total_Sales', 'Quantity', 'Total_VAT', 'Nett')
     const totalVat: obj[] = sumAndGroup(removeColumns(tableData, 'Receipt_No'), 'VatRate')
@@ -31,18 +31,20 @@ export function VAT(props: ReportProps) {
 
     return (
         <div className='report'>
-            <Paper className='reportContainer'>
-                <HeaderBar>
-                    <Typography className='text' variant="h6">{props.header}</Typography>
-                    <Dates />
-                </HeaderBar>
-                <div className='reportBody'>
-                    <H1>Total VAT</H1>
-                    <div className="total"> <Table data={totalVat} /></div>
-                    <H1>VAT Receipts</H1>
-                    <Table data={receipts} />
-                </div>
-            </Paper>
+            <Spinner>
+                <Paper className='reportContainer'>
+                    <HeaderBar>
+                        <Typography className='text' variant="h6">{props.header}</Typography>
+                        <Dates />
+                    </HeaderBar>
+                    <div className='reportBody'>
+                        <H1>Total VAT</H1>
+                        <div className="total"> <Table data={totalVat} /></div>
+                        <H1>VAT Receipts</H1>
+                        <Table data={receipts} />
+                    </div>
+                </Paper>
+            </Spinner>
         </div>
     );
 
