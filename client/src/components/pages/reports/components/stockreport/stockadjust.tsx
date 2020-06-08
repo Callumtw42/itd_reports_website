@@ -12,11 +12,12 @@ export default function StockAdjust() {
 
     const {
         data,
-        getNextBuffer
+        getNextBuffer,
+        Spinner
     } = useDataBuffer(`api/adjust/${db}/${startDate}/${endDate}/${sort.by}/${sort.order}`, 100);
 
-    return (<>
+    return (<Spinner>
         <Dates />
         <Table data={data} bufferCallback={getNextBuffer} sortCallback={setSort} />
-    </>)
+    </Spinner>)
 }

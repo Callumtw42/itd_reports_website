@@ -67,14 +67,15 @@ export default function CashierHistory(props: ReportProps) {
 
     return (
         <div className='report' >
-            <Spinner />
-            <Paper className='reportContainer'>
-                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
-                <div className='reportBody' id="cashierHistory">
-                    <Select />
-                    <Tables />
-                </div>
-            </Paper>
+            <Spinner >
+                <Paper className='reportContainer'>
+                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <div className='reportBody' id="cashierHistory">
+                        <Select />
+                        <Tables />
+                    </div>
+                </Paper>
+            </Spinner>
         </div >
     );
 }

@@ -11,8 +11,9 @@ export default function NonScan() {
 
     const {
         data,
-        getNextBuffer
+        getNextBuffer,
+        Spinner
     } = useDataBuffer(`api/nonscan/${db}/${sort.by}/${sort.order}`, 100);
 
-    return <Table data={data} bufferCallback={getNextBuffer} sortCallback={setSort} />
+    return <Spinner><Table data={data} bufferCallback={getNextBuffer} sortCallback={setSort} /></Spinner>
 }

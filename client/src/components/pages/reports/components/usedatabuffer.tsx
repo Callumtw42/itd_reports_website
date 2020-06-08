@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { addRows } from '../../../../lib/datafns'
+import React, { useEffect, useState } from 'react';
+import useSpinner from "../../../../lib/usespinner/usespinner"
 
 export interface obj {
     [key: string]: any
@@ -9,23 +9,42 @@ export interface obj {
 export default function useDataBuffer(route: string, rowsPerBuffer: number) {
     const [data, setData] = useState([] as obj[])
     const [bufferCount, setBufferCount] = useState(0)
+    const { Spinner, setLoading } = useSpinner()
 
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_DOMAIN}${route}/${rowsPerBuffer}/${bufferCount}`)
-            .then(res => res.json())
-            .then(rows => setData([...data, ...rows]))
-            .catch(error => console.log(error))
-
-
-    }, [bufferCount])
-
-    useEffect(() => {
+    async function fetchData() {
+        setLoading(true)
         setBufferCount(0)
         fetch(`${process.env.REACT_APP_DOMAIN}${route}/${rowsPerBuffer}/${bufferCount}`)
             .then(res => res.json())
             .then(rows => setData(rows))
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.error(error)
+                fetchData()
+            })
+    }
+
+    async function fetchBuffer() {
+        setLoading(true)
+        fetch(`${process.env.REACT_APP_DOMAIN}${route}/${rowsPerBuffer}/${bufferCount}`)
+            .then(res => res.json())
+            .then(rows => setData([...data, ...rows]))
+            .catch(error => {
+                console.log(error)
+                fetchBuffer()
+            })
+    }
+
+    useEffect(() => {
+        fetchBuffer()
+    }, [bufferCount])
+
+    useEffect(() => {
+        fetchData()
     }, [route])
+
+    useEffect(() => {
+        setLoading(false)
+    }, [data])
 
 
     function getNextBuffer() {
@@ -34,7 +53,9 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
 
     return {
         data,
-        getNextBuffer
+        getNextBuffer,
+        Spinner
+
     }
 
 }

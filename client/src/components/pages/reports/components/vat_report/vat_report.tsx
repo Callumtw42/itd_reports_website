@@ -1,4 +1,4 @@
-import {  ReportProps} from '../logic';
+import { ReportProps } from '../logic';
 import 'date-fns';
 import "./vat.scss"
 
@@ -38,7 +38,7 @@ export function VAT(props: ReportProps) {
                 </HeaderBar>
                 <div className='reportBody'>
                     <H1>Total VAT</H1>
-                    <Table data={totalVat} />
+                    <div className="total"> <Table data={totalVat} /></div>
                     <H1>VAT Receipts</H1>
                     <Table data={receipts} />
                 </div>

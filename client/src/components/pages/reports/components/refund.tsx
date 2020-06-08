@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import HeaderBar from './headerbar/headerbar'
 import SimpleSelect from '../../../../lib/useselect/useselect'
 import Table from '../../../../lib/table/table'
-import {  ReportProps} from './logic'
+import { ReportProps } from './logic'
 export default function Refund(props: ReportProps) {
 
     const {
@@ -17,24 +17,20 @@ export default function Refund(props: ReportProps) {
     } = useDate();
 
     const {
-        data
+        data,
+        Spinner
     } = useData(`/api/refund/${props.db}/${startDate}/${endDate}`);
-
-    // const [tableData, setTableData] = useState([]);
-    // const Table = useTable(data)
-
-    // useEffect(() => {
-    //     setTableData(data);
-    // },[data])
 
     return (
         <div className='report'>
-            <Paper className='reportContainer'>
-                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
-                <div className='reportBody'>
-                    <Table data={data} />
-                </div>
-            </Paper>
+            <Spinner>
+                <Paper className='reportContainer'>
+                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <div className='reportBody'>
+                        <Table data={data} />
+                    </div>
+                </Paper>
+            </Spinner>
         </div>
     );
 }

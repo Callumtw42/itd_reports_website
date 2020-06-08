@@ -17,24 +17,20 @@ export default function StaffHours(props: ReportProps) {
     } = useDate();
 
     const {
-        data
+        data,
+        Spinner
     } = useData(`/api/staffhours/${props.db}/${startDate}/${endDate}`);
-
-    // const [tableData, setTableData] = useState([]);
-    // const Table = useTable(data)
-
-    // useEffect(() => {
-    //     setTableData(data);
-    // },[data])
 
     return (
         <div className='report'>
-            <Paper className='reportContainer'>
-                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
-                <div className='reportBody'>
-                    <Table data={data} />
-                </div>
-            </Paper>
+            <Spinner>
+                <Paper className='reportContainer'>
+                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <div className='reportBody'>
+                        <Table data={data} />
+                    </div>
+                </Paper>
+            </Spinner>
         </div>
     );
 }

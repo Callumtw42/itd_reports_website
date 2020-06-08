@@ -13,23 +13,20 @@ import { ReportProps } from "./logic";
 export default function CustomerCredit(props: ReportProps) {
 
     const {
-        data
+        data,
+        Spinner
     } = useData(`/api/credit/${props.db}`);
-
-    // const [tableData, setTableData] = useState([]);
-    // const Table = useTable(data as d.obj[])
-    // useEffect(() => {
-    //     setTableData(data);
-    // }, [data])
 
     return (
         <div className='report'>
-            <Paper className='reportContainer'>
-                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography></HeaderBar>
-                <div className='reportBody'>
-                    <Table data={data} />
-                </div>
-            </Paper>
+            <Spinner>
+                <Paper className='reportContainer'>
+                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography></HeaderBar>
+                    <div className='reportBody'>
+                        <Table data={data} />
+                    </div>
+                </Paper>
+            </Spinner>
         </div>
     );
 } 

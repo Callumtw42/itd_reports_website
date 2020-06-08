@@ -18,17 +18,20 @@ export default function Wastage(props: ReportProps) {
     } = useDate();
 
     const {
-        data
+        data,
+        Spinner
     } = useData(`/api/wastage/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>
-            <Paper className='reportContainer'>
-                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
-                <div className='reportBody'>
-                    <Table data={data} />
-                </div>
-            </Paper>
+            <Spinner>
+                <Paper className='reportContainer'>
+                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <div className='reportBody'>
+                        <Table data={data} />
+                    </div>
+                </Paper>
+            </Spinner>
         </div>
     );
 }

@@ -16,7 +16,7 @@ export default function useLogin() {
     }
 
     async function login(username: string, password: string) {
-
+        
         setLoading(true)
 
         const header = {
@@ -32,7 +32,10 @@ export default function useLogin() {
             .then(data => {
                 setData(data)
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                console.error(error)
+                login(username, password)
+            });
     }
 
     useEffect(() => {

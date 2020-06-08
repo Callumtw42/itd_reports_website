@@ -17,17 +17,20 @@ export default function ProductExchange(props: ReportProps) {
     } = useDate();
 
     const {
-        data
+        data,
+        Spinner
     } = useData(`/api/exchange/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>
-            <Paper className='reportContainer'>
-                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
-                <div className='reportBody'>
-                    <Table data={data} />
-                </div>
-            </Paper>
+            <Spinner>
+                <Paper className='reportContainer'>
+                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <div className='reportBody'>
+                        <Table data={data} />
+                    </div>
+                </Paper>
+            </Spinner>
         </div>
     );
 }

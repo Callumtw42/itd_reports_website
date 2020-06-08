@@ -1,4 +1,4 @@
-import {  ReportProps} from './logic'
+import { ReportProps } from './logic'
 import { useState, useEffect } from 'react'
 import Typography from '@material-ui/core/Typography'
 import useData from '../../../../lib/usedata/usedata';
@@ -18,24 +18,20 @@ export default function VoidSales(props: ReportProps) {
     } = useDate();
 
     const {
-        data
+        data,
+        Spinner
     } = useData(`/api/voidsales/${props.db}/${startDate}/${endDate}`);
-
-    // const [tableData, setTableData] = useState([]);
-    // const Table = useTable(data)
-
-    // useEffect(() => {
-    //     setTableData(data);
-    // }, [data])
 
     return (
         <div className='report'>
-            <Paper className='reportContainer'>
-                <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
-                <div className='reportBody'>
-                    <Table data={data} />
-                </div>
-            </Paper>
+            <Spinner>
+                <Paper className='reportContainer'>
+                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <div className='reportBody'>
+                        <Table data={data} />
+                    </div>
+                </Paper>
+            </Spinner>
         </div>
     );
 }

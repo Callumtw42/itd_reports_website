@@ -10,8 +10,9 @@ export default function Stock() {
 
     const {
         data,
-        getNextBuffer
+        getNextBuffer,
+        Spinner
     } = useDataBuffer(`api/stock/${db}/${sort.by}/${sort.order}`, 100);
 
-    return <Table data={data} bufferCallback={getNextBuffer} sortCallback={setSort} />
+    return <Spinner><Table data={data} bufferCallback={getNextBuffer} sortCallback={setSort} /></Spinner>
 }

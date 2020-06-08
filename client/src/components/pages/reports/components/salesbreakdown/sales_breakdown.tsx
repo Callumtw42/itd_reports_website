@@ -74,7 +74,7 @@ export function SalesBreakdown(props: ReportProps) {
 
   return (
     <div className="salesBreakdown">
-      <Spinner />
+      <Spinner >
         <Paper className='reportContainer'>
           <HeaderBar  >
             <div className="left">
@@ -91,6 +91,7 @@ export function SalesBreakdown(props: ReportProps) {
             <Table data={tableData} />
           </div>
         </Paper>
+      </Spinner >
     </div>
   );
 }
