@@ -7,6 +7,7 @@ COPY client /
 RUN npm run build
 
 FROM nginx:1.16.0-alpine
+WORKDIR /
 COPY --from=builder build /usr/share/nginx/html
 COPY --from=builder /nginx.conf /etc/nginx/nginx.conf
 
