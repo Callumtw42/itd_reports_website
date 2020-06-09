@@ -1,6 +1,7 @@
 FROM node:14.3-alpine
 COPY package.json /package.json
 RUN npm install yarn
+COPY yarn.lock /
 RUN yarn install
 COPY public /public 
 COPY sql /sql
