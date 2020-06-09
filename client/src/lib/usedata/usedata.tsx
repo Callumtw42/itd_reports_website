@@ -11,7 +11,6 @@ export default function useData(url: string, body?: RequestInit) {
     const [data, setData] = useState<obj[]>([]);
     const { Spinner, setLoading } = useSpinner()
 
-
     async function fetchData() {
         setLoading(true)
         try {
@@ -25,6 +24,7 @@ export default function useData(url: string, body?: RequestInit) {
                 .catch((error) => {
                     console.log(error)
                     console.log("Reattempting Connection...")
+                    setTimeout(() => { }, 1000)
                     fetchData()
                 })
         } catch (err) {
@@ -45,7 +45,8 @@ export default function useData(url: string, body?: RequestInit) {
         data,
         setData,
         fetchData,
-        Spinner
+        Spinner,
+
     }
 
 }

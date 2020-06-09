@@ -34,8 +34,9 @@ export default function Reports(props: RouteComponentProps) {
                 <Wastage header={'Wastage'} db={db} />
                 <Refund header={'Refund Report'} db={db} />
                 <StaffHours header={'Staff Hours'} db={db} />
-                {/* <VoidSales header={'Void Sales'} db={db} /> */}
                 <ExpiryDates header={'Expiry Dates'} db={db} />
+
+                {/* <VoidSales header={'Void Sales'} db={db} /> */}
                 {/* <ReturnToSupplier header={'Return To Supplier'} db={db} />
                 <CustomerCredit header={'Customer Credit'} db={db} />
                 <ProductExchange header={'Product Exchange'} db={db} />

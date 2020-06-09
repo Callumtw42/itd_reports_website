@@ -1,16 +1,24 @@
-import React from 'react'
-import useSelect from "./lib/useselect/useselect"
-import Table from "./lib/table/table"
+import Typography from '@material-ui/core/Typography/Typography';
+import React, { useState } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
-const data = [{ x: "abc", y: "def" }, { x: "abc", y: "def" }, { x: "abc", y: "def" }]
+import Table from './lib/table/table';
+import useSelect from './lib/useselect/useselect';
 
-export default function SandBox() {
+export default function SandBox(props: RouteComponentProps) {
+
+    const tabledata = [{ x: "abc", y: "def" }, { x: "abc", y: "def" }, { x: "abc", y: "def" }]
+    const [data, setData] = useState("no data")
+
+    fetch(`api/test`).then(res => res.json()).then(data => setData(data))
 
     const { Select, selected } = useSelect(["asdbasbd", "asdbasbd", "asdbasbd", "asdasf"]);
     return (
         <div className="SandBox">
+            <Link className="link" to={"/"}><Typography >Logout</Typography></Link>
+            <p>{data}</p>
             <Select />
-            <div><Table data={data} /></div>
+            <div><Table data={tabledata} /></div>
         </div>
     )
 }

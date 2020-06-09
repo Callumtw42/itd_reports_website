@@ -4,7 +4,19 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+        {
+            "name": "node",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/api/server.js",
+            "localRoot": "${workspaceFolder}/api",
+            "remoteRoot": "${workspaceFolder}/api",
+            "cwd": "${workspaceFolder}/api",
+            "args": [
+                "localhost",
+                "root"
+            ]
+        },
         {
             "name": "Test Datafns",
             "type": "go",

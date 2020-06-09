@@ -1,3 +1,4 @@
+import TestRoute from "./testroute"
 import "./sandbox.scss"
 import './App.scss';
 import 'typeface-roboto';
@@ -17,12 +18,18 @@ function App() {
     <div className={classes.app} >
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <meta name="viewport" content="width=600, initial-scale=1 maximum-scale=1" />
+
       <Router>
         <Route path="/" exact={true} render={props => <Login {...props} />} />
         <Route path="/reports" exact={true} render={props => <Reports {...props} />} />
       </Router>
-      {/* <SandBox /> */}
-    </div>
+
+      {/* <Router>
+        <Route path="/" exact={true} render={props => <TestRoute {...props} />} />
+        <Route path="/sandbox" exact={true} render={props => <SandBox {...props} />} />
+      </Router> */}
+
+    </div >
   );
 }
 

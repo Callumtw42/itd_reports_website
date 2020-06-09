@@ -6,7 +6,6 @@ const path = require('path');
 const fs = require('fs');
 const Joi = require('joi')
 const bodyParser = require("body-parser")
-const cors = require("cors")
 
 const db = mysql.createConnection({
     host: process.argv[2],
@@ -31,9 +30,9 @@ db.connect((err) => {
 
 const app = express();
 
-// app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, "..", "client", "build")))
 
 
 function run(sql) {
@@ -50,9 +49,14 @@ function select(sql, res, process) {
     });
 }
 
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"))
+})
+
 //test
 app.get('/api/test', (req, res) => {
-    res.json("updated")
+    let data = fs.readFileSync(path.join("sql", 'Login.sql'), { encoding: "UTF-8" })
+    res.json(data)
 });
 
 //login
@@ -78,7 +82,7 @@ app.post('/api/login', (req, res) => {
         run(`USE users;`);
         run(`set @name = '${value.username}';`)
         run(`set @password = '${value.password}';`)
-        let sql = fs.readFileSync(path.join('sql', 'Login.sql'), { encoding: "UTF-8" })
+        let sql = fs.readFileSync(path.resolve('sql', 'Login.sql'), { encoding: "UTF-8" })
         db.query(sql, (err, results) => {
             if (err) throw err;
             console.log("object")
@@ -94,7 +98,7 @@ app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
     run(`USE ${req.params.db};`);
     run(`SET @startDate = '${req.params.startDate}';`);
     run(`SET @endDate = '${req.params.endDate}';`);
-    let data = select(fs.readFileSync(path.join('sql', 'Sales.sql'), { encoding: "UTF-8" }), res)
+    let data = select(fs.readFileSync(path.resolve('sql', 'Sales.sql'), { encoding: "UTF-8" }), res)
 });
 
 // Stock

@@ -19,6 +19,7 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
             .then(rows => setData(rows))
             .catch(error => {
                 console.error(error)
+                setTimeout(1000)
                 fetchData()
             })
     }
@@ -30,6 +31,7 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
             .then(rows => setData([...data, ...rows]))
             .catch(error => {
                 console.log(error)
+                setTimeout(1000)
                 fetchBuffer()
             })
     }
