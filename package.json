@@ -42,7 +42,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^14.3.1",
-    "mysql": "^2.18.1",
+    "mysql": "git://github.com/mysqljs/mysql#e3e123e9af7c0829a6c1417d911572a75b4a5f95",
     "nodemon": "^2.0.4"
   },
   "proxy": "http://localhost:8080",
@@ -52,7 +52,6 @@
     "eject": "react-scripts eject",
     "test": "jest",
     "test:watch": "jest --watch",
-
     "server": "node server callum.mysql.database.azure.com callum@callum"
   },
   "browserslist": {
