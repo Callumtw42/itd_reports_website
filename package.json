@@ -53,7 +53,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
 
-    "server": "nodemon server callum.mysql.database.azure.com callum@callum"
+    "server": "node server callum.mysql.database.azure.com callum@callum"
   },
   "browserslist": {
     "production": [
