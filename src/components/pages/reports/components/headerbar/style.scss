@@ -1,0 +1,41 @@
+.HeaderBar {
+  padding: 0 !important;
+  height: 2em;
+  overflow-y: visible;
+  position: relative;
+  z-index: 2000;
+
+  .MuiPaper-root {
+    background-color: #004064;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    z-index: 0;
+  }
+
+  .Select {
+    .items {
+      position: absolute;
+      background-color: white;
+    }
+  }
+
+  h6 {
+    padding: 5px;
+    font-size: 1em;
+  }
+
+  .left {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    justify-self: left;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    justify-self: right;
+  }
+}

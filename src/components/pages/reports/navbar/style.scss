@@ -1,0 +1,72 @@
+.NavBar {
+  height: 5vh;
+  position: relative;
+  z-index: 2004;
+
+  @media (max-width: 1024px) {
+    @media screen and(orientation: landscape) {
+      display: none;
+    }
+  }
+
+  .left {
+    margin: 0 8px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .right > * {
+    color: white;
+    text-decoration: none;
+    margin-right: 16px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .text {
+    margin-top: 11%;
+    margin-left: 5%;
+    @media (max-width: 1024px) {
+      margin-top: 9%;
+      font-size: 2rem;
+    }
+  }
+
+  .link {
+    margin-top: 25%;
+    @media (max-width: 1024px) {
+      * {
+        font-size: 2rem !important;
+      }
+    }
+  }
+
+  .Select {
+    @media (max-width: 1024px) {
+      * {
+        font-size: 2rem !important;
+        margin-top: 5.5px;
+      }
+    }
+    margin-top: 11px;
+    .items {
+      background-color: white;
+    }
+  }
+
+  .MuiPaper-root {
+    background-color: #004064;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  img {
+    height: 3em;
+    width: 3em;
+
+    @media (max-width: 1024px) {
+      height: 5em;
+      width: 5em;
+    }
+  }
+}

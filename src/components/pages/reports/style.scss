@@ -1,0 +1,104 @@
+.reportspage {
+  padding: 0px;
+  margin: 0;
+  // display: flex;
+  // grid-template-rows: 1fr 11fr;
+  // grid-template-areas:
+  //   "Navbar"
+  //   "reports";
+
+  .report {
+    position: relative;
+  }
+
+  .navbar {
+    grid-area: Navbar;
+  }
+
+  .salesBreakdown {
+    grid-area: sb;
+  }
+
+  .reports {
+    grid-area: reports;
+    margin: 2em 5em;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "sb sb"
+      ". ."
+      ". .";
+    @media (max-width: 1024px) {
+      margin: 2em 1em;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "sb"
+        "."
+        ".";
+    }
+
+    .header {
+      font-size: 42px;
+      background-color: rgba(0, 64, 101, 0.6);
+      color: white;
+      text-align: left;
+      padding: 10px;
+      box-shadow: 0 1px 1px rgba(104, 104, 104, 0.8);
+    }
+
+    .header > p {
+      margin: auto;
+    }
+
+    .reportBody {
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--primary);
+      text-align: center;
+      box-shadow: var(--shadow);
+      @media (max-width: 1024px) {
+        height: 80vh;
+      }
+    }
+
+    #cashierHistory {
+      overflow-y: scroll;
+    }
+
+    .MuiFormLabel-root {
+      font-size: 3em;
+    }
+
+    .reportContainer {
+      margin: 5px;
+      min-height: 70vh;
+    }
+
+    .date {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 0;
+    }
+
+    h1 {
+      color: #004064;
+      text-align: left;
+      margin-left: 1em;
+      font-size: 1em;
+    }
+    .date {
+      .MuiInputBase-root {
+        font-size: 1em;
+        /*NEXT: convert bacl to sass and only use styled components for js interactions */
+        @media (max-width: 1024px) {
+          width: 3em;
+          font-size: 12px !important;
+        }
+      }
+    }
+  }
+}

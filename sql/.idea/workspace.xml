@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e645a5ba-ba39-4fb4-a77e-7227aad4783f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1aYpoGq7sfAmow4CPcb5pjoHxAq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DBE.Init.BalloonShown" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="database.data.extractors.current.id" value="JSON-Groovy.json.groovy" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/dumps/itdepos2.sql" />
+    <property name="settings.editor.selected.configurable" value="database.data.views" />
+  </component>
+  <component name="RunManager">
+    <configuration name="itdepos2.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$USER_HOME$/Documents/dumps/itdepos2.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="6ec9e844-f03b-4057-b372-c386ee2ff718" namespace="schema/&quot;itdepos2&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Database Script.itdepos2.sql" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="545" y="-932" key="#Plugins" timestamp="1590169935287">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state x="545" y="-932" key="#Plugins/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1590169935287" />
+    <state x="344" y="-1087" width="982" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591077028532">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state x="344" y="-1087" width="982" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591077028532" />
+    <state x="2264" y="-1074" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@1913.-1080.1920.1040" timestamp="1590448128768" />
+    <state x="350" y="-1084" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.690/-1.-1090.1920.1050/1919.-1080.1920.1050@-1.-1090.1920.1050" timestamp="1587201561484" />
+    <state x="234" y="4" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.690/1919.-1080.1920.1050/-1.-1090.1920.1050@0.0.1280.690" timestamp="1586922645419" />
+    <state x="663" y="-924" key="#itdepos.sql" timestamp="1591076609779">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state x="663" y="-924" key="#itdepos.sql/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591076609779" />
+    <state x="663" y="-924" key="#itdepos2.sql" timestamp="1591077038029">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state x="663" y="-924" key="#itdepos2.sql/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591077038029" />
+    <state x="633" y="-818" key="DUMP_DIALOG_DIMENSION_KEY" timestamp="1591076358030">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state x="633" y="-818" key="DUMP_DIALOG_DIMENSION_KEY/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591076358030" />
+    <state x="91" y="-998" width="1736" height="866" key="DiffContextDialog" timestamp="1587207998082">
+      <screen x="-1" y="-1090" width="1920" height="1050" />
+    </state>
+    <state x="91" y="-998" width="1736" height="866" key="DiffContextDialog/0.0.1280.690/1919.-1080.1920.1050/-1.-1090.1920.1050@-1.-1090.1920.1050" timestamp="1587207998082" />
+    <state x="733" y="-816" key="FileChooserDialogImpl" timestamp="1591076974182">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state x="733" y="-816" key="FileChooserDialogImpl/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591076974182" />
+    <state x="739" y="-810" key="FileChooserDialogImpl/0.0.1280.690/1919.-1080.1920.1050/-1.-1090.1920.1050@-1.-1090.1920.1050" timestamp="1587217143720" />
+    <state width="1293" height="2" key="GridCell.Tab.0.bottom" timestamp="1591078060909">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state width="1293" height="2" key="GridCell.Tab.0.bottom/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591078060909" />
+    <state width="1623" height="283" key="GridCell.Tab.0.bottom/0.0.1280.690/1919.-1080.1920.1050@1919.-1080.1920.1050" timestamp="1587290678786" />
+    <state width="1293" height="2" key="GridCell.Tab.0.center" timestamp="1591078060909">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state width="1293" height="2" key="GridCell.Tab.0.center/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591078060909" />
+    <state width="1623" height="283" key="GridCell.Tab.0.center/0.0.1280.690/1919.-1080.1920.1050@1919.-1080.1920.1050" timestamp="1587290678786" />
+    <state width="1293" height="2" key="GridCell.Tab.0.left" timestamp="1591078060909">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state width="1293" height="2" key="GridCell.Tab.0.left/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591078060909" />
+    <state width="1623" height="283" key="GridCell.Tab.0.left/0.0.1280.690/1919.-1080.1920.1050@1919.-1080.1920.1050" timestamp="1587290678786" />
+    <state width="1293" height="2" key="GridCell.Tab.0.right" timestamp="1591078060909">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state width="1293" height="2" key="GridCell.Tab.0.right/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591078060909" />
+    <state width="1623" height="283" key="GridCell.Tab.0.right/0.0.1280.690/1919.-1080.1920.1050@1919.-1080.1920.1050" timestamp="1587290678786" />
+    <state width="199" height="453" key="HiddenNamespacesPopup" timestamp="1591076444502">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state width="199" height="453" key="HiddenNamespacesPopup/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591076444502" />
+    <state width="199" height="453" key="HiddenNamespacesPopup/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@1913.-1080.1920.1040" timestamp="1590627019906" />
+    <state width="196" height="457" key="HiddenNamespacesPopup/0.0.1280.690/1919.-1080.1920.1050/-1.-1090.1920.1050@-1.-1090.1920.1050" timestamp="1587205261170" />
+    <state x="2374" y="-912" key="SettingsEditor" timestamp="1590816203887">
+      <screen x="1913" y="-1080" width="1920" height="1040" />
+    </state>
+    <state x="2374" y="-912" key="SettingsEditor/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@1913.-1080.1920.1040" timestamp="1590816203887" />
+    <state x="460" y="-920" key="SettingsEditor/0.0.1280.690/-1.-1090.1920.1050/1919.-1080.1920.1050@-1.-1090.1920.1050" timestamp="1587402074990" />
+    <state x="460" y="-920" key="SettingsEditor/0.0.1280.690/1919.-1080.1920.1050/-1.-1090.1920.1050@-1.-1090.1920.1050" timestamp="1587217568696" />
+    <state x="2681" y="-683" key="com.intellij.database.actions.DdlActions$CreateObject$1" timestamp="1590314938779">
+      <screen x="1913" y="-1080" width="1920" height="1040" />
+    </state>
+    <state x="2681" y="-683" key="com.intellij.database.actions.DdlActions$CreateObject$1/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@1913.-1080.1920.1040" timestamp="1590314938779" />
+    <state x="749" y="-753" width="408" height="355" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog" timestamp="1591078177171">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state x="749" y="-753" width="408" height="355" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591078177171" />
+    <state x="2681" y="-631" width="384" height="191" key="com.intellij.database.run.ParametersPanel.Standalone" timestamp="1590816950326">
+      <screen x="1913" y="-1080" width="1920" height="1040" />
+    </state>
+    <state x="2681" y="-631" width="384" height="191" key="com.intellij.database.run.ParametersPanel.Standalone/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@1913.-1080.1920.1040" timestamp="1590816950326" />
+    <state x="761" y="-835" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1591078157425">
+      <screen x="-7" y="-1093" width="1920" height="1040" />
+    </state>
+    <state x="761" y="-835" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1591078157425" />
+    <state x="2681" y="-822" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@1913.-1080.1920.1040" timestamp="1590315742816" />
+    <state x="125" y="-1000" width="1736" height="866" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587291127473">
+      <screen x="-1" y="-1090" width="1920" height="1050" />
+    </state>
+    <state x="125" y="-1000" width="1736" height="866" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1280.690/1919.-1080.1920.1050/-1.-1090.1920.1050@-1.-1090.1920.1050" timestamp="1587291127473" />
+    <state x="2536" y="-855" width="672" height="672" key="search.everywhere.popup" timestamp="1590860804571">
+      <screen x="1913" y="-1080" width="1920" height="1040" />
+    </state>
+    <state x="616" y="-868" width="672" height="672" key="search.everywhere.popup/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@-7.-1093.1920.1040" timestamp="1590232531286" />
+    <state x="2536" y="-855" width="672" height="672" key="search.everywhere.popup/0.0.1280.680/1913.-1080.1920.1040/-7.-1093.1920.1040@1913.-1080.1920.1040" timestamp="1590860804571" />
+    <state x="622" y="-863" width="672" height="678" key="search.everywhere.popup/0.0.1280.690/-1.-1090.1920.1050/1919.-1080.1920.1050@-1.-1090.1920.1050" timestamp="1587403207989" />
+    <state x="622" y="-863" width="672" height="678" key="search.everywhere.popup/0.0.1280.690/1919.-1080.1920.1050/-1.-1090.1920.1050@-1.-1090.1920.1050" timestamp="1587340211806" />
+  </component>
+</project>
