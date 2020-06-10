@@ -51,7 +51,8 @@
     "eject": "react-scripts eject",
     "test": "jest",
     "test:watch": "jest --watch",
-    "server": "node server callum.mysql.database.azure.com callum@callum"
+    "server": "node server callum.mysql.database.azure.com callum@callum",
+    "local":  "sudo node server localhost root"
   },
   "browserslist": {
     "production": [

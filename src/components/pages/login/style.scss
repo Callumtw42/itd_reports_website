@@ -1,4 +1,16 @@
 .Login {
   margin: auto;
   width: fit-content;
+
+  .logo {
+    height: 4em;
+    width: 4em;
+  }
+
+  @media (max-width: 1024px) {
+    .logo {
+      height: 4em;
+      width: 4em;
+    }
+  }
 }
