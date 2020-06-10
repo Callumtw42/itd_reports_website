@@ -20,8 +20,11 @@ function App() {
       <meta name="viewport" content="width=600, initial-scale=1 maximum-scale=1" />
 
       <Router>
-          <Route path="/" exact={true} render={props => <Login {...props} />} />
-          <Route path="/reports" exact={true} render={props => <Reports {...props} />} />
+        <Route path="/reports" exact={true} render={props => {
+          if (!localStorage.id) { props.history.goBack(); return <></> } else return <Reports {...props} />
+        }} />
+
+        <Route path="/" exact={true} render={(props) => <Login {...props} />} />
       </Router>
 
       {/* <Router>

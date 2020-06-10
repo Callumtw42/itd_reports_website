@@ -30,6 +30,8 @@ export default function useLogin() {
             .then(data => {
                 setData(data)
                 setLoading(false)
+                if (data[0] && data[0]["id"])
+                    localStorage.setItem("id", data[0]["id"])
             })
             .catch((error) => {
                 console.log(error)

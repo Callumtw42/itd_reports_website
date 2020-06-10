@@ -21,9 +21,8 @@ import './style.scss'
 
 export default function Reports(props: RouteComponentProps) {
     const { db, NavBar } = useNavBar()
-
     return (
-        <div className = "reportspage">
+        <div className="reportspage">
             <NavBar />
             < div className="reports">
                 <SalesBreakdown header={'Sales Breakdown'} db={db} />
