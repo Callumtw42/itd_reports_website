@@ -5,7 +5,7 @@ import 'typeface-roboto';
 import Container from "@material-ui/core/Container"
 import useStyles from './style'
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SandBox from "./sandbox"
 
 import Login from './components/pages/login/login';
@@ -20,8 +20,8 @@ function App() {
       <meta name="viewport" content="width=600, initial-scale=1 maximum-scale=1" />
 
       <Router>
-        <Route path="/" exact={true} render={props => <Login {...props} />} />
-        <Route path="/reports" exact={true} render={props => <Reports {...props} />} />
+          <Route path="/" exact={true} render={props => <Login {...props} />} />
+          <Route path="/reports" exact={true} render={props => <Reports {...props} />} />
       </Router>
 
       {/* <Router>
