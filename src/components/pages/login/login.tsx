@@ -24,7 +24,7 @@ export default function Login(props: RouteComponentProps) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     return <>
-      <form onSubmit={login.bind(this, username, password)}>
+      <form onSubmit={login.bind(this, username, password, props)}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -39,7 +39,7 @@ export default function Login(props: RouteComponentProps) {
         />
       </form>
 
-      <form onSubmit={login.bind(this, username, password)}>
+      <form onSubmit={login.bind(this, username, password, props)}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -59,17 +59,12 @@ export default function Login(props: RouteComponentProps) {
         fullWidth
         variant="contained"
         className={classes.submit}
-        onClick={login.bind(this, username, password)}
+        onClick={login.bind(this, username, password, props)}
       >
         Sign In
           </Button>
     </>
   }
-  useEffect(() => {
-    console.log(data)
-    if (data[0] && data[0]["id"])
-      props.history.push(`/reports`)
-  }, [data])
 
   return (<div className="Login">
     <Spinner>
