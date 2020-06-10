@@ -21,7 +21,7 @@ function App() {
 
       <Router>
         <Route path="/reports" exact={true} render={props => {
-          if (!localStorage.id) { props.history.goBack(); return <></> } else return <Reports {...props} />
+          if (!localStorage.id) { props.history.replace("/")} else return <Reports {...props} />
         }} />
 
         <Route path="/" exact={true} render={(props) => <Login {...props} />} />
