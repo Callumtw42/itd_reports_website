@@ -1,11 +1,6 @@
 .reportspage {
   padding: 0px;
   margin: 0;
-  // display: flex;
-  // grid-template-rows: 1fr 11fr;
-  // grid-template-areas:
-  //   "Navbar"
-  //   "reports";
 
   .report {
     position: relative;
@@ -17,6 +12,11 @@
 
   .salesBreakdown {
     grid-area: sb;
+    .reportBody {
+      @media (max-device-width: 1024px) {
+        min-height: 480px;
+      }
+    }
   }
 
   .StockReport {
@@ -86,9 +86,6 @@
       background: var(--primary);
       text-align: center;
       box-shadow: var(--shadow);
-      @media (max-device-width: 1024px) {
-        min-height: 750px;
-      }
     }
 
     #cashierHistory {
@@ -120,7 +117,6 @@
     .date {
       .MuiInputBase-root {
         font-size: 1em;
-        /*NEXT: convert bacl to sass and only use styled components for js interactions */
         @media (max-device-width: 1024px) {
           width: 3em;
           font-size: 12px !important;
