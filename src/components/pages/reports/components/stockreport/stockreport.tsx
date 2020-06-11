@@ -27,7 +27,7 @@ export function StockReport(props: ReportProps) {
 
     function render() {
         return (
-            <div className='report'>
+            <div className='StockReport'>
                 <Paper className='reportContainer'>
                     <HeaderBar ><Select /></HeaderBar>
                     <div className='reportBody'>

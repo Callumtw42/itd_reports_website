@@ -5,6 +5,11 @@
   display: flex;
   flex-direction: row;
   justify-content: left;
+  padding: 0px 5px;
+
+  :hover {
+    border-bottom: solid 1px;
+  }
 
   input {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -17,10 +22,6 @@
     text-indent: 2em;
     z-index: 1;
     width: 10em;
-  }
-
-  .container :hover {
-    border-bottom: solid 1.25px;
   }
 
   .icon {

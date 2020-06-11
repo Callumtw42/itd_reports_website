@@ -47,11 +47,6 @@ export default function EnhancedTableHead(props: _.EnhancedTableHeadProps) {
                 direction={orderBy === headCell.id ? order as "desc" | "asc" | undefined : 'asc'}
               >
                 {headCell.label}
-                {/* {orderBy === headCell.id ? (
-                <span className={"sort-message"}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-              ) : null} */}
               </TableSortLabel>
             </TableCell>
           ))}

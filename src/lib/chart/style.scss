@@ -28,22 +28,28 @@
 // }
 
 .PieChart > .chart {
-  width: 20vw;
-  @media (max-width: 1024px) {
+  min-width: 20vw;
+  @media (max-width: 600px) {
     width: 50vw;
+  }
+  @media (min-width: 1281px) {
+    min-width: 15vw;
   }
 }
 .chart {
-  @media (max-width: 1024px) {
+  @media (max-device-width: 1024px) {
     @media screen and (orientation: landscape) {
       display: none;
     }
   }
 }
 .BarChart > .chart {
-  width: 40vw;
-  @media (max-width: 1024px) {
+  min-width: 500px;
+  @media (max-device-width: 1024px) {
     width: 90vw;
+  }
+  @media (min-device-width: 1281px) {
+    min-width: 750px;
   }
 }
 

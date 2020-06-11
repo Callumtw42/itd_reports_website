@@ -22,7 +22,7 @@ export default function PriceOverride(props: ReportProps) {
     } = useData(`/api/priceoverride/${props.db}/${startDate}/${endDate}`);
 
     return (
-        <div className='report'>
+        <div className='PriceOverride'>
             <Spinner>
                 <Paper className='reportContainer'>
                     <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>

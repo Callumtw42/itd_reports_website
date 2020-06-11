@@ -90,19 +90,22 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
 
   return (
     <div className="Table">
+
       <Table
         stickyHeader
         aria-labelledby="tableTitle"
         size={dense ? 'small' : 'medium'}
         aria-label="enhanced table"
       >
-          <EnhancedTableHead className={classes.head}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            rowCount={rows.length}
-            data={data}
-          />
+
+        <EnhancedTableHead className={classes.head}
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={handleRequestSort}
+          rowCount={rows.length}
+          data={data}
+        />
+
         <TableBody className="tableBody">
           {rows
             .map((row, index) => {
@@ -118,6 +121,7 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
               );
             })}
         </TableBody>
+
       </Table>
       <Buffer />
       <_.EmptyMessage data={props.data} />

@@ -1,8 +1,8 @@
 SELECT u.Username,
        u.EmployeeNo,
        u.PayRate,
-       DATE_FORMAT(TimeIn, '%d/%m/%y - %H:%i')  as TimeIn,
-       DATE_FORMAT(TimeOut, '%d/%m/%y - %H:%i') as TimeOut,
+       DATE_FORMAT(TimeIn, '%d/%m - %H:%i')  as TimeIn,
+       DATE_FORMAT(TimeOut, '%d/%m - %H:%i') as TimeOut,
        @hours := timediff(TimeOut, TimeIn)      as Hours
 FROM StaffClock sc
          INNER JOIN User u ON u.UserID = sc.USerID

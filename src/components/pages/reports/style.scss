@@ -19,6 +19,14 @@
     grid-area: sb;
   }
 
+  .StockReport {
+    position: relative;
+  }
+
+  .PriceOverride {
+    position: relative;
+  }
+
   .reports {
     grid-area: reports;
     margin: 2em 5em;
@@ -29,6 +37,25 @@
       "sb sb"
       ". ."
       ". .";
+
+    @media (min-width: 1025px) and (max-width: 1280px) {
+      .StockReport {
+        grid-area: st;
+      }
+      .PriceOverride {
+        grid-area: po;
+      }
+
+      margin: 2em 1em;
+      grid-template-areas:
+        "sb sb"
+        "st st"
+        ". ."
+        "po po"
+        ". ."
+        ". .";
+    }
+
     @media (max-width: 1024px) {
       margin: 2em 1em;
       grid-template-rows: 1fr;
@@ -59,7 +86,7 @@
       background: var(--primary);
       text-align: center;
       box-shadow: var(--shadow);
-      @media (max-width: 1024px) {
+      @media (max-device-width: 1024px) {
         height: 80vh;
       }
     }
@@ -94,7 +121,7 @@
       .MuiInputBase-root {
         font-size: 1em;
         /*NEXT: convert bacl to sass and only use styled components for js interactions */
-        @media (max-width: 1024px) {
+        @media (max-device-width: 1024px) {
           width: 3em;
           font-size: 12px !important;
         }
