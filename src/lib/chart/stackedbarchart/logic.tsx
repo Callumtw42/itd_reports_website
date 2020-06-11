@@ -11,7 +11,7 @@ import { colors, toInt, viewport } from "../logic"
 export * from "../logic"
 
 export function getLabelSize(): number {
-    return viewport(12, 26);
+    return viewport(12, 12);
 }
 
 export interface DataSet {

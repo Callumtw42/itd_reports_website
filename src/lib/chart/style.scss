@@ -9,7 +9,6 @@
 }
 
 .Legend {
-  // margin-top: 2em;
   max-height: 40vh;
 }
 
@@ -18,36 +17,22 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  // max-height: 38vh;
-  // scrollbar-color: rgb(246, 246, 246) white;
 }
-// ::-webkit-scrollbar {
-//   height: 5px;
-//   width: 5px;
-//   background-color: white;
-// }
-
 .PieChart > .chart {
-  min-width: 20vw;
-  @media (max-width: 600px) {
-    width: 50vw;
-  }
-  @media (min-width: 1281px) {
-    min-width: 15vw;
-  }
-}
-.chart {
+  width: 20vw;
   @media (max-device-width: 1024px) {
-    @media screen and (orientation: landscape) {
-      display: none;
+    width: 55vw;
+    @media (orientation: landscape){
+    width: 30vw;
+
     }
+  }
+  @media (min-device-width: 1025px) {
+    min-width: 200px;
   }
 }
 .BarChart > .chart {
   min-width: 500px;
-  @media (max-device-width: 1024px) {
-    width: 90vw;
-  }
   @media (min-device-width: 1281px) {
     min-width: 750px;
   }

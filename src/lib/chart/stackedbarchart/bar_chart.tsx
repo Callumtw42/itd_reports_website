@@ -40,7 +40,7 @@ export default function StackedBarChart(props: { className?: string, data: d.obj
                 },
                 labels: {
                   display: false,
-                  fontSize: 48
+                  fontSize: 24
                 },
                 legend: {
                   display: false,
