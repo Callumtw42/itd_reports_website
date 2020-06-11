@@ -3,8 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
+    return (<div className="copyright">
+        <Typography variant="body2" color="textSecondary" >
             {'Copyright © '}
             <Link color="inherit" to="http://itdsoftware.com/">
                 ITD Software
@@ -12,5 +12,6 @@ export default function Copyright() {
             {new Date().getFullYear()}
             {'.'}
         </Typography>
+    </div>
     );
 }

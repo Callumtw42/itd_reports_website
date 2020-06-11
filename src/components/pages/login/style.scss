@@ -1,16 +1,63 @@
 .Login {
-  margin: auto;
-  width: fit-content;
-
-  .logo {
-    height: 4em;
-    width: 4em;
+  @media (max-device-width: 1024px) {
+    margin: 0.5em 0;
+    * {
+      font-size: 2rem !important;
+    }
   }
+  margin-top: 3em;
 
-  @media (max-width: 1024px) {
-    .logo {
-      height: 4em;
-      width: 4em;
+  .papersurround {
+    margin: auto;
+    width: 30vw;
+    min-width: 480px;
+    display: flex;
+    flex-direction: column;
+    padding: 3em;
+    height: fit-content;
+    justify-content: start;
+
+    @media (max-device-width: 1024px) {
+      padding: 1em;
+      height: 75vh;
+    }
+
+    .avatar {
+      margin: 0 auto 0 auto;
+      background-color: #004064;
+      @media (max-device-width: 1024px) {
+        width: 150px;
+        height: 150px;
+      }
+      width: 100px;
+      height: 100px;
+
+      .logo {
+        @media (max-device-width: 1024px) {
+          width: 120px;
+          height: 120px;
+        }
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .signin {
+      color: #004064;
+    }
+
+    .submit {
+      background-color: #004064;
+      color: white;
+      margin-top: 1em;
+    }
+    .copyright {
+      margin: 1em auto;
+      * {
+        @media (max-device-width: 1024px) {
+          font-size: 1.5rem !important;
+        }
+      }
     }
   }
 }
