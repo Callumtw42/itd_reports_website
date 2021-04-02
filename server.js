@@ -267,7 +267,7 @@ app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => {
 });
 
 //listen
-let server = app.listen('80', (err) => {
+let server = app.listen('8080', (err) => {
     if (err) throw err;
     else console.log(`Server started on port 80`);
 }).on("error", (err) => { console.log(err.stack) });
