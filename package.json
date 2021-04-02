@@ -44,7 +44,6 @@
     "mysql": "2.18.1",
     "nodemon": "^2.0.4"
   },
-  "proxy": "http://localhost:80",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
