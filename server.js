@@ -5,7 +5,8 @@ const mysql = require('mysql');
 const path = require('path');
 const fs = require('fs');
 const Joi = require('joi')
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
+const { error } = require('joi/lib/types/symbol');
 
 const db = mysql.createConnection({
     host: process.argv[2],
@@ -68,6 +69,7 @@ app.get('/api/test', (req, res) => {
 app.post('/api/login', (req, res) => {
     //NEXT: learn to post request to eliminate questionmark bug 
 
+    console.log("LOGGING IN")
     const emptyMsg = () => { return "Please enter a username and password" }
     const noAccountMsg = () => { return "No accounts match that username / password" }
     const invalidCharMsg = () => { return "Invalid input. Allowed alphanumeric or the following characters: _, @, #, $, %, ?" }
@@ -268,4 +270,10 @@ app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => {
 let server = app.listen('80', (err) => {
     if (err) throw err;
     else console.log(`Server started on port 80`);
-});
+}).on("error", (err) => { console.log(err.stack) });
+
+setInterval(() => {
+    db.query(`SELECT 1`, (err, results) => {
+        console.log("Refreshing Connection")
+    });
+}, 60000)
