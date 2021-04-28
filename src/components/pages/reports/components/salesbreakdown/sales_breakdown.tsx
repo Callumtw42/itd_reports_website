@@ -30,7 +30,7 @@ export function SalesBreakdown(props: ReportProps) {
 
   const { Select, selected } = useSelect(['Category', 'Product', 'PriceMark', 'Cashier', 'Receipt'], "black")
 
-  const { data, Spinner } = useData(`/api/salesByProduct/${props.db}/${startDate}/${endDate}`)
+  const { data, Spinner } = useData(`api/salesByProduct/${props.db}/${startDate}/${endDate}`)
 
   const [groupBy, setGroupBy] = useState<string>('Category');
   const [total, setTotal] = useState<number>(0);

@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { host } from "../../utils"
 
 import Copyright from './copyright';
 import useLogin from './logic';
@@ -30,7 +31,9 @@ export default function Login(props: RouteComponentProps) {
           name="email"
           autoComplete="email"
           autoFocus
-          onChange={e => setUsername(e.target.value)}
+          onChange={e => {
+            setUsername(e.target.value)
+          }}
         />
       </form>
 

@@ -19,7 +19,7 @@ export default function StaffHours(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/staffhours/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/staffhours/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>

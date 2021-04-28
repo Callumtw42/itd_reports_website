@@ -19,7 +19,7 @@ export default function ProductExchange(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/exchange/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/exchange/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>

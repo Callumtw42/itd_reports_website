@@ -19,7 +19,7 @@ export default function PriceOverride(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/priceoverride/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/priceoverride/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='PriceOverride'>

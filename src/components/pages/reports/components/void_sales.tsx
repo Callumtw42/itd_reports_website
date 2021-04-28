@@ -20,7 +20,7 @@ export default function VoidSales(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/voidsales/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/voidsales/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>

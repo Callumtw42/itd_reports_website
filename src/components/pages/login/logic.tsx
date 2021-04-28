@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { host } from "../../utils"
 
 import useSpinner from '../../../lib/usespinner/usespinner';
 
@@ -14,7 +15,6 @@ export default function useLogin() {
     const { Spinner, setLoading } = useSpinner()
 
     async function login(username: string, password: string, props: RouteComponentProps) {
-
         setLoading(true)
 
         const header = {
@@ -25,7 +25,8 @@ export default function useLogin() {
             },
             body: JSON.stringify({ username: username, password: password })
         }
-        fetch(`api/login`, header)
+        console.log(header.body)
+        fetch(`${host}/api/login`, header)
             .then(res => res.json())
             .then(data => {
                 setData(data)
@@ -33,11 +34,11 @@ export default function useLogin() {
                 if (data[0] && data[0]["id"]) {
                     localStorage.setItem("id", data[0]["id"])
                     props.history.push("/reports")
+                    console.log("LOGGED IN")
                 }
             })
             .catch((error) => {
                 console.log(error)
-                setTimeout(1000)
                 login(username, password, props)
             });
     }

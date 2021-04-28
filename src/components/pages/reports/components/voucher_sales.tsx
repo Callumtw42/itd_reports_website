@@ -21,7 +21,7 @@ export default function VoucherSales(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/voucher/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/voucher/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>

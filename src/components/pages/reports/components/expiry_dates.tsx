@@ -22,7 +22,7 @@ export default function ExpiryDates(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/expiry/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/expiry/${props.db}/${startDate}/${endDate}`);
 
 
     return (

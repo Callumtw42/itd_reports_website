@@ -19,7 +19,7 @@ export default function ReturnToSupplier(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/returntosupplier/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/returntosupplier/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>

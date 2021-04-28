@@ -19,7 +19,7 @@ export default function Refund(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/refund/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/refund/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>

@@ -20,7 +20,7 @@ export default function Wastage(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/wastage/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/wastage/${props.db}/${startDate}/${endDate}`);
 
     return (
         <div className='report'>

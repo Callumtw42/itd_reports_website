@@ -23,7 +23,7 @@ export function VAT(props: ReportProps) {
         ...date
     } = useDate()
 
-    const { data, Spinner } = useData(`/api/VAT/${props.db}/${startDate}/${endDate}`)
+    const { data, Spinner } = useData(`api/VAT/${props.db}/${startDate}/${endDate}`)
 
     const tableData = columns(data, 'VatRate', 'Receipt_No', 'Total_Sales', 'Quantity', 'Total_VAT', 'Nett')
     const totalVat: obj[] = sumAndGroup(removeColumns(tableData, 'Receipt_No'), 'VatRate')

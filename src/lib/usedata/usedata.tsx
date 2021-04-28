@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react'
 import Typography from "@material-ui/core/Typography/Typography"
 import useSpinner from "../usespinner/usespinner"
+import { host } from "../../components/utils"
 
 export interface obj {
     [key: string]: any
@@ -14,7 +15,7 @@ export default function useData(url: string, body?: RequestInit) {
     async function fetchData() {
         setLoading(true)
         try {
-            fetch(`${url}`, body)
+            fetch(`${host}/${url}`, body)
                 .then(res => res.json())
                 .then(data => {
                     data != null
@@ -24,7 +25,6 @@ export default function useData(url: string, body?: RequestInit) {
                 .catch((error) => {
                     console.log(error)
                     console.log("Reattempting Connection...")
-                    setTimeout(() => { }, 1000)
                     fetchData()
                 })
         } catch (err) {

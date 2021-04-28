@@ -5,12 +5,17 @@ const mysql = require('mysql');
 const path = require('path');
 const fs = require('fs');
 const Joi = require('joi')
-const bodyParser = require("body-parser");
-const { error } = require('joi/lib/types/symbol');
+// const bodyParser = require("body-parser");
+// const { error } = require('joi/lib/types/symbol');
+// const {IP} = require("./utils")
+const cors = require("cors")
+
+const dbHost = "itddb.mysql.database.azure.com" 
+const user = "callum@itddb"
 
 const db = mysql.createConnection({
-    host: process.argv[2],
-    user: process.argv[3],
+    host: dbHost,
+    user: user, 
     password: '0089fxcy?',
     database: 'itdepos',
     port: 3306
@@ -19,8 +24,8 @@ const db = mysql.createConnection({
 //connect
 db.connect((err) => {
     console.log(`Connecting...
-    DB: ${process.argv[2]} 
-    User: ${process.argv[3]}`)
+    DB: ${dbHost} 
+    User: ${user}`)
     if (err) {
         throw err;
     }
@@ -31,9 +36,10 @@ db.connect((err) => {
 
 const app = express();
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static(path.join(__dirname, "build")))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+// app.use(express.static(path.join(__dirname, "../","build", "index.html")))
+app.use(cors())
 
 
 function run(sql) {
@@ -51,25 +57,23 @@ function select(sql, res, process) {
 }
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"))
+    res.sendFile(path.join(__dirname, "../","build", "index.html"))
 })
 
 
 app.get("/reports", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"))
+    res.sendFile(path.join(__dirname, "../","build", "index.html"))
 })
 
 //test
 app.get('/api/test', (req, res) => {
-    let data = fs.readFileSync(path.join("sql", 'Login.sql'), { encoding: "UTF-8" })
-    res.json(data)
+    res.json("test");
 });
 
 //login
 app.post('/api/login', (req, res) => {
     //NEXT: learn to post request to eliminate questionmark bug 
 
-    console.log("LOGGING IN")
     const emptyMsg = () => { return "Please enter a username and password" }
     const noAccountMsg = () => { return "No accounts match that username / password" }
     const invalidCharMsg = () => { return "Invalid input. Allowed alphanumeric or the following characters: _, @, #, $, %, ?" }
@@ -269,7 +273,7 @@ app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => {
 //listen
 let server = app.listen('8080', (err) => {
     if (err) throw err;
-    else console.log(`Server started on port 80`);
+    else console.log(`Server started on port 8080`);
 }).on("error", (err) => { console.log(err.stack) });
 
 setInterval(() => {

@@ -15,7 +15,7 @@ export default function CustomerCredit(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/credit/${props.db}`);
+    } = useData(`api/credit/${props.db}`);
 
     return (
         <div className='report'>

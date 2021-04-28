@@ -23,7 +23,7 @@ export default function CashierHistory(props: ReportProps) {
     const {
         data,
         Spinner
-    } = useData(`/api/salesByProduct/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/salesByProduct/${props.db}/${startDate}/${endDate}`);
     const {
         selected,
         Select,
