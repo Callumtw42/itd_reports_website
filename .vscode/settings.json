@@ -3,5 +3,6 @@
         "node_modules{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.deploySubpath": "./client/build"
+    "appService.deploySubpath": "./client/build",
+    "appService.showBuildDuringDeployPrompt": false
 }
