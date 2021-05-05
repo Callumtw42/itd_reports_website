@@ -26,7 +26,8 @@ export default function useLogin() {
             body: JSON.stringify({ username: username, password: password })
         }
         console.log(header.body)
-        fetch(`${host}/api/login`, header)
+        console.log(host)
+        fetch(`/api/login`, header)
             .then(res => res.json())
             .then(data => {
                 setData(data)

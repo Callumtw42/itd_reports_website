@@ -14,8 +14,9 @@ export default function useData(url: string, body?: RequestInit) {
 
     async function fetchData() {
         setLoading(true)
+        console.log(`${host}/${url}`);
         try {
-            fetch(`${host}/${url}`, body)
+            fetch(`/${url}`, body)
                 .then(res => res.json())
                 .then(data => {
                     data != null

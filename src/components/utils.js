@@ -1,6 +1,6 @@
-const HOST = "192.168.1.96";
-const PORT = "8080";
+const localhost = `http://localhost:8080`;
+const remotehost = "https://itdreports.azurewebsites.net";
 
 module.exports = {
-    host: `http://${HOST}:${PORT}`
+    host: remotehost
 }

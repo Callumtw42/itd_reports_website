@@ -16,7 +16,7 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
         console.log(route)
         setLoading(true)
         setBufferCount(0)
-        fetch(`${host}/${route}/${rowsPerBuffer}/${bufferCount}`)
+        fetch(`/${route}/${rowsPerBuffer}/${bufferCount}`)
             .then(res => res.json())
             .then(rows => setData(rows))
             .catch(error => {
@@ -27,7 +27,7 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
 
     async function fetchBuffer() {
         setLoading(true)
-        fetch(`${host}/${route}/${rowsPerBuffer}/${bufferCount}`)
+        fetch(`/${route}/${rowsPerBuffer}/${bufferCount}`)
             .then(res => res.json())
             .then(rows => setData([...data, ...rows]))
             .catch(error => {

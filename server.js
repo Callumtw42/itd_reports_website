@@ -3,19 +3,18 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
-const fs = require('fs');
 const Joi = require('joi')
-// const bodyParser = require("body-parser");
-// const { error } = require('joi/lib/types/symbol');
-// const {IP} = require("./utils")
 const cors = require("cors")
 
-const dbHost = "itddb.mysql.database.azure.com" 
+const port = process.env.PORT || 8080;
+const dbHost = "itddb.mysql.database.azure.com"
 const user = "callum@itddb"
+
+const fs = require('fs');
 
 const db = mysql.createConnection({
     host: dbHost,
-    user: user, 
+    user: user,
     password: '0089fxcy?',
     database: 'itdepos',
     port: 3306
@@ -36,10 +35,10 @@ db.connect((err) => {
 
 const app = express();
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "build")))
-app.use(cors())
 
 
 function run(sql) {
@@ -62,7 +61,7 @@ app.get("/", (req, res) => {
 
 
 app.get("/reports", (req, res) => {
-    res.sendFile(path.join(__dirname, "./","build", "index.html"))
+    res.sendFile(path.join(__dirname, "./", "build", "index.html"))
 })
 
 //test
@@ -271,9 +270,9 @@ app.get('/api/VAT/:db/:startDate/:endDate', (req, res) => {
 });
 
 //listen
-let server = app.listen('8080', (err) => {
+app.listen(port, (err) => {
     if (err) throw err;
-    else console.log(`Server started on port 8080`);
+    else console.log(`Server started on port ${port}`);
 }).on("error", (err) => { console.log(err.stack) });
 
 setInterval(() => {

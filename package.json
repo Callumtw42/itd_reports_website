@@ -48,7 +48,8 @@
   },
   "scripts": {
     "build": "react-scripts build",
-    "start": "node server itddb.mysql.database.azure.com callum@itddb",
+    "start": "node server",
+    "client": "react-scripts start",
     "eject": "react-scripts eject",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -76,5 +77,6 @@
       "babel-plugin-styled-components"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "proxy": "http://localhost:8080"
 }
