@@ -20,17 +20,19 @@ import { ReportProps } from '../logic';
 import { formatTableData, GetChartProps } from './logic';
 import Div from './style';
 
-export function SalesBreakdown(props: ReportProps) {
+export function SalesBreakdown({dates, header, db}) {
 
-  const {
-    startDate,
-    endDate,
-    Dates,
-  } = useDate();
+  // const {
+  //   startDate,
+  //   endDate,
+  //   Dates,
+  // } = useDate();
+
+  const {start, end} = dates;
 
   const { Select, selected } = useSelect(['Category', 'Product', 'PriceMark', 'Cashier', 'Receipt'], "black")
 
-  const { data, Spinner } = useData(`api/salesByProduct/${props.db}/${startDate}/${endDate}`)
+  const { data, Spinner } = useData(`api/salesByProduct/${db}/${start}/${end}`)
 
   const [groupBy, setGroupBy] = useState<string>('Category');
   const [total, setTotal] = useState<number>(0);
@@ -78,8 +80,8 @@ export function SalesBreakdown(props: ReportProps) {
         <Paper className='reportContainer'>
           <HeaderBar  >
             <div className="left">
-              <Typography className='text' variant="h6"> {props.header}</Typography>
-              <Dates />
+              <Typography className='text' variant="h6"> {header}</Typography>
+              {/* <Dates /> */}
               {/* <div><input type="date"></input><CalendarTodayIcon /></div> */}
             </div>
             <div className="right">

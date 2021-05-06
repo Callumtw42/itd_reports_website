@@ -22,22 +22,27 @@
     display: flex;
     flex-direction: row;
   }
+  .dates {
+    margin-top: 3%;
+    @media (max-device-width: 1024px) {
+      margin-top: 4%;
+    }
+  }
 
   .text {
     margin-top: 11%;
     margin-left: 5%;
     @media (max-device-width: 1024px) {
       margin-top: 9%;
-      font-size: 2rem;
+      font-size: 1.5rem;
     }
   }
 
   .link {
-    margin-top: 25%;
+    margin-top: 30%;
     @media (max-device-width: 1024px) {
-      * {
-        font-size: 2rem !important;
-      }
+        margin-top: 55%;
+        font-size: 1rem !important;
     }
   }
 
@@ -65,8 +70,8 @@
     width: 3em;
 
     @media (max-device-width: 1024px) {
-      height: 5em;
-      width: 5em;
+      height: 3em;
+      width: 3em;
     }
   }
 }

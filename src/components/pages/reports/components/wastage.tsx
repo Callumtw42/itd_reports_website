@@ -9,24 +9,24 @@ import HeaderBar from './headerbar/headerbar'
 import SimpleSelect from '../../../../lib/useselect/useselect'
 import Table from '../../../../lib/table/table'
 
-export default function Wastage(props: ReportProps) {
+export default function Wastage({ dates, header, db }) {
 
-    const {
-        startDate,
-        endDate,
-        Dates
-    } = useDate();
-
+    // const {
+    //     startDate,
+    //     endDate,
+    //     Dates
+    // } = useDate();
+    const { start, end } = dates;
     const {
         data,
         Spinner
-    } = useData(`api/wastage/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/wastage/${db}/${start}/${end}`);
 
     return (
         <div className='report'>
             <Spinner>
                 <Paper className='reportContainer'>
-                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <HeaderBar ><Typography className='text' variant="h6">{header}</Typography></HeaderBar>
                     <div className='reportBody'>
                         <Table data={data} />
                     </div>

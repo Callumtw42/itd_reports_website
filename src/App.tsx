@@ -17,7 +17,7 @@ function App() {
   return (
     <div className={classes.app} >
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-      <meta name="viewport" content="width=600, initial-scale=1 maximum-scale=1" />
+      <meta name="viewport" content="width=device-width"/>
 
       <Router>
         <Route path="/reports" exact={true} render={props => {
@@ -26,11 +26,6 @@ function App() {
 
         <Route path="/" exact={true} render={(props) => <Login {...props} />} />
       </Router>
-
-      {/* <Router>
-        <Route path="/" exact={true} render={props => <TestRoute {...props} />} />
-        <Route path="/sandbox" exact={true} render={props => <SandBox {...props} />} />
-      </Router> */}
 
     </div >
   );

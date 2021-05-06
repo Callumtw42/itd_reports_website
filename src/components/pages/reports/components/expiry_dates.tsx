@@ -11,25 +11,21 @@ import Table from '../../../../lib/table/table'
 import * as d from "../../../../lib/datafns"
 import { ReportProps } from './logic';
 
-export default function ExpiryDates(props: ReportProps) {
+export default function ExpiryDates({dates, header, db}) {
 
-    const {
-        startDate,
-        endDate,
-        Dates
-    } = useDate();
+    const {start, end} = dates;
 
     const {
         data,
         Spinner
-    } = useData(`api/expiry/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/expiry/${db}/${start}/${end}`);
 
 
     return (
         <div className='report'>
             <Spinner>
                 <Paper className='reportContainer'>
-                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <HeaderBar ><Typography className='text' variant="h6">{header}</Typography></HeaderBar>
                     <div className='reportBody'>
                         <Table data={data} />
                     </div>

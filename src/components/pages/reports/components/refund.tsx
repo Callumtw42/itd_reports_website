@@ -8,24 +8,25 @@ import HeaderBar from './headerbar/headerbar'
 import SimpleSelect from '../../../../lib/useselect/useselect'
 import Table from '../../../../lib/table/table'
 import { ReportProps } from './logic'
-export default function Refund(props: ReportProps) {
+export default function Refund({dates, header, db}) {
 
-    const {
-        startDate,
-        endDate,
-        Dates
-    } = useDate();
+    // const {
+    //     startDate,
+    //     endDate,
+    //     Dates
+    // } = useDate();
+    const {start, end} = dates;
 
     const {
         data,
         Spinner
-    } = useData(`api/refund/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/refund/${db}/${start}/${end}`);
 
     return (
         <div className='report'>
             <Spinner>
                 <Paper className='reportContainer'>
-                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <HeaderBar ><Typography className='text' variant="h6">{header}</Typography></HeaderBar>
                     <div className='reportBody'>
                         <Table data={data} />
                     </div>

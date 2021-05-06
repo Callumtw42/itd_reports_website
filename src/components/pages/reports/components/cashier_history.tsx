@@ -12,18 +12,19 @@ import SimpleSelect from '../../../../lib/useselect/useselect'
 import Table from '../../../../lib/table/table'
 import { ReportProps } from "./logic";
 
-export default function CashierHistory(props: ReportProps) {
+export default function CashierHistory({ dates, header, db }) {
 
     const [tableData, setTableData] = useState([] as d.obj[][]);
-    const {
-        startDate,
-        endDate,
-        Dates
-    } = useDate();
+    // const {
+    //     startDate,
+    //     endDate,
+    //     Dates
+    // } = useDate();
+    const { start, end } = dates;
     const {
         data,
         Spinner
-    } = useData(`api/salesByProduct/${props.db}/${startDate}/${endDate}`);
+    } = useData(`api/salesByProduct/${db}/${start}/${end}`);
     const {
         selected,
         Select,
@@ -69,7 +70,7 @@ export default function CashierHistory(props: ReportProps) {
         <div className='report' >
             <Spinner >
                 <Paper className='reportContainer'>
-                    <HeaderBar ><Typography className='text' variant="h6">{props.header}</Typography><Dates /></HeaderBar>
+                    <HeaderBar ><Typography className='text' variant="h6">{header}</Typography></HeaderBar>
                     <div className='reportBody' id="cashierHistory">
                         <Select />
                         <Tables />

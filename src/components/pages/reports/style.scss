@@ -1,6 +1,8 @@
 .reportspage {
   padding: 0px;
-  margin: 0;
+  @media (max-device-width: 1024px) {
+    margin-top: 5%;
+  }
 
   .report {
     position: relative;
@@ -57,7 +59,7 @@
     }
 
     @media (max-width: 1024px) {
-      margin: 2em 1em;
+      margin: 1em 0.0em;
       grid-template-rows: 1fr;
       grid-template-columns: 1fr;
       grid-template-areas:

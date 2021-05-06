@@ -13,7 +13,7 @@ import StockAdjust from './stockadjust';
 
 export const ctx = React.createContext({ db: "itdepos" })
 
-export function StockReport(props: ReportProps) {
+export function StockReport({dates, id, header, db}) {
 
     const { selected, Select } = useSimpleSelect(
         [
@@ -31,8 +31,8 @@ export function StockReport(props: ReportProps) {
                 <Paper className='reportContainer'>
                     <HeaderBar ><Select /></HeaderBar>
                     <div className='reportBody'>
-                        <ctx.Provider value={{ db: props.db }}>
-                            <TableChoice selected={selected} db={props.db} />
+                        <ctx.Provider value={{ db: db }}>
+                            <TableChoice selected={selected} db={db} />
                         </ctx.Provider>
                     </div>
                 </Paper>

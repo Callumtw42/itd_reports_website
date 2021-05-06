@@ -14,18 +14,19 @@ import useDate from '../../../../../lib/usedate/usedate';
 import useData from '../../../../../lib/usedata/usedata';
 
 
-export function VAT(props: ReportProps) {
+export function VAT({dates, header, db}) {
 
-    const {
-        startDate,
-        endDate,
-        Dates,
-        ...date
-    } = useDate()
+    // const {
+    //     startDate,
+    //     endDate,
+    //     Dates,
+    //     ...date
+    // } = useDate()
+    const {start, end} = dates;
 
-    const { data, Spinner } = useData(`api/VAT/${props.db}/${startDate}/${endDate}`)
+    const { data, Spinner } = useData(`api/VAT/${db}/${start}/${end}`)
 
-    const tableData = columns(data, 'VatRate', 'Receipt_No', 'Total_Sales', 'Quantity', 'Total_VAT', 'Nett')
+    const tableData = columns(data, 'VatRate', 'Receipt_No', 'Total_Sales', 'Quantity', 'Total_VAT', 'Net')
     const totalVat: obj[] = sumAndGroup(removeColumns(tableData, 'Receipt_No'), 'VatRate')
     const receipts: obj[] = sumAndGroup(removeColumns(tableData, 'VatRate'), 'Receipt_No')
 
@@ -34,8 +35,7 @@ export function VAT(props: ReportProps) {
             <Spinner>
                 <Paper className='reportContainer'>
                     <HeaderBar>
-                        <Typography className='text' variant="h6">{props.header}</Typography>
-                        <Dates />
+                        <Typography className='text' variant="h6">{header}</Typography>
                     </HeaderBar>
                     <div className='reportBody'>
                         <H1>Total VAT</H1>

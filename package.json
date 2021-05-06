@@ -54,7 +54,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "server": "node server itddb.mysql.database.azure.com callum@itddb",
-    "local": "sudo node server localhost root"
+    "local": "sudo node server localhost root",
+    "heroku-postbuild": "yarn build"
   },
   "browserslist": {
     "production": [
