@@ -1,7 +1,9 @@
 Cloud Based business reporting app for EPOS systems
 
 Live Demo: https://floating-forest-08463.herokuapp.com/reports
+
 Username: demo
+
 Password: demo
 
 ![image](https://user-images.githubusercontent.com/22998003/116472199-7e5f2b80-a86d-11eb-8b1a-f4388eaaea5b.png)png)
