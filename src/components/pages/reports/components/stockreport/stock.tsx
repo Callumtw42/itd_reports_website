@@ -4,8 +4,10 @@ import React, { useState, useContext } from 'react'
 import { ctx } from './stockreport'
 
 export default function Stock() {
-
-    const [sort, setSort] = useState({ by: "id ", order: "desc" })
+    const initSort: {
+        by: String, order: false | "desc" | "asc" | undefined
+    } = { by: "id", order: "desc" }
+    const [sort, setSort] = useState(initSort)
     const { db } = useContext(ctx)
 
     const {
@@ -14,5 +16,5 @@ export default function Stock() {
         Spinner
     } = useDataBuffer(`api/stock/${db}/${sort.by}/${sort.order}`, 100);
 
-    return <Spinner><Table data={data} bufferCallback={getNextBuffer} sortCallback={setSort} /></Spinner>
+    return <Spinner><Table data={data} bufferCallback={getNextBuffer} sortCallback={setSort} initOrder={sort.order} /></Spinner>
 }

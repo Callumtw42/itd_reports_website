@@ -72,6 +72,7 @@ export function SalesBreakdown({dates, header, db}) {
     let barChartX = Array.from(Array(24).keys()).map(obj => { return ('0' + obj + ':00').slice(-5) })
     return props.chart === 'pie' ? <PieChart data={data} groupBy={groupBy} values={dataChoice} />
       : <StackedBarChart data={data} x={barChartX} groupBy={groupBy} values={dataChoice} />
+    return <></>
   }
 
   return (

@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 
 import * as f from '../../components/functions';
@@ -29,15 +29,23 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
   const rowsPerBuffer = 100;
   const [displayBuffer, setDisplayBuffer] = React.useState(true)
   const [data, setData] = React.useState<d.obj[]>([]);
-  const [order, setOrder] = React.useState<false | "desc" | "asc" | undefined>('asc');
+  const [order, setOrder] = React.useState(props.initOrder || "asc");
   const [orderBy, setOrderBy] = React.useState('calories');
   const dense = false;
   const [rowCount, setRowCount] = React.useState(0);
   const [rows, setRows] = React.useState<d.obj[]>([]);
   const [bufferCount, setBufferCount] = React.useState(1)
 
+  // useEffect(()=>{
+  //   if (props.sortCallback) {
+  //     props.sortCallback({ by: event.currentTarget.textContent, order: isAsc ? 'desc' : 'asc' })
+  //   }
+  // }, [order])
+
+
   const handleRequestSort = (event: React.MouseEvent, property: string) => {
     const isAsc = order === 'asc';
+    console.log(order)
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
     if (props.sortCallback) {
