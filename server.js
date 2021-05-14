@@ -72,34 +72,42 @@ app.get('/api/test', (req, res) => {
 //login
 app.post('/api/login', (req, res) => {
     //NEXT: learn to post request to eliminate questionmark bug 
-
+    const { username, password } = req.body;
     const emptyMsg = () => { return "Please enter a username and password" }
     const noAccountMsg = () => { return "No accounts match that username / password" }
     const invalidCharMsg = () => { return "Invalid input. Allowed alphanumeric or the following characters: _, @, #, $, %, ?" }
+    const valid = /[a-zA-Z0-9_@#$%?]+/.test(username + password)
+    if (!valid) res.json(invalidCharMsg())
+    else if (username.length > 0 && password.length > 0 && valid) {
+        console.log("running")
+        const schema = Joi.object({
+            username: Joi.string().required().regex(/^[\w@#$%?]+$/).error(invalidCharMsg),
+            password: Joi.string().required().regex(/^[\w@#$%?]+$/).error(invalidCharMsg)
+        }).required().error(emptyMsg)
 
-    const schema = Joi.object({
-        username: Joi.string().required().regex(/^[\w@#$%?]+$/).error(invalidCharMsg),
-        password: Joi.string().required().regex(/^[\w@#$%?]+$/).error(invalidCharMsg)
-    }).required().error(emptyMsg)
+        const validated = schema.validate(req.body)
+        const { error, value } = validated
 
-    const validated = schema.validate(req.body)
-    const { error, value } = validated
-
-    if (error)
-        res.json(error.details[0].message)
-    else {
-        run(`USE users;`);
-        run(`set @name = '${value.username}';`)
-        run(`set @password = '${value.password}';`)
-        let sql = fs.readFileSync(path.resolve('sql', 'Login.sql'), { encoding: "UTF-8" })
-        db.query(sql, (err, results) => {
-            if (err) throw err;
-            console.log("object")
-            results[0]
-                ? res.json(results)
-                : res.json(noAccountMsg())
-        });
+        if (error) {
+            // res.json(invalidCharMsg())
+            throw error;
+            // res.json(error.details[0].message)
+        }
+        else {
+            run(`USE users;`);
+            run(`set @name = '${value.username}';`)
+            run(`set @password = '${value.password}';`)
+            let sql = fs.readFileSync(path.resolve('sql', 'Login.sql'), { encoding: "UTF-8" })
+            db.query(sql, (err, results) => {
+                if (err) throw err;
+                console.log("object")
+                results[0]
+                    ? res.json(results)
+                    : res.json(noAccountMsg())
+            });
+        }
     }
+    else res.json(emptyMsg())
 });
 
 //SalesData

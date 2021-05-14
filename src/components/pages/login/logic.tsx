@@ -25,8 +25,8 @@ export default function useLogin() {
             },
             body: JSON.stringify({ username: username, password: password })
         }
-        console.log(header.body)
-        console.log(host)
+        // console.log(header.body)
+        // console.log(host)
         fetch(`/api/login`, header)
             .then(res => res.json())
             .then(data => {
@@ -40,7 +40,8 @@ export default function useLogin() {
             })
             .catch((error) => {
                 console.log(error)
-                login(username, password, props)
+                setLoading(false)
+                // login(username, password, props)
             });
     }
 
