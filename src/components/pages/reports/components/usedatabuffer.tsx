@@ -13,7 +13,6 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
     const { Spinner, setLoading } = useSpinner()
 
     async function fetchData() {
-        console.log(route)
         setLoading(true)
         setBufferCount(0)
         fetch(`/${route}/${rowsPerBuffer}/${bufferCount}`)

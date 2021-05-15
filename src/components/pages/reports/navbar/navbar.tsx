@@ -12,7 +12,7 @@ export default function useNavBar() {
 
     const { Select, selected } = useDBMenu()
     const [db, setDb] = useState('itdepos');
-    const { startDate, endDate, Dates } = useDate();
+    const { startDate, endDate, dateRange, Dates, DateRange } = useDate();
 
     useEffect(() => {
         if (selected !== "empty") setDb(selected)
@@ -28,7 +28,7 @@ export default function useNavBar() {
                         <img src='ITDlogo.jpg' alt='logo'></img>
                         {/* <Typography className="text">Branch: </Typography><Select /> */}
                         <div className="dates">
-                            <Dates />
+                            <DateRange></DateRange>
                         </div>
                     </div>
                     <div className="right">
@@ -43,6 +43,7 @@ export default function useNavBar() {
         db,
         startDate,
         endDate,
+        dateRange,
         NavBar
     }
 }

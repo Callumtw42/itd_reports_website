@@ -11,7 +11,7 @@ SELECT
        IFNULL(Amount, 0)                                                                    as Refund,
        Discount,
        ItemTotal - IFNULL(PackCost / PackSize, 0) * Quantity - IFNULL(Amount, 0) - Discount as Profit,
-       DATE_FORMAT(TillDate, '%d/%m/%y')                                                    as TillDate,
+       DATE_FORMAT(TillDate, '%Y-%m-%d')                                                    as TillDate,
        TIME_FORMAT(TillTime, '%H:%m')                                                       as TillHour,
        DsctReason,
        TillTime,
@@ -71,9 +71,8 @@ FROM (
                LEFT JOIN Product p ON ti.ProdID = p.ProductID
                LEFT JOIN Category c ON p.CategoryID = c.CategoryID
                LEFT JOIN RefundItem ri ON ti.RefundID = ri.RefundID
-      WHERE t.TillDate >= IFNULL(@startDate, '2020-05-20')
-        AND t.TillDate <= IFNULL(@endDate, '2020-05-20')
-      ORDER BY t.TillID, ti.TillItemID) as b
+      WHERE t.TillDate >= ${startDate} AND t.TillDate <= ${endDate}
+              ORDER BY t.TillID, ti.TillItemID) as b
      ON b.CategoryID = a.Cat
          LEFT JOIN pricemark pm ON pm.AssocProdID = ProdID
     )

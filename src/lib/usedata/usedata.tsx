@@ -14,7 +14,6 @@ export default function useData(url: string, body?: RequestInit) {
 
     async function fetchData() {
         setLoading(true)
-        console.log(`${host}/${url}`);
         try {
             fetch(`/${url}`, body)
                 .then(res => res.json())
@@ -26,7 +25,7 @@ export default function useData(url: string, body?: RequestInit) {
                 .catch((error) => {
                     console.log(error)
                     console.log("Reattempting Connection...")
-                    fetchData()
+                    // fetchData()
                 })
         } catch (err) {
             setData([])
