@@ -2,12 +2,12 @@ import './style.scss';
 import 'date-fns';
 
 import { Paper, Typography } from '@material-ui/core';
-import { BarChart as BarChartIcon, PieChart as PieChartIcon } from '@material-ui/icons';
+import { BarChart as BarChartIcon, PieChart as PieChartIcon, Timeline as LineChartIcon } from '@material-ui/icons';
 import * as R from 'rambda';
 import React, { SetStateAction, useContext, useEffect, useState } from 'react';
-
 import PieChart from '../../../../../lib/chart/piechart/piechart';
 import StackedBarChart from '../../../../../lib/chart/stackedbarchart/bar_chart';
+import LineChart from '../../../../../lib/chart/LineChart'
 import Table from '../../../../../lib/table/table';
 import useSelect from '../../../../../lib/useselect/useselect';
 import * as u from '../../../../../utils';
@@ -19,15 +19,17 @@ import { GetChartProps } from './logic';
 export function SalesBreakdown({ dates, header, dateRange, db }) {
   const { start, end } = dates;
   const { Select, selected } = useSelect(['Category', 'Product', 'PriceMark', 'Cashier', 'Receipt'], "black")
-  const [total, setTotal] = useState<number>(0);
+  // const [total, setTotal] = useState<number>(0);
   const [dataChoice, setDataChoice] = useState<string>('Sales');
-  const [chart, setChart] = useState('pie');
+  // const [chart, setChart] = useState('pie');
   const {
-    IconSwitch
+    IconSwitch,
+    iconValue
   } = useIconSwitch(
     [
-      { icon: <BarChartIcon />, callBack: setChart.bind(this, 'bar') },
-      { icon: <PieChartIcon />, callBack: setChart.bind(this, 'pie') }
+      { icon: <BarChartIcon />, value: "bar" },
+      { icon: <PieChartIcon />, value: "pie" },
+      { icon: <LineChartIcon />, value: "line" }
     ]
   );
 
@@ -35,7 +37,8 @@ export function SalesBreakdown({ dates, header, dateRange, db }) {
     tableData: [],
     barData: {},
     pieData: {},
-    lineData: {}
+    lineData: {},
+    total: 0
   });
 
   useEffect(() => {
@@ -46,15 +49,16 @@ export function SalesBreakdown({ dates, header, dateRange, db }) {
   }, [selected, start, end, dataChoice])
 
   function GetChart(props: GetChartProps) {
-    console.log(data.barData)
+
+    console.log("BAR")
     return R.cond(
       [
         [() => props.chart === "pie", () => <PieChart data={data.pieData} />],
-        [() => props.chart === "bar", () => <StackedBarChart data={data.barData} />]
+        [() => props.chart === "bar", () => <StackedBarChart data={data.barData} />],
+        [() => props.chart === "line", () => <LineChart data={data.lineData} />]
       ]
     )()
   }
-
   return (
     <div className="salesBreakdown">
       {/* <Spinner > */}
@@ -77,9 +81,9 @@ export function SalesBreakdown({ dates, header, dateRange, db }) {
               handleChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 setDataChoice(event.target.value)}
               value={dataChoice} />
-            <h1>Total: {(dataChoice === 'Qty') ? total : '£' + total.toFixed(2)}</h1>
+            <h1>Total: {data.total}</h1>
           </div>
-          <GetChart chart={chart} />
+          <GetChart chart={iconValue} />
           <Table data={data.tableData} />
         </div>
       </Paper>

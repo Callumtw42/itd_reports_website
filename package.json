@@ -29,7 +29,7 @@
     "babel-plugin-styled-components": "^1.10.7",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "body-parser": "^1.19.0",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "4.6.0",
     "chart.js": "^2.9.3",
     "concurrently": "^5.1.0",
     "cors": "^2.8.5",
@@ -43,7 +43,7 @@
     "nodemon": "^2.0.7",
     "rambda": "^6.7.0",
     "react": "^16.13.1",
-    "react-bootstrap": "^1.0.0",
+    "react-bootstrap": "^1.6.0",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
@@ -57,13 +57,11 @@
   },
   "scripts": {
     "build": "react-scripts build",
-    "start": "nodemon -r esm server",
+    "start": "nodemon -r esm server.ts",
     "client": "react-scripts start",
     "eject": "react-scripts eject",
     "test": "jest",
     "test:watch": "jest --watch",
-    "server": "node server itddb.mysql.database.azure.com callum@itddb",
-    "local": "sudo node server localhost root",
     "heroku-postbuild": "yarn build"
   },
   "browserslist": {

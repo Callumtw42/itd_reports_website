@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import React, { HTMLAttributes, useRef } from 'react';
 import { ReactNode, useEffect } from 'react';
+import { Dropdown } from "react-bootstrap"
 
 // import Div from './style';
 export default function useSimpleSelect(items: string[], color?: string) {
@@ -22,33 +23,44 @@ export default function useSimpleSelect(items: string[], color?: string) {
     }, [items])
 
     function Items(props: {}) {
-        return <>{
-            items.map((s, index) => {
-                return <MenuItem className = "item"
-                    aria-haspopup
-                    key={index}
-                    onMouseDown={
-                        () => {
-                            setSelected(s);
-                        }
-                    }>
-                    {s}
-                </MenuItem>
-            })
-        }</>
+        return (<>{items.map((item, index) =>
+            <Dropdown.Item
+                key={index}
+                onMouseDown={() => setSelected(item)}
+            >{item}</Dropdown.Item>
+
+        )}
+            {/* <Dropdown.Item >Action</Dropdown.Item>
+            <Dropdown.Item >Another action</Dropdown.Item>
+            <Dropdown.Item >Something else</Dropdown.Item> */}
+        </>)
     }
 
     function Select(props: HTMLAttributes<HTMLDivElement>) {
-        const ref = useRef(null) as any
         return (
-            <div className="Select" ref={ref}>
-                <div className="head"><div className="text"><Typography >{selected}<ArrowDropDownIcon /></Typography></div>
+            <div>
+
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                       {selected} 
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Items />
+                    </Dropdown.Menu>
+                </Dropdown>
+                {/* <div className="head">
+                    <div className="text">
+                        <Typography >
+                            {selected}
+                            <ArrowDropDownIcon />
+                        </Typography>
+                    </div>
                     <div >
                         <Paper className="Items" >
                             <Items />
                         </Paper>
                     </div>
-                </div>
+                </div> */}
             </div >
         );
     }

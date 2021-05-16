@@ -18,6 +18,7 @@ function App() {
     <div className={classes.app} >
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <meta name="viewport" content="width=device-width"/>
+      {/* <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width, user-scalable=no" /> */}
 
       <Router>
         <Route path="/reports" exact={true} render={props => {
