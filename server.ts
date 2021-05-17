@@ -1,3 +1,7 @@
 const { serve } = require("./server/server")
 // import {serve} from "./server/server"
-serve();
+export function start() {
+    serve();
+}
+
+start();
