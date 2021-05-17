@@ -8,6 +8,15 @@ html {
 
 .form-control {
   width: 10rem;
+  // padding:0;
+  height: inherit;
+  background: rgba(255, 255, 255, 0.1);
+  border:none;
+  margin-left:2rem;
+}
+.form-control::placeholder {
+  color: white;
+  opacity: 0.5;
 }
 * {
   scrollbar-width: thin;

@@ -198,7 +198,11 @@ export function matchRows(data, matchOn) {
     const regex = new RegExp(`.*${matchOn}.*`, "i")
     data.forEach((o) => {
         const values = Object.values(o);
-        if (values.some((value) => regex.test("" + value))) {
+        if (values.some((value) => {
+            if (R.is(Object, value))
+                return regex.test("" + value["value"])
+                else return regex.test("" + value)
+        })) {
             matches.push(o);
         }
     })

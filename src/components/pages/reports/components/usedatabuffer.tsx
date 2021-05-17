@@ -40,6 +40,7 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
     }, [bufferCount])
 
     useEffect(() => {
+        console.log(route)
         fetchData()
     }, [route])
 
@@ -54,7 +55,7 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
         else setBufferCount(0);
     }
 
-    function resetBuffer(){
+    function resetBuffer() {
         setBufferCount(0)
     }
 

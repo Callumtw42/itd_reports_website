@@ -28,7 +28,7 @@ export interface Classes {
 export interface EnhancedTableProps {
     sortCallback?: React.Dispatch<SetStateAction<any>>
     bufferCallback?: (inc) => void
-    initOrder?: false | "asc" | "desc"
+    initOrder?
     data: d.obj[]
 }
 

@@ -81,7 +81,6 @@ export function serve() {
 
     app.get('/api/salesSearch/:db/:startDate/:endDate/:groupBy/:metric/:dateRange/:search', (req, res) => {
         const { startDate, endDate, groupBy, metric, dateRange, search } = req.params;
-        console.log(search)
         function getTableData(results) {
             const filtered = (() => {
                 switch (groupBy) {
@@ -93,8 +92,7 @@ export function serve() {
                 }
             })();
             const summedAndGrouped = d.sumAndGroup(filtered, groupBy);
-            const match = d.matchRows(summedAndGrouped, search)
-            const colored = match.map((o, i) =>
+            const colored = summedAndGrouped.map((o, i) =>
                 R.map((v, k) =>
                     k === groupBy
                         ? { value: v, color: d.colors(i) }
@@ -102,7 +100,9 @@ export function serve() {
                     , o)
 
             )
-            return colored;
+            const match = d.matchRows(colored, search);
+            return match;
+
         }
 
         const sql = readFile("sql/Sales.sql")
@@ -133,13 +133,14 @@ export function serve() {
 
     // Stock
     app.get('/api/stock/:schema/:orderBy/:order/:search/:bufferSize/:bufferCount/', (req, res) => {
+        // console.log(req.params)
         let { schema, orderBy, order, bufferSize, bufferCount, search } = req.params
         const size = parseInt(bufferSize)
         const count = parseInt(bufferCount)
         // console.log(search);
         let sql = readFile('sql/stock.sql')
-            .replace("${orderBy}", `'${orderBy}'`)
-            .replace("${order}", `'${order}'`)
+            .replace("${orderBy}", `${orderBy}`)
+            .replace("${order}", `${order}`)
         // .replace("${bufferSize}", `${parseInt(bufferSize)}`)
         // .replace("${offset}", `${parseInt(bufferSize) * parseInt(bufferCount)}`)
 
@@ -153,6 +154,8 @@ export function serve() {
             // console.log(match.slice(0,10))
             // console.log(bufferCount)
             // console.log(bufferSize)
+            // console.log("////////////////////////////////////////////")
+            // console.log(sql)
             // console.log(buffer.slice(0, 10))
             res.json(buffer)
         })

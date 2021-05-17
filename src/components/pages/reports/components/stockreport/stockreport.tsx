@@ -42,6 +42,8 @@ export function StockReport({ dates, id, header, db }) {
         by: String, order: false | "desc" | "asc" | undefined
     } = { by: "id", order: "desc" }
     const [sort, setSort] = useState(initSort)
+    const [sortOrder, setSortOrder] = useState("asc")
+    const [sortBy, setSortBy] = useState("id")
     // const { db } = useContext(ctx)
     const [search, setSearch] = useState(".*")
 
@@ -50,11 +52,18 @@ export function StockReport({ dates, id, header, db }) {
         getNextBuffer,
         Spinner,
         resetBuffer
-    } = useDataBuffer(`api/stock/${db}/${sort.by}/${sort.order}/${search}`, 500);
+    } = useDataBuffer(`api/stock/${db}/${sortBy}/${sortOrder}/${search}`, 500);
 
     function handleSearch(e) {
         resetBuffer();
         setSearch(e.currentTarget.value.trim() || ".*");
+    }
+
+    function sortCallback(sort){
+        console.log(sort)
+        resetBuffer();
+        setSortBy(sort.by)
+        setSortOrder(sort.order)
     }
     return (
         <div className='StockReport'>
@@ -77,8 +86,8 @@ export function StockReport({ dates, id, header, db }) {
                             <Table
                                 data={data}
                                 bufferCallback={getNextBuffer}
-                                sortCallback={setSort}
-                                initOrder={sort.order} />
+                                sortCallback={sortCallback}
+                                initOrder={sortOrder} />
                         {/* </Spinner> */}
                     {/* </ctx.Provider> */}
                 </div>
