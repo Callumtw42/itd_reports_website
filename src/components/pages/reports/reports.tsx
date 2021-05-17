@@ -27,14 +27,14 @@ export default function Reports(props: RouteComponentProps) {
             <NavBar />
             < div className="reports">
                 <SalesBreakdown dates={{ start: startDate, end: endDate }} dateRange={dateRange} header={'Sales Breakdown'} db={db} />
-                {/* <StockReport dates={{ start: startDate, end: endDate }} id="stock" header={'Stock'} db={db} />
+                <StockReport dates={{ start: startDate, end: endDate }} id="stock" header={'Stock'} db={db} />
                 <CashierHistory dates={{ start: startDate, end: endDate }} header={'Cashier History'} db={db} />
                 <VAT dates={{ start: startDate, end: endDate }} header={'VAT'} db={db} />
                 <PriceOverride dates={{ start: startDate, end: endDate }} header={'Price Override Report'} db={db} />
                 <Wastage dates={{ start: startDate, end: endDate }} header={'Wastage'} db={db} />
                 <Refund dates={{ start: startDate, end: endDate }} header={'Refund Report'} db={db} />
                 <StaffHours dates={{ start: startDate, end: endDate }} header={'Staff Hours'} db={db} />
-                <ExpiryDates dates={{ start: startDate, end: endDate }} header={'Expiry Dates'} db={db} /> */}
+                <ExpiryDates dates={{ start: startDate, end: endDate }} header={'Expiry Dates'} db={db} />
 
                 {/* <VoidSales header={'Void Sales'} db={db} />
                 {/* <ReturnToSupplier header={'Return To Supplier'} db={db} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useSpinner from "../../../../lib/usespinner/usespinner"
-import {host} from "../../../utils"
+import { host } from "../../../utils"
 
 export interface obj {
     [key: string]: any
@@ -13,25 +13,25 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
     const { Spinner, setLoading } = useSpinner()
 
     async function fetchData() {
-        setLoading(true)
+        // setLoading(true)
         setBufferCount(0)
         fetch(`/${route}/${rowsPerBuffer}/${bufferCount}`)
             .then(res => res.json())
             .then(rows => setData(rows))
             .catch(error => {
                 console.error(error)
-                fetchData()
+                // fetchData()
             })
     }
 
     async function fetchBuffer() {
-        setLoading(true)
+        // setLoading(true)
         fetch(`/${route}/${rowsPerBuffer}/${bufferCount}`)
             .then(res => res.json())
-            .then(rows => setData([...data, ...rows]))
+            .then(rows => setData(rows))
             .catch(error => {
                 console.log(error)
-                fetchBuffer()
+                // fetchBuffer()
             })
     }
 
@@ -44,18 +44,25 @@ export default function useDataBuffer(route: string, rowsPerBuffer: number) {
     }, [route])
 
     useEffect(() => {
-        setLoading(false)
+        // setLoading(false)
     }, [data])
 
 
-    function getNextBuffer() {
-        setBufferCount(bufferCount + 1)
+    function getNextBuffer(inc) {
+        if (bufferCount + inc >= 0)
+            setBufferCount(bufferCount + inc)
+        else setBufferCount(0);
+    }
+
+    function resetBuffer(){
+        setBufferCount(0)
     }
 
     return {
         data,
         getNextBuffer,
-        Spinner
+        Spinner,
+        resetBuffer
 
     }
 

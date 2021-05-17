@@ -10,12 +10,12 @@ import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
-
+import { InputGroup } from "react-bootstrap"
 import * as f from '../../components/functions';
 import * as d from '../datafns';
 import * as _ from './logic';
+import * as R from "rambda"
 import EnhancedTableHead from './tablehead';
-
 
 const useStyles = makeStyles((theme) => ({
   head: {
@@ -23,29 +23,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+function Cell({ contents }) {
+  return (
+    <TableCell align="left">
+      {
+        R.is(Object, contents)
+          ? <div className="cell">
+            <span style={{ background: `${contents.color}`, color: `${contents.color}` }}>{"___"}  </span>
+            <a>{contents.value as string | number}</a>
+          </div>
+          : <div className="cell">
+            {contents as string | number}
+          </div>
+      }
+    </TableCell>
+  )
+}
+
 export default function EnhancedTable(props: _.EnhancedTableProps) {
 
   const classes = useStyles();
-  const rowsPerBuffer = 100;
-  const [displayBuffer, setDisplayBuffer] = React.useState(true)
   const [data, setData] = React.useState<d.obj[]>([]);
   const [order, setOrder] = React.useState(props.initOrder || "asc");
   const [orderBy, setOrderBy] = React.useState('calories');
-  const dense = false;
-  const [rowCount, setRowCount] = React.useState(0);
   const [rows, setRows] = React.useState<d.obj[]>([]);
-  const [bufferCount, setBufferCount] = React.useState(1)
+  const tableContainer = React.useRef(null);
 
-  // useEffect(()=>{
-  //   if (props.sortCallback) {
-  //     props.sortCallback({ by: event.currentTarget.textContent, order: isAsc ? 'desc' : 'asc' })
-  //   }
-  // }, [order])
-
-
-  const handleRequestSort = (event: React.MouseEvent, property: string) => {
+  function handleRequestSort(event: React.MouseEvent, property: string) {
     const isAsc = order === 'asc';
-    console.log(order)
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
     if (props.sortCallback) {
@@ -58,54 +63,49 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
       setRows(sorted.map((e: d.obj) => {
         return Object.values(e).map((e, index) => {
           if (typeof e === 'number' && e % 1 !== 0) e = e.toFixed(2)
-          return <TableCell key={index} align="left">{e}</TableCell>
+          return <Cell contents={e} key={index} />
         })
       }));
     }
   };
 
-  function Buffer() {
-    return displayBuffer
-      ? <KeyboardArrowDownIcon onClick={() => {
-        setBufferCount(bufferCount + 1)
-      }} />
-      : <></>
-  }
-
-  React.useEffect(() => {
+  function updateTable() {
     if (f.notEmpty(props.data)) {
       setData(props.data);
       setRows(props.data.map(e => {
         return Object.values(e).map((e, index) => {
           if (typeof e === 'number') e = + (Math.round(e * 100) / 100)
-          return <TableCell key={index} align="left">{e as string | number}</TableCell>
+          return <Cell contents={e} key={index} />
         })
       }));
-      setDisplayBuffer(true)
-    } else {
-      setData([]);
-      setRows([]);
-      setRowCount(0);
-      setBufferCount(1)
     }
-  }, [props.data]);
+  }
 
-  React.useEffect(() => {
-    setRowCount(rowsPerBuffer * bufferCount);
-    if (rowCount > props.data.length) setDisplayBuffer(false)
-    if (props.bufferCallback && bufferCount > 1) props.bufferCallback()
-  }, [bufferCount])
+  function onScroll() {
+    let { scrollTop, scrollHeight, clientHeight } = tableContainer.current;
+    const position = scrollHeight - scrollTop - clientHeight
+    if (props.bufferCallback) {
+      if (position <= 0)
+        props.bufferCallback(1);
+      if (position >= scrollHeight - clientHeight)
+        props.bufferCallback(-1);
+    }
+  }
+
+  React.useEffect(
+    function () {
+      updateTable();
+    }, [props.data]
+  );
 
   return (
-    <div className="Table">
-
+    <div className="Table" ref={tableContainer} onScroll={onScroll}>
       <Table
         stickyHeader
         aria-labelledby="tableTitle"
-        size={dense ? 'small' : 'medium'}
+        size='small'
         aria-label="enhanced table"
       >
-
         <EnhancedTableHead className={classes.head}
           order={order}
           orderBy={orderBy}
@@ -113,7 +113,6 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
           rowCount={rows.length}
           data={data}
         />
-
         <TableBody className="tableBody">
           {rows
             .map((row, index) => {
@@ -129,11 +128,10 @@ export default function EnhancedTable(props: _.EnhancedTableProps) {
               );
             })}
         </TableBody>
-
       </Table>
-      <Buffer />
       <_.EmptyMessage data={props.data} />
     </div>
   );
+
 }
 

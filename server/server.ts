@@ -8,6 +8,7 @@ const d = require("../src/utils.ts")
 const _ = require("lodash")
 const { run, select, readFile, connectDB } = require("./server-utils")
 const { sales } = require("./sales")
+const R = require("rambda")
 
 export function serve() {
     const app = express();
@@ -77,38 +78,98 @@ export function serve() {
     app.get('/api/sales/:db/:startDate/:endDate/:groupBy/:metric/:dateRange', (req, res) => {
         sales(req, res, db)
     })
+
+    app.get('/api/salesSearch/:db/:startDate/:endDate/:groupBy/:metric/:dateRange/:search', (req, res) => {
+        const { startDate, endDate, groupBy, metric, dateRange, search } = req.params;
+        console.log(search)
+        function getTableData(results) {
+            const filtered = (() => {
+                switch (groupBy) {
+                    case "Category": return d.columns(results, 'Category', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                    case "Product": return d.columns(results, "Product", 'Category', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                    case "PriceMark": return d.columns(results, "PriceMark", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                    case "Cashier": return d.columns(results, "Cashier", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                    case "Receipt": return d.columns(results, "Receipt", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                }
+            })();
+            const summedAndGrouped = d.sumAndGroup(filtered, groupBy);
+            const match = d.matchRows(summedAndGrouped, search)
+            const colored = match.map((o, i) =>
+                R.map((v, k) =>
+                    k === groupBy
+                        ? { value: v, color: d.colors(i) }
+                        : v
+                    , o)
+
+            )
+            return colored;
+        }
+
+        const sql = readFile("sql/Sales.sql")
+            .replace("${startDate}", `"${startDate}"`)
+            .replace("${endDate}", `"${endDate}"`)
+
+        select(sql, db, res, (results) => {
+            const data = d.roundData(getTableData(results), 2, ["Sales", "Cost", "Discount", "Refund", "Profit"]);
+            res.json(data);
+        })
+
+
+    })
+
     //SalesData
-    // app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
-    //     run(`USE ${req.params.db};`);
-    //     run(`SET @startDate = '${req.params.startDate}';`);
-    //     run(`SET @endDate = '${req.params.endDate}';`);
-    //     let data = select(fs.readFileSync(path.resolve('sql', 'Sales.sql'), { encoding: "UTF-8" }), res)
-    // });
+    app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
+        console.log(req.params)
+        const { startDate, endDate } = req.params;
+        run(`USE ${req.params.db};`, db);
+        // run(`USE banana;`, db);
+        // run(`SET @startDate = '${req.params.startDate}';`);
+        // run(`SET @endDate = '${req.params.endDate}';`);
+        let sql = readFile("sql/Sales.sql")
+            .replace("${startDate}", `'${startDate}'`)
+            .replace("${endDate}", `'${endDate}'`)
+        select(sql, db, res)
+    });
 
     // Stock
-    app.get('/api/stock/:schema/:orderBy/:order/:bufferSize/:bufferCount', (req, res) => {
-        let { schema, orderBy, order, bufferSize, bufferCount } = req.params
-        let sql = fs.readFileSync(path.join('sql', 'stock.sql'), { encoding: "UTF-8" })
-            .replace("${orderBy}", orderBy)
-            .replace("${order}", order)
-            .replace("${bufferSize}", parseInt(bufferSize))
-            .replace("${offset}", parseInt(bufferSize) * parseInt(bufferCount))
+    app.get('/api/stock/:schema/:orderBy/:order/:search/:bufferSize/:bufferCount/', (req, res) => {
+        let { schema, orderBy, order, bufferSize, bufferCount, search } = req.params
+        const size = parseInt(bufferSize)
+        const count = parseInt(bufferCount)
+        // console.log(search);
+        let sql = readFile('sql/stock.sql')
+            .replace("${orderBy}", `'${orderBy}'`)
+            .replace("${order}", `'${order}'`)
+        // .replace("${bufferSize}", `${parseInt(bufferSize)}`)
+        // .replace("${offset}", `${parseInt(bufferSize) * parseInt(bufferCount)}`)
 
         run(`use ${schema}`, db)
-        db.query(sql, (err, results) => {
-            if (err) throw err;
-            res.json(results)
-        });
+        select(sql, db, res, (results) => {
+            const match = d.matchRows(results, search);
+            const startIndex = size * count;
+            const endIndex = (count + 1) * size;
+            // console.log(endIndex)
+            const buffer = match.slice(startIndex, endIndex )
+            // console.log(match.slice(0,10))
+            // console.log(bufferCount)
+            // console.log(bufferSize)
+            // console.log(buffer.slice(0, 10))
+            res.json(buffer)
+        })
+        // db.query(sql, (err, results) => {
+        //     if (err) throw err;
+        //     res.json(results)
+        // });
     });
 
     // Stock_Reorder
     app.get('/api/reorder/:schema/:orderBy/:order/:bufferSize/:bufferCount', (req, res) => {
         let { schema, orderBy, order, bufferSize, bufferCount } = req.params
-        let sql = fs.readFileSync(path.join('sql', 'reorder.sql'), { encoding: "UTF-8" })
-            .replace("${orderBy}", orderBy)
-            .replace("${order}", order)
-            .replace("${bufferSize}", parseInt(bufferSize))
-            .replace("${offset}", parseInt(bufferSize) * parseInt(bufferCount))
+        let sql = readFile('sql/reorder.sql')
+            .replace("${orderBy}", `'${orderBy}'`)
+            .replace("${order}", `'${order}'`)
+            .replace("${bufferSize}", `${parseInt(bufferSize)}`)
+            .replace("${offset}", `${parseInt(bufferSize) * parseInt(bufferCount)}`)
 
         run(`use ${schema}`, db)
         db.query(sql, (err, results) => {
@@ -120,11 +181,11 @@ export function serve() {
     // nonscan
     app.get('/api/nonscan/:schema/:orderBy/:order/:bufferSize/:bufferCount', (req, res) => {
         let { schema, orderBy, order, bufferSize, bufferCount } = req.params
-        let sql = fs.readFileSync(path.join('sql', 'nonscan.sql'), { encoding: "UTF-8" })
-            .replace("${orderBy}", orderBy)
-            .replace("${order}", order)
-            .replace("${bufferSize}", parseInt(bufferSize))
-            .replace("${offset}", parseInt(bufferSize) * parseInt(bufferCount))
+        let sql = readFile('sql/nonscan.sql')
+            .replace("${orderBy}", `'${orderBy}'`)
+            .replace("${order}", `'${order}'`)
+            .replace("${bufferSize}", `${parseInt(bufferSize)}`)
+            .replace("${offset}", `${parseInt(bufferSize) * parseInt(bufferCount)}`)
 
         run(`use ${schema}`, db)
         db.query(sql, (err, results) => {
@@ -136,13 +197,13 @@ export function serve() {
     //Stock Adjust
     app.get('/api/adjust/:schema/:startDate/:endDate/:orderBy/:order/:bufferSize/:bufferCount', (req, res) => {
         let { schema, startDate, endDate, orderBy, order, bufferSize, bufferCount } = req.params
-        let sql = fs.readFileSync(path.join('sql', 'adjust.sql'), { encoding: "UTF-8" })
-            .replace("${startDate}", startDate)
-            .replace("${endDate}", endDate)
-            .replace("${orderBy}", orderBy)
-            .replace("${order}", order)
-            .replace("${bufferSize}", parseInt(bufferSize))
-            .replace("${offset}", parseInt(bufferSize) * parseInt(bufferCount))
+        let sql = readFile('sql/adjust.sql')
+            .replace("${startDate}", `'${startDate}'`)
+            .replace("${endDate}", `'${endDate}'`)
+            .replace("${orderBy}", `'${orderBy}'`)
+            .replace("${order}", `'${order}'`)
+            .replace("${bufferSize}", `${parseInt(bufferSize)}`)
+            .replace("${offset}", `${parseInt(bufferSize) * parseInt(bufferCount)}`)
 
         run(`use ${schema}`, db)
         db.query(sql, (err, results) => {
@@ -154,13 +215,15 @@ export function serve() {
     //Customer Credit
     app.get('/api/credit/:db', (req, res) => {
         run(`USE ${req.params.db};`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Customer_Credit.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Customer_Credit.sql')
+        select(sql, db, res)
     });
 
     //Product Exchange
     app.get('/api/exchange/:db', (req, res) => {
         run(`USE ${req.params.db};`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Product_Exchange.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Product_Exchange.sql')
+        select(sql, db, res)
     });
 
     //Expiry Date
@@ -168,7 +231,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Expiry_Dates.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Expiry_Dates.sql')
+        select(sql, db, res)
     });
 
     //Voucher Sales
@@ -176,7 +240,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Voucher_Sales.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Voucher_Sales.sql')
+        select(sql, db, res)
     });
 
     //Price_Override
@@ -184,7 +249,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Price_Override.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Price_Override.sql')
+        select(sql, db, res)
     });
 
     //Wastage
@@ -192,7 +258,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Wastage.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Wastage.sql')
+        select(sql, db, res)
     });
 
 
@@ -201,7 +268,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Refund_Report.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Refund_Report.sql')
+        select(sql, db, res)
     });
 
 
@@ -210,7 +278,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Staff_Hours.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Staff_Hours.sql')
+        select(sql, db, res)
     });
 
 
@@ -219,7 +288,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Void_Sales.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Void_Sales.sql')
+        select(sql, db, res)
     });
 
 
@@ -228,7 +298,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'Return_To_Supplier.sql'), { encoding: "UTF-8" }), db, res)
+        let sql = readFile('sql/Return_To_Supplier.sql')
+        select(sql, db, res)
     });
 
     //DBList
@@ -242,7 +313,8 @@ export function serve() {
         run(`USE ${req.params.db};`, db);
         run(`SET @startDate = '${req.params.startDate}';`, db);
         run(`SET @endDate = '${req.params.endDate}';`, db);
-        let data = select(fs.readFileSync(path.join('sql', 'VAT.sql'), { encoding: "UTF-8" }), db, res);
+        let sql = readFile('sql/VAT.sql')
+        select(sql, db, res)
     });
 
     //listen
@@ -257,3 +329,7 @@ export function serve() {
         });
     }, 60000)
 }
+
+// module.exports = {
+//     serve
+// }

@@ -1,4 +1,5 @@
 import { run, select, readFile } from "./server-utils"
+import * as R from "rambda"
 import * as d from "../src/utils"
 
 export function sales(req, res, db) {
@@ -42,7 +43,15 @@ export function sales(req, res, db) {
             }
         })();
         const summedAndGrouped = d.sumAndGroup(filtered, groupBy);
-        return summedAndGrouped;
+        const colored = summedAndGrouped.map((o, i) =>
+            R.map((v, k) =>
+                k === groupBy
+                    ? { value: v, color: d.colors(i) }
+                    : v
+                , o)
+
+        )
+        return colored;
     }
 
     function getDataSets(results, labels, timePeriod) {

@@ -2,6 +2,14 @@
   overflow-y: scroll;
   position: relative;
   height: inherit;
+  span {
+    margin-right: 0.2rem;
+    min-width: 1rem;
+  }
+  .cell {
+    display: flex;
+    flex-direction: row;
+  }
 
   .MuiTableCell-root {
     padding: 0px 8px !important;

@@ -1,9 +1,14 @@
+$theme-colors: (
+  success: rgb(0, 64, 100),
+);
 @import "~bootstrap/scss/bootstrap";
-
 html {
   background-color: #f8f8f8;
 }
 
+.form-control {
+  width: 10rem;
+}
 * {
   scrollbar-width: thin;
 

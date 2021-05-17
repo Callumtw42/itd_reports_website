@@ -192,6 +192,19 @@ export function todaysDate() {
     return date;
 }
 
+/**Returns rows with atleast 1 cell matching on the passed string */
+export function matchRows(data, matchOn) {
+    const matches = [];
+    const regex = new RegExp(`.*${matchOn}.*`, "i")
+    data.forEach((o) => {
+        const values = Object.values(o);
+        if (values.some((value) => regex.test("" + value))) {
+            matches.push(o);
+        }
+    })
+    return matches;
+}
+
 export function colors(index: number) {
     const colors = [
         'rgba(0,0,0, 0.6)',

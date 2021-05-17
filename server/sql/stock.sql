@@ -11,5 +11,4 @@ from product p
                    on s.ProdID = p.ProductID
          left join category c on p.CategoryID = c.CategoryID
 order by ${orderBy} ${order}
-limit ${offset}, ${bufferSize};
 

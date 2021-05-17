@@ -16,12 +16,21 @@ import RadioButtons from '../radio_buttons/radio_buttons.';
 import useIconSwitch from './icon_switch';
 import { GetChartProps } from './logic';
 
+function GetChart({ chart, data }) {
+  console.log("BAR")
+  return R.cond(
+    [
+      [() => chart === "pie", () => <PieChart data={data.pieData} />],
+      [() => chart === "bar", () => <StackedBarChart data={data.barData} />],
+      [() => chart === "line", () => <LineChart data={data.lineData} />]
+    ]
+  )()
+}
+
 export function SalesBreakdown({ dates, header, dateRange, db }) {
   const { start, end } = dates;
   const { Select, selected } = useSelect(['Category', 'Product', 'PriceMark', 'Cashier', 'Receipt'], "black")
-  // const [total, setTotal] = useState<number>(0);
   const [dataChoice, setDataChoice] = useState<string>('Sales');
-  // const [chart, setChart] = useState('pie');
   const {
     IconSwitch,
     iconValue
@@ -41,36 +50,39 @@ export function SalesBreakdown({ dates, header, dateRange, db }) {
     total: 0
   });
 
+  const [tableData, setTableData] = useState([]);
+
   useEffect(() => {
     u.get(`api/sales/itdepos/${start}/${end}/${selected}/${dataChoice}/${dateRange}`,
       (d) => {
-        setData(d)
+        setData(d);
+        setTableData(d.tableData)
       })
   }, [selected, start, end, dataChoice])
 
-  function GetChart(props: GetChartProps) {
-
-    console.log("BAR")
-    return R.cond(
-      [
-        [() => props.chart === "pie", () => <PieChart data={data.pieData} />],
-        [() => props.chart === "bar", () => <StackedBarChart data={data.barData} />],
-        [() => props.chart === "line", () => <LineChart data={data.lineData} />]
-      ]
-    )()
+  function handleSearch(e) {
+    u.get(`api/salesSearch/itdepos/${start}/${end}/${selected}/${dataChoice}/${dateRange}/${e.currentTarget.value.trim() || ".*"}`,
+      (d) => {
+        setTableData(d)
+      })
   }
+
   return (
     <div className="salesBreakdown">
       {/* <Spinner > */}
       <Paper className='reportContainer'>
         <HeaderBar  >
           <div className="left">
-            <Typography className='text' variant="h6"> {header}</Typography>
+
+            <Typography variant="h6"> {header}</Typography>
+            <input type="text" className="form-control" placeholder="search" onInput={(e) => handleSearch(e)}></input>
             {/* <Dates /> */}
             {/* <div><input type="date"></input><CalendarTodayIcon /></div> */}
           </div>
           <div className="right">
-            <IconSwitch />
+            <div className="icon">
+              <IconSwitch />
+            </div>
           </div>
         </HeaderBar>
         <div className='reportBody'>
@@ -83,8 +95,9 @@ export function SalesBreakdown({ dates, header, dateRange, db }) {
               value={dataChoice} />
             <h1>Total: {data.total}</h1>
           </div>
-          <GetChart chart={iconValue} />
-          <Table data={data.tableData} />
+          <GetChart data={data} chart={iconValue} />
+          {/* <StackedBarChart data={data.barData}></StackedBarChart> */}
+          <Table data={tableData} />
         </div>
       </Paper>
       {/* </Spinner > */}

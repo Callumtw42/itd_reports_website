@@ -38,30 +38,14 @@ export default function useSimpleSelect(items: string[], color?: string) {
 
     function Select(props: HTMLAttributes<HTMLDivElement>) {
         return (
-            <div>
-
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                       {selected} 
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Items />
-                    </Dropdown.Menu>
-                </Dropdown>
-                {/* <div className="head">
-                    <div className="text">
-                        <Typography >
-                            {selected}
-                            <ArrowDropDownIcon />
-                        </Typography>
-                    </div>
-                    <div >
-                        <Paper className="Items" >
-                            <Items />
-                        </Paper>
-                    </div>
-                </div> */}
-            </div >
+            <Dropdown className="Dropdown">
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    {selected}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    <Items />
+                </Dropdown.Menu>
+            </Dropdown>
         );
     }
 

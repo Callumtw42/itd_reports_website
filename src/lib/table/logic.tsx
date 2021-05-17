@@ -1,6 +1,6 @@
 import Typography from '@material-ui/core/Typography';
 import React, { SetStateAction } from 'react';
-
+import * as R from "rambda"
 import * as d from '../datafns';
 
 export interface EnhancedTableHeadProps {
@@ -27,7 +27,7 @@ export interface Classes {
 
 export interface EnhancedTableProps {
     sortCallback?: React.Dispatch<SetStateAction<any>>
-    bufferCallback?: () => void
+    bufferCallback?: (inc) => void
     initOrder?: false | "asc" | "desc"
     data: d.obj[]
 }
@@ -39,12 +39,23 @@ export interface EmptyMessageProps {
 export function sortByProperty(property: string, order: string) {
     let ord = (order === 'asc') ? -1 : 1;
     return function (a: d.obj, b: d.obj) {
-        if (a[property] > b[property])
-            return ord;
-        else if (a[property] < b[property])
-            return -ord;
+        if (R.is(Object, a[property])) {
+            const va = a[property]["value"]
+            const vb = b[property]["value"]
+            if (va > vb)
+                return ord;
+            else if (va < vb)
+                return -ord;
+            return 0;
+        }
+        else {
+            if (a[property] > b[property])
+                return ord;
+            else if (a[property] < b[property])
+                return -ord;
 
-        return 0;
+            return 0;
+        }
     }
 }
 

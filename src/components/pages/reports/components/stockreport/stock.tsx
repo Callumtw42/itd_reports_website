@@ -16,5 +16,13 @@ export default function Stock() {
         Spinner
     } = useDataBuffer(`api/stock/${db}/${sort.by}/${sort.order}`, 100);
 
-    return <Spinner><Table data={data} bufferCallback={getNextBuffer} sortCallback={setSort} initOrder={sort.order} /></Spinner>
+    return (
+        <Spinner>
+            <Table
+                data={data}
+                bufferCallback={getNextBuffer}
+                sortCallback={setSort}
+                initOrder={sort.order} />
+        </Spinner>
+    )
 }

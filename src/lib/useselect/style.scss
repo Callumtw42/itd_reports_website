@@ -1,45 +1,8 @@
-.Select {
-  // max-width: fit-content;
-  // height: 2em;
-  // overflow-y: visible;
+@import "../../App.scss";
 
-  // .Items {
-  //   background-color: white !important;
-  //   display: none;
-  //   flex-direction: column;
-  //   position: absolute;
-  //   margin-top: 1px;
-  //   z-index: 2001;
-  // }
-
-  // .item {
-  //   background-color: white;
-  // }
-
-  // .head {
-  //   display: flex;
-  //   flex-direction: column;
-  // }
-
-  // .text {
-  //   border-bottom: solid 1px;
-  //   margin-left: 15px;
-  // }
-  // .text > * {
-  //   display: flex;
-  //   flex-direction: row;
-  // }
-  // .MuiSvgIcon-root {
-  //   margin-bottom: -6px;
-  // }
-
-  // .head:hover {
-  //   .text {
-  //     border-bottom: solid 2px;
-  //   }
-  //   .Items {
-  //     display: flex;
-  //     flex-direction: column;
-  //   }
-  // }
+.Dropdown {
+  button {
+    background: inherit;
+    color: inherit;
+  }
 }

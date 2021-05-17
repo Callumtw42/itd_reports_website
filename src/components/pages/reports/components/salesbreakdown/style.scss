@@ -1,5 +1,5 @@
 .salesBreakdown {
-  position:relative;
+  position: relative;
   .sales > h1 {
     margin: auto 0;
     margin-right: 5%;
@@ -11,7 +11,11 @@
     flex-direction: row;
     justify-content: space-between;
   }
-
+  // .HeaderBar {
+  //   display: flex;
+  //   flex-direction:row;
+  //   justify-content: left;
+  // }
   .IconSwitch {
     border: none;
     background-color: #004064;
