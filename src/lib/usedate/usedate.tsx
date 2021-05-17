@@ -9,7 +9,7 @@ import * as u from "../../utils"
 
 export default function useDate() {
 
-    const [date, setDate] = useState({ start: "2020-03-21", end: "2020-03-28" })
+    const [date, setDate] = useState({ start: "2020-03-21", end: "2020-03-21" })
     const { Select, selected } = useSelect(["Day", "Week", "Month", "Quarter", "Year"]);
 
     const { start, end } = date;
