@@ -119,7 +119,7 @@ export function serve() {
 
     //SalesData
     app.get('/api/salesByProduct/:db/:startDate/:endDate', (req, res) => {
-        console.log(req.params)
+        // console.log(req.params)
         const { startDate, endDate } = req.params;
         run(`USE ${req.params.db};`, db);
         // run(`USE banana;`, db);

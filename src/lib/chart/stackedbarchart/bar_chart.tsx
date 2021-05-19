@@ -2,8 +2,6 @@ import '../style.scss';
 
 import React, { useMemo, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import * as u from "../../../utils"
-import * as R from "rambda"
 
 import { getLabelSize } from './logic';
 

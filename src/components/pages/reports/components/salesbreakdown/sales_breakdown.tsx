@@ -3,7 +3,7 @@ import 'date-fns';
 
 import { Paper, Typography } from '@material-ui/core';
 import { BarChart as BarChartIcon, PieChart as PieChartIcon, Timeline as LineChartIcon } from '@material-ui/icons';
-import * as R from 'rambda';
+// import * as R from 'ramda';
 import React, { SetStateAction, useContext, useEffect, useState } from 'react';
 import PieChart from '../../../../../lib/chart/piechart/piechart';
 import StackedBarChart from '../../../../../lib/chart/stackedbarchart/bar_chart';
@@ -18,13 +18,18 @@ import { GetChartProps } from './logic';
 
 function GetChart({ chart, data }) {
   console.log("BAR")
-  return R.cond(
-    [
-      [() => chart === "pie", () => <PieChart data={data.pieData} />],
-      [() => chart === "bar", () => <StackedBarChart data={data.barData} />],
-      [() => chart === "line", () => <LineChart data={data.lineData} />]
-    ]
-  )()
+  switch (chart) {
+    case "pie": return <PieChart data={data.pieData} />
+    case "bar": return <StackedBarChart data={data.barData} />
+    case "line": return <LineChart data={data.lineData} />
+  }
+  // return R.cond(
+  //   [
+  //     [() => chart === "pie", () => <PieChart data={data.pieData} />],
+  //     [() => chart === "bar", () => <StackedBarChart data={data.barData} />],
+  //     [() => chart === "line", () => <LineChart data={data.lineData} />]
+  //   ]
+  // )()
 }
 
 export function SalesBreakdown({ dates, header, dateRange, db }) {
@@ -53,7 +58,9 @@ export function SalesBreakdown({ dates, header, dateRange, db }) {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    u.get(`api/sales/itdepos/${start}/${end}/${selected}/${dataChoice}/${dateRange}`,
+    const url = `api/sales/itdepos/${start}/${end}/${selected}/${dataChoice}/${dateRange}`
+    console.log(url);
+    u.get(url,
       (d) => {
         setData(d);
         setTableData(d.tableData)

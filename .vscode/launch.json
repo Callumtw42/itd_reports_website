@@ -44,9 +44,9 @@
                 {
                     "url": "http://localhost:3000/home/callum/projects/itd_reports_website/client/src",
                     "path": "${workspaceFolder}/client/src"
-                },
+                }
             ]
-        }
+        },
     ],
     "inputs": [
         {

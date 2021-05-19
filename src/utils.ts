@@ -119,8 +119,9 @@ export function sumAndGroup(data: obj[], col: string, ...dontSum: string[]) {
 
 export function split(data: obj[], col: string) {
     const groups = getUniqueValues(data, col);
-    const split = groups.map(e => {
-        return { [e]: removeColumns(getElementsWithValue(data, col, e), col) }
+    const split = {}
+    groups.forEach(e => {
+        Object.assign(split, { [e]: removeColumns(getElementsWithValue(data, col, e), col) })
     });
     return split;
 }
@@ -186,6 +187,30 @@ export function getYYYYMMDD(date: Date) {
     return out;
 }
 
+/**
+ * Takes an array of data, a column and a ratio between 0 and 1 
+ * removing rows where the value in the column falls below the ratio
+ * of the total of that column, summing the removed rows into a single
+ * row appended at the end. String values in this row will be renamed to "Other"
+ * */
+export function sumOther(data, column, minRatio) {
+    const total = sumColumn(data, column)
+    const other = {};
+    const trimmed = [];
+    data.forEach(o =>
+        o[column] / total > minRatio
+            ? trimmed.push(o)
+            : R.forEach((v, k) =>
+                R.is(Number, v)
+                    ? Object.assign(other, { [k]: v + other[k] || 0 })
+                    : Object.assign(other, { [k]: "Other" })
+                , o)
+    )
+    Object.assign(other, {color:"rgba(128,128,128, 0.6)"})
+    if (!R.isEmpty(other)) trimmed.push(other)
+    return trimmed
+}
+
 export function todaysDate() {
     const today = new Date();
     const date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate())).slice(-2);
@@ -201,7 +226,7 @@ export function matchRows(data, matchOn) {
         if (values.some((value) => {
             if (R.is(Object, value))
                 return regex.test("" + value["value"])
-                else return regex.test("" + value)
+            else return regex.test("" + value)
         })) {
             matches.push(o);
         }
@@ -211,8 +236,7 @@ export function matchRows(data, matchOn) {
 
 export function colors(index: number) {
     const colors = [
-        'rgba(0,0,0, 0.6)',
-        'rgba(128,128,128, 0.6)',
+        
         'rgba(128,128,0, 0.6)',
         'rgba(128,0,128, 0.6)',
         'rgba(128,0,0, 0.6)',

@@ -1,6 +1,6 @@
 import Typography from '@material-ui/core/Typography';
 import React, { SetStateAction } from 'react';
-import * as R from "rambda"
+// import * as R from "ramda"
 import * as d from '../datafns';
 
 export interface EnhancedTableHeadProps {
@@ -39,7 +39,7 @@ export interface EmptyMessageProps {
 export function sortByProperty(property: string, order: string) {
     let ord = (order === 'asc') ? -1 : 1;
     return function (a: d.obj, b: d.obj) {
-        if (R.is(Object, a[property])) {
+        if (typeof a[property] === "object") {
             const va = a[property]["value"]
             const vb = b[property]["value"]
             if (va > vb)

@@ -14,7 +14,7 @@ import { InputGroup } from "react-bootstrap"
 import * as f from '../../components/functions';
 import * as d from '../datafns';
 import * as _ from './logic';
-import * as R from "rambda"
+// import * as R from "ramda"
 import EnhancedTableHead from './tablehead';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,8 @@ function Cell({ contents }) {
   return (
     <TableCell align="left">
       {
-        R.is(Object, contents)
+        // R.is(Object, contents)
+        (typeof contents === "object" && contents)
           ? <div className="cell">
             <span style={{ background: `${contents.color}`, color: `${contents.color}` }}>{"___"}  </span>
             <a>{contents.value as string | number}</a>

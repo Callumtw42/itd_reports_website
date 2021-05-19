@@ -1,7 +1,28 @@
 import { run, select, readFile } from "./server-utils"
-import * as R from "rambda"
+import * as Rb from "rambda"
+import * as R from "ramda"
 import * as d from "../src/utils"
+const { splitOther, sumList } = require("./chart-utils")
 
+function getPieData(data, metric, groupBy) {
+    const summed = d.sumAndGroup(data, groupBy);
+    summed.forEach((o, index) =>
+        Object.assign(o, { ["color"]: d.colors(index) })
+    )
+    const trimmed = d.sumOther(summed, metric, 0.01)
+    const values = trimmed.map((obj) => obj[metric]);
+    return {
+        labels: d.getColumn(trimmed, groupBy),
+        datasets: [{
+            label: "",
+            backgroundColor: trimmed.map((o) => {
+                return o.color;
+            }),
+            data: values
+        }]
+    }
+
+}
 export function sales(req, res, db) {
 
     //Sales New
@@ -44,7 +65,7 @@ export function sales(req, res, db) {
         })();
         const summedAndGrouped = d.sumAndGroup(filtered, groupBy);
         const colored = summedAndGrouped.map((o, i) =>
-            R.map((v, k) =>
+            Rb.map((v, k) =>
                 k === groupBy
                     ? { value: v, color: d.colors(i) }
                     : v
@@ -63,6 +84,7 @@ export function sales(req, res, db) {
                     [metric]: 0.00
                 }
             })
+            //sum and group
             filtered.forEach(obj => {
                 timeSlots.forEach((timeSlot) => {
                     if (obj[timePeriod] === timeSlot[timePeriod]) {
@@ -82,6 +104,9 @@ export function sales(req, res, db) {
                 tension: 0.1
             }
         })
+        // return d.split(results, timePeriod).map(arr =>
+        //     getDataset(arr, metric, timePeriod)
+        // )
     }
 
     const labelMap = {
@@ -112,7 +137,6 @@ export function sales(req, res, db) {
             borderColor: "rgba(0, 51, 81, 0.5)",
             tension: 0.1
         }
-        // datasets.push(total);
         return {
             labels: labels,
             datasets: [total]
@@ -123,36 +147,70 @@ export function sales(req, res, db) {
     function getBarData(results) {
         const timePeriod = dateRange === "Day" ? "TillHour" : "TillDate";
         const labels = labelMap[dateRange]
-        return {
-            labels: labels,
-            datasets: getDataSets(results, labels, timePeriod)
-        }
-    }
-
-    function getPieData(results) {
-        const filtered = d.columns(results, metric, groupBy);
-        const summed = d.sumAndGroup(filtered, groupBy);
-        const labels = summed.map((obj) => obj[groupBy]);
-        const data = summed.map((obj) => obj[metric]);
-        return {
-            labels: labels,
-            datasets: [
-                {
-                    label: "",
-                    backgroundColor: labels.map((label, index) => {
-                        return d.colors(index);
-                    }),
-                    data: data
-                }
+        const datasets = getDataSets(results, labels, timePeriod);
+        const matrix = Rb.map(ds =>
+            ds["data"]
+        )(datasets)
+        const { trim, other } = splitOther(matrix, 0.01)
+        const splitBy = R.cond(
+            [
+                [R.equals("Quarter"), () => 3],
+                [R.equals("Year"), () => 7],
+                [R.T, () => 1]
             ]
-        }
-    }
+        )
+        // console.log(splitBy(dateRange))
+        const split = R.splitEvery(splitBy(dateRange))
+        const sum = R.sum
+        const map = R.map
+        const trimX = R.pipe(map(split), map(map(sum)))(trim)
+        const trimLabels = R.pipe(split, map(R.head))(labels)
 
+        const rounded = datasets.map((ds, i) => {
+
+            return {
+                label: ds.label,
+                data: trimX[i],
+                backgroundColor: ds.backgroundColor,
+                fill: false,
+                borderColor: ds.borderColor,
+                tension: 0.1
+            }
+        }
+        )
+
+        const filter = R.filter
+        const cond = o => sum(o.data) > 0;
+        const trimmed = filter(cond)(rounded)
+        // const trimmed = R.filter(o => {
+        //     return sumList(o["data"]) > 0
+        // }
+        // )(rounded)
+
+
+        const otherSet = {
+            label: "Other",
+            data: other,
+            backgroundColor: "rgba(128,128,128, 0.6)",
+            fill: false,
+            borderColor: "rgba(128,128,128, 0.6)",
+            tension: 0.1
+        }
+        const newDatasets = [otherSet].concat(trimmed)
+        const out = {
+            labels: trimLabels,
+            datasets: newDatasets
+        }
+        return out;
+    }
 
     const callback = (results) => {
+        // const filtered = d.columns(data, metric, groupBy);
+        const timePeriod = dateRange === "Day" ? "TillHour" : "TillDate";
         const tableData = getTableData(results);
+        // console.log(d.split(summed, timePeriod))
         const barData = getBarData(results);
-        const pieData = getPieData(results);
+        const pieData = getPieData(results, metric, groupBy)
         const lineData = getLineData(results);
         const total = d.sumColumn(results, metric)
         let data = {};
