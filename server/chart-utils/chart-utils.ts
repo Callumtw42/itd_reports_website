@@ -1,4 +1,5 @@
 import R, { curry } from "ramda"
+import * as d from "../../src/utils"
 
 export const map = R.addIndex(R.map);
 
@@ -32,6 +33,8 @@ export const sig2D = curry(
 )
 
 export const splitOther = (l2d, r) => {
+    //@ts-ignore
+    R.pipe(map(getMax), R.sum, console.log)(l2d)
     const oldSum = sumColumns(l2d);
     const trimmed = sig2D(l2d, r);
     const newSum = sumColumns(trimmed);
@@ -41,5 +44,25 @@ export const splitOther = (l2d, r) => {
     return {
         trim: trimmed,
         other: other
+    }
+
+}
+
+export function getPieData(data, metric, groupBy) {
+    const summed = d.sumAndGroup(data, groupBy);
+    summed.forEach((o, index) =>
+        Object.assign(o, { ["color"]: d.colors(index) })
+    )
+    const trimmed = d.sumOther(summed, metric, 0.01)
+    const values = trimmed.map((obj) => obj[metric]);
+    return {
+        labels: d.getColumn(trimmed, groupBy),
+        datasets: [{
+            label: "",
+            backgroundColor: trimmed.map((o) => {
+                return o.color;
+            }),
+            data: values
+        }]
     }
 }
