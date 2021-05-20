@@ -81,6 +81,7 @@ function getBarData(results, metric, groupBy, xRange, xAxis) {
     const dataMap = R.addIndex(R.mapObjIndexed)(dataset)
     //@ts-ignore
     const datasets = pipe(dataMap, R.values, R.reverse)(othered)
+    //@ts-ignore
     return {
         labels: labels,
         datasets: datasets
