@@ -81,10 +81,15 @@ function getBarData(results, metric, groupBy, xRange, xAxis) {
     const dataMap = R.addIndex(R.mapObjIndexed)(dataset)
     //@ts-ignore
     const datasets = pipe(dataMap, R.values, R.reverse)(othered)
+
     //@ts-ignore
+    const cleaned = compose(filter, curry(o => R.sum(o.data) > 0))()(datasets)
+    //@ts-ignore
+    const sizes = compose(map, prop("data"))()(cleaned)
+
     return {
         labels: labels,
-        datasets: datasets
+        datasets: cleaned
     };
 }
 
