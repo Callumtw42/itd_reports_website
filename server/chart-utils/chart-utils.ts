@@ -48,21 +48,3 @@ export const splitOther = (l2d, r) => {
 
 }
 
-export function getPieData(data, metric, groupBy) {
-    const summed = d.sumAndGroup(data, groupBy);
-    summed.forEach((o, index) =>
-        Object.assign(o, { ["color"]: d.colors(index) })
-    )
-    const trimmed = d.sumOther(summed, metric, 0.01)
-    const values = trimmed.map((obj) => obj[metric]);
-    return {
-        labels: d.getColumn(trimmed, groupBy),
-        datasets: [{
-            label: "",
-            backgroundColor: trimmed.map((o) => {
-                return o.color;
-            }),
-            data: values
-        }]
-    }
-}
