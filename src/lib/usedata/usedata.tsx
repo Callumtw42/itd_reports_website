@@ -1,7 +1,6 @@
 import React, { useState, useEffect, ReactNode } from 'react'
 import Typography from "@material-ui/core/Typography/Typography"
 import useSpinner from "../usespinner/usespinner"
-import { host } from "../../components/utils"
 
 export interface obj {
     [key: string]: any

@@ -24,5 +24,5 @@
   "include": [
     "src",
     "server/server.tsrver.ts"
-, "server/chart-utils/chart-util.test.ts"  ]
+, "server/chart-utils/chart-util.test.ts", "src/utils.ts"  ]
 }

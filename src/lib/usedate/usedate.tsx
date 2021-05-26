@@ -5,7 +5,7 @@ import React, { EventHandler, useEffect } from 'react';
 import { useState } from 'react';
 import { formatDate, todaysDate } from './logic';
 import useSelect from "../useselect/useselect"
-import * as u from "../../utils"
+import * as u from "@callumtw42/utils/utils"
 
 export default function useDate() {
 

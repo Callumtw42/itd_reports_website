@@ -1,55 +1,13 @@
 import { run, select, readFile } from "./server-utils"
 import * as Rb from "rambda"
 import * as R from "ramda"
-import * as d from "../src/utils"
+import * as d from "@callumtw42/toolkit/utils"
+import { get24hrRange, getDays } from "@callumtw42/toolkit/time"
+import { getBarData, getLineData, getPieData } from "@callumtw42/toolkit/chart"
+import { getTableData } from "@callumtw42/toolkit/table"
 import { curry, any, compose, where, reduce, filter, groupWith, includes, map, pick, pipe, prop, props, sum, transpose, __ } from "ramda"
-
-// const { splitOther, getPieData } = require("./chart-utils/chart-utils")
-const { getPieData, getLineData, getBarData } = require("./chart");
+// const { getPieData, getLineData, getBarData } = require("./chart");
 const dbg = console.log
-
-
-function getTableData(results, groupBy) {
-    const filtered = (() => {
-        switch (groupBy) {
-            case "Category": return d.columns(results, 'Category', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
-            case "Product": return d.columns(results, "Product", 'Category', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
-            case "PriceMark": return d.columns(results, "PriceMark", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
-            case "Cashier": return d.columns(results, "Cashier", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
-            case "Receipt": return d.columns(results, "Receipt", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
-        }
-    })();
-    const summedAndGrouped = d.sumAndGroup(filtered, groupBy);
-    const colored = summedAndGrouped.map((o, i) =>
-        Rb.map((v, k) =>
-            k === groupBy
-                ? { value: v, color: d.colors(i) }
-                : v
-            , o)
-    )
-    return colored;
-}
-
-function get24hrRange() {
-    const labels = [];
-    for (let i = 0; i < 24; i++) {
-        if (i < 10)
-            labels.push("0" + i + ":00");
-        else
-            labels.push(i + ":00");
-    }
-    return labels;
-}
-
-function getDays(startDate, endDate) {
-    const days = [];
-    while (startDate != endDate) {
-        startDate = d.addToDate(startDate, 1)
-        days.push(startDate);
-    }
-    return days;
-}
-
 
 export function sales(req, res, db) {
 
@@ -70,10 +28,18 @@ export function sales(req, res, db) {
     }
 
     const callback = (results) => {
-        // const filtered = d.columns(data, metric, groupBy);
+        const columns = (() => {
+            switch (groupBy) {
+                case "Category": return d.columns(results, 'Category', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                case "Product": return d.columns(results, "Product", 'Category', 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                case "PriceMark": return d.columns(results, "PriceMark", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                case "Cashier": return d.columns(results, "Cashier", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+                case "Receipt": return d.columns(results, "Receipt", 'Sales', 'Cost', 'Discount', 'Refund', 'Profit', 'Qty');
+            }
+        })();
+
         const timePeriod = dateRange === "Day" ? "TillHour" : "TillDate";
-        const labels = labelMap[dateRange]
-        const tableData = getTableData(results, groupBy);
+        const tableData = getTableData(columns, groupBy);
         const barData = getBarData(results, metric, groupBy, labelMap[dateRange], timePeriod);
         const pieData = getPieData(results, metric, groupBy)
         const lineData = getLineData(results, metric, groupBy, labelMap[dateRange], timePeriod);

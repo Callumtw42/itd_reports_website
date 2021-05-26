@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import useSpinner from "../../../../lib/usespinner/usespinner"
-import { host } from "../../../utils"
 
 export interface obj {
     [key: string]: any

@@ -10,7 +10,7 @@ import StackedBarChart from '../../../../../lib/chart/stackedbarchart/bar_chart'
 import LineChart from '../../../../../lib/chart/LineChart'
 import Table from '../../../../../lib/table/table';
 import useSelect from '../../../../../lib/useselect/useselect';
-import * as u from '../../../../../utils';
+import * as u from '@callumtw42/utils/utils';
 import HeaderBar from '../headerbar/headerbar';
 import RadioButtons from '../radio_buttons/radio_buttons.';
 import useIconSwitch from './icon_switch';

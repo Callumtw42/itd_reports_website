@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { host } from "../../utils"
 
 import useSpinner from '../../../lib/usespinner/usespinner';
 

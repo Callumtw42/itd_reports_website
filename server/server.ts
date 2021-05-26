@@ -4,9 +4,13 @@ const path = require('path');
 const Joi = require('joi')
 const cors = require("cors")
 const fs = require('fs');
-const d = require("../src/utils.ts")
+const d = require("@callumtw42/toolkit/utils")
 const _ = require("lodash")
-const { run, select, readFile, connectDB } = require("./server-utils")
+// const { run, select, readFile, connectDB } = require("./server-utils")
+// const { run, select, readFile, connectDB } = require("@callumtw42/toolkit/mysql")
+import { run, select, readFile, connectDB } from "@callumtw42/toolkit/mysql"
+
+
 const { sales } = require("./sales")
 const R = require("rambda")
 
@@ -150,7 +154,7 @@ export function serve() {
             const startIndex = size * count;
             const endIndex = (count + 1) * size;
             // console.log(endIndex)
-            const buffer = match.slice(startIndex, endIndex )
+            const buffer = match.slice(startIndex, endIndex)
             // console.log(match.slice(0,10))
             // console.log(bufferCount)
             // console.log(bufferSize)
