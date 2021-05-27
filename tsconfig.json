@@ -11,7 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
-    "target": "es6",
+    "target": "ES5",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -23,6 +23,8 @@
   },
   "include": [
     "src",
-    "server/server.tsrver.ts"
-, "server/chart-utils/chart-util.test.ts", "src/utils.ts"  ]
+    "server/server.tsrver.ts",
+    "server/chart-utils/chart-util.test.ts",
+    "src/utils.ts"
+  ]
 }

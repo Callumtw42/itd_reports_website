@@ -1,26 +1,17 @@
-import '../style.scss';
-
+/* eslint-disable no-use-before-define */
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/prop-types */
 import React from 'react';
+import '../style.scss';
 import { Pie } from 'react-chartjs-2';
 
-import * as d from '../../datafns';
-import Legend from './legend';
-import * as _ from './logic';
-
 export default function PieChart({ data }) {
-  // let grouped = d.sumAndGroup(props.data, props.groupBy);
-  // let x: number[] = d.getColumn(grouped, props.values) as number[]
-  // let labels: string[] = d.getColumn(grouped, props.groupBy) as string[]
-  // let colorIds: number[] = d.notEmpty(props.data) ? labels.map(s => { return _.toInt(s) }) : []
-  // let chartData: _.ChartData = _.formatChartData(x, labels, colorIds)
-  // let total = x.reduce((acc, n) => { return acc + n })
-  let toolTipSize = _.viewport(12, 12)
-  // if (d.notEmpty(chartData.datasets))
   return (
     <div className="PieChart">
       <div className="chart">
         <Pie
-          height={1} width={1}
+          height={1}
+          width={1}
           data={data}
           options={
             {
@@ -33,39 +24,14 @@ export default function PieChart({ data }) {
                 align: 'center',
                 labels: {
                   usePointStyle: true,
-                  fontSize: 24
+                  fontSize: 24,
                 },
-                fullWidth: true
+                fullWidth: true,
               },
-              // tooltips: {
-              //   bodyFontSize: toolTipSize,
-              //   mode: 'index',
-              //   callbacks: {
-              //     label: (tooltipItem: any, data: _.ChartData) => {
-              //       var label = data.labels[tooltipItem.index];
-              //       return label;
-              //     },
-              //     afterLabel: (tooltipItem: any, data: _.ChartData) => {
-              //       var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-              //       var percent: number | string = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / total * 100;
-              //       percent = percent.toFixed(2); // make a nice string
-              //       return (!Number.isInteger(value)) ? '£ ' + value.toFixed(2) + ' (' + percent + '%)' : value + ' (' + percent + '%)';
-              //     }
-              //   },
-              //   fontSize: 24
-              // }
             }
           }
         />
       </div>
-      {/* <Legend chartData={chartData} /> */}
     </div>
-  )
-  // else return (
-  //   <div className="chart">
-  //     <Pie
-  //       data={chartData}
-  //     />
-  //   </div>
-  // )
+  );
 }

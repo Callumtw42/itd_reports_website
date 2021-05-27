@@ -5,6 +5,10 @@ import { Paper, Typography } from '@material-ui/core';
 import { BarChart as BarChartIcon, PieChart as PieChartIcon, Timeline as LineChartIcon } from '@material-ui/icons';
 // import * as R from 'ramda';
 import React, { SetStateAction, useContext, useEffect, useState } from 'react';
+// import PieChart from '../../../../../lib/chart/piechart/piechart';
+// import StackedBarChart from '../../../../../lib/chart/stackedbarchart/bar_chart';
+// import LineChart from '../../../../../lib/chart/LineChart'
+// import PieChart from '@callumtw42/toolkit/react/chart/piechart/piechart';
 import PieChart from '../../../../../lib/chart/piechart/piechart';
 import StackedBarChart from '../../../../../lib/chart/stackedbarchart/bar_chart';
 import LineChart from '../../../../../lib/chart/LineChart'
