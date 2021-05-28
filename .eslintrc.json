@@ -4,8 +4,8 @@
         "es6": true
     },
     "extends": [
-        "plugin:react/recommended",
-        "airbnb"
+        "plugin:react/recommended"
+        // "airbnb"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -26,6 +26,8 @@
     "rules": {
         "linebreak-style":"off",
         "indent":"off",
-        "quotes":"off"
+        "quotes":"off",
+        "no-undef":"error",
+        "react/prop-types": "off"
     }
 }

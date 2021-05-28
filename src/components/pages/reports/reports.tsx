@@ -22,6 +22,7 @@ import { StayCurrentLandscapeTwoTone } from '@material-ui/icons';
 
 export default function Reports(props: RouteComponentProps) {
     const { db, startDate, endDate, dateRange, NavBar } = useNavBar();
+    // console.log(endDate)
     return (
         <div className="reportspage">
             <NavBar />

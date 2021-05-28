@@ -11,12 +11,13 @@ export default function useDate() {
 
     const [date, setDate] = useState({ start: "2020-03-21", end: "2020-03-21" })
     const { Select, selected } = useSelect(["Day", "Week", "Month", "Quarter", "Year"]);
+    const [start, setStart] = useState("2020-03-21")
 
-    const { start, end } = date;
+    // const { end } = date;
     useEffect(() => {
         switch (selected) {
             case "Day": {
-                setDate({ start: "2020-03-21", end: "2020-03-21" })
+                setDate({ start: start, end: start })
                 break;
             }
             case "Week": {
@@ -36,7 +37,7 @@ export default function useDate() {
                 break;
             }
         }
-    }, [selected])
+    }, [selected, start])
 
     function Dates(props: {}) {
         return <div className="Dates">
@@ -53,9 +54,9 @@ export default function useDate() {
     function DateRange() {
         return (
             <div className="Dates">
-                <DateField handleChange={(e) => setDate({
+                <DateField handleChange={(e) => setStart(e.currentTarget.value) /*setDate({
                     ...date, start: formatDate(e.currentTarget.value), end: end
-                })} defaultValue={start} />
+                })*/} defaultValue={start} />
                 <Select />
             </div>
         )

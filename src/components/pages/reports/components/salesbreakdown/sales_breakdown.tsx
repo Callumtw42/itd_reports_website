@@ -1,6 +1,5 @@
 import './style.scss';
 import 'date-fns';
-
 import { Paper, Typography } from '@material-ui/core';
 import { BarChart as BarChartIcon, PieChart as PieChartIcon, Timeline as LineChartIcon } from '@material-ui/icons';
 // import * as R from 'ramda';
@@ -9,19 +8,19 @@ import React, { SetStateAction, useContext, useEffect, useState } from 'react';
 // import StackedBarChart from '../../../../../lib/chart/stackedbarchart/bar_chart';
 // import LineChart from '../../../../../lib/chart/LineChart'
 // import PieChart from '@callumtw42/toolkit/react/chart/piechart/piechart';
-import PieChart from '../../../../../lib/chart/piechart/piechart';
+// import PieChart from '../../../../../lib/chart/piechart/piechart';
+import {PieChart} from '@callumtw42/react-components';
 import StackedBarChart from '../../../../../lib/chart/stackedbarchart/bar_chart';
 import LineChart from '../../../../../lib/chart/LineChart'
 import Table from '../../../../../lib/table/table';
 import useSelect from '../../../../../lib/useselect/useselect';
-import * as u from '@callumtw42/utils/utils';
+import * as u from '@callumtw42/toolkit/utils/utils';
 import HeaderBar from '../headerbar/headerbar';
 import RadioButtons from '../radio_buttons/radio_buttons.';
 import useIconSwitch from './icon_switch';
 import { GetChartProps } from './logic';
 
 function GetChart({ chart, data }) {
-  console.log("BAR")
   switch (chart) {
     case "pie": return <PieChart data={data.pieData} />
     case "bar": return <StackedBarChart data={data.barData} />
